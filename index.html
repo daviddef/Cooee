@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en-AU"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Report a scam call — the real numbers for Australian banks | Cooee</title>
+<meta name="description" content="Verified fraud-reporting numbers for major Australian banks, each cited to the bank's own published page. Plus who else to tell, and why a bank's own number showing on your screen does not mean the bank is calling.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='114' fill='%230B1416'/%3E%3Cpath d='M206 115 A 178 178 0 0 0 206 397' fill='none' stroke='%234ECDD4' stroke-width='50' stroke-linecap='round'/%3E%3Ccircle cx='338' cy='256' r='47' fill='%234ECDD4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--paper:#F5F8F8;--surface:#fff;--surface-2:#EDF2F2;--ink:#0E1A1C;--ink-2:#3F5254;--ink-3:#69807F;
+--line:#D6E0E0;--line-2:#E7EEEE;--accent:#0B6E75;--accent-wash:#E2F0F0;--stop:#9E3325;--stop-wash:#F6E4E1;
+--fd:"IBM Plex Sans Condensed",system-ui,sans-serif;--fb:"IBM Plex Sans",system-ui,sans-serif;--fm:"IBM Plex Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+--paper:#0A1113;--surface:#101A1C;--surface-2:#162325;--ink:#E3EDED;--ink-2:#AEC1C2;--ink-3:#7C9294;
+--line:#213032;--line-2:#1A2729;--accent:#4ECDD4;--accent-wash:#10292B;--stop:#EE8B7C;--stop-wash:#2E1815}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--fb);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:0 1.4rem}
+h1,h2,h3{font-family:var(--fd);margin:0;line-height:1.15;text-wrap:balance;letter-spacing:-.015em}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:2.4rem 0}
+.brand{display:flex;align-items:center;gap:.55rem;margin-bottom:.9rem}
+.brand svg{width:2rem;height:2rem;color:var(--accent)}
+.brand span{font-family:var(--fd);font-size:1.4rem;font-weight:700}
+h1{font-size:clamp(1.9rem,5vw,2.7rem);font-weight:700}
+.stand{margin-top:.8rem;color:var(--ink-2);max-width:60ch}
+.urgent{margin-top:1.4rem;padding:1.1rem 1.3rem;background:var(--stop-wash);border-left:3px solid var(--stop);border-radius:0 3px 3px 0}
+.urgent p{font-size:1rem;color:var(--ink)}
+.urgent b{font-weight:600}
+section.band{padding-top:3rem}
+.band > h2{font-size:1.6rem;font-weight:700;margin-bottom:.5rem}
+.band > .lede{color:var(--ink-2);margin-bottom:1.4rem;max-width:62ch}
+.org{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:1.3rem;margin-bottom:1rem}
+.org h3{font-size:1.2rem;font-weight:600}
+.how{font-size:.95rem;color:var(--ink-2);margin-top:.4rem}
+.tw{overflow-x:auto;margin-top:.9rem}
+table{border-collapse:collapse;width:100%;font-size:.95rem;min-width:460px}
+th{text-align:left;font-family:var(--fm);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding:.4rem .6rem .4rem 0;border-bottom:1px solid var(--line);font-weight:500}
+td{padding:.55rem .6rem .55rem 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:none}
+.num{white-space:nowrap}
+.num a{font-family:var(--fm);font-size:1rem;font-weight:500;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--accent)}
+.src{white-space:nowrap}
+.src a{font-family:var(--fm);font-size:.7rem;color:var(--ink-3)}
+.warn{margin-top:.9rem;padding:.85rem 1rem;background:var(--stop-wash);border-left:3px solid var(--stop);border-radius:0 3px 3px 0}
+.warn p{font-size:.9rem;color:var(--ink)}
+.warn ul{margin:.5rem 0 0;padding-left:1.1rem}
+.warn li{font-size:.9rem;color:var(--ink-2)}
+.warn .nc{font-family:var(--fm);color:var(--stop);font-weight:500}
+.report{background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.rep{padding:1.05rem 1.3rem;border-bottom:1px solid var(--line-2);display:grid;grid-template-columns:11rem 1fr;gap:1rem}
+.rep:last-child{border-bottom:none}
+.rep h3{font-size:1rem;font-weight:600}
+.rep .ph{font-family:var(--fm);font-size:.95rem;margin-top:.2rem;display:block}
+.rep p{font-size:.93rem;color:var(--ink-2)}
+.explain{margin-top:1.2rem;padding:1.3rem;background:var(--accent-wash);border-left:3px solid var(--accent);border-radius:0 3px 3px 0}
+.explain h3{font-size:1.05rem;font-weight:600;margin-bottom:.4rem}
+.explain p{font-size:.95rem;color:var(--ink-2)}
+.explain p + p{margin-top:.6rem}
+footer{margin-top:3.4rem;border-top:1px solid var(--line);background:var(--surface);padding:1.6rem 0 2.4rem}
+footer p{font-size:.85rem;color:var(--ink-3);max-width:70ch}
+footer p + p{margin-top:.6rem}
+@media(max-width:620px){.rep{grid-template-columns:1fr;gap:.3rem}}
+</style></head><body>
+
+<header><div class="wrap">
+  <div class="brand">
+    <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M206 115 A 178 178 0 0 0 206 397" fill="none" stroke="currentColor" stroke-width="50" stroke-linecap="round"/><circle cx="338" cy="256" r="47" fill="currentColor"/></svg>
+    <span>Cooee</span>
+  </div>
+  <h1>Report a scam call</h1>
+  <p class="stand">The real fraud-reporting numbers for Australian banks, each one checked against the bank&rsquo;s own published page. Every line below links to where we read it, so you never have to take our word for it.</p>
+  <div class="urgent"><p><b>If someone just called claiming to be your bank, hang up.</b> Then ring the number on the back of your card, or the number below. Never call back on a number the caller gave you, and never read out a code that arrives by text.</p></div>
+</div></header>
+
+<div class="wrap">
+
+<section class="band">
+  <h2>Banks</h2>
+  <p class="lede">Ordered with the fraud line first. Tap a number to call it.</p>
+  
+  <section class="org" id="commonwealth-bank">
+    <h3>Commonwealth Bank</h3>
+    <p class="how">Call 13 2221, or message in the CommBank app. Forward suspicious emails and texts to hoax@cba.com.au.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+61132221">13 2221</a></td>
+        <td>General enquiries and scam reporting</td>
+        <td class="src"><a href="https://www.commbank.com.au/support/security/how-to-report-a-scam.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61131998">13 1998</a></td>
+        <td>CommBiz business (option 4 for fraud)</td>
+        <td class="src"><a href="https://www.commbank.com.au/support/security/how-to-report-a-scam.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61299993283">(02) 9999 3283</a></td>
+        <td>From overseas, 24/7</td>
+        <td class="src"><a href="https://www.commbank.com.au/support/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    
+  </section>
+  <section class="org" id="westpac">
+    <h3>Westpac</h3>
+    <p class="how">Call 1300 364 294 (or +61 2 9155 7777 from overseas). Forward suspicious texts to 0497 132 032 and emails to hoax@westpac.com.au.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+611300364294">1300 364 294</a></td>
+        <td>Fraud and unusual activity</td>
+        <td class="src"><a href="https://www.westpac.com.au/security/how-to-report/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61291557777">(02) 9155 7777</a></td>
+        <td>Fraud reporting from overseas</td>
+        <td class="src"><a href="https://www.westpac.com.au/security/how-to-report/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61132032">132 032</a></td>
+        <td>General personal banking</td>
+        <td class="src"><a href="https://www.westpac.com.au/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61132142">132 142</a></td>
+        <td>General business banking</td>
+        <td class="src"><a href="https://www.westpac.com.au/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611800230144">1800 230 144</a></td>
+        <td>Remote Indigenous Call Centre</td>
+        <td class="src"><a href="https://www.westpac.com.au/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61291557700">(02) 9155 7700</a></td>
+        <td>From overseas</td>
+        <td class="src"><a href="https://www.westpac.com.au/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    
+  </section>
+  <section class="org" id="nab">
+    <h3>NAB</h3>
+    <p class="how">Call 13 22 65 and press 2 (personal) or 13 10 12 (business); +61 3 8641 9083 from overseas. Forward texts to 0476 220 003, emails to phish@nab.com.au.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+61132265">13 22 65</a></td>
+        <td>Personal — fraud and scams, press 2</td>
+        <td class="src"><a href="https://www.nab.com.au/about-us/security/report-fraud-scams" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61131012">13 10 12</a></td>
+        <td>Business — fraud and scams</td>
+        <td class="src"><a href="https://www.nab.com.au/about-us/security/report-fraud-scams" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61386419083">(03) 8641 9083</a></td>
+        <td>Fraud reporting from overseas</td>
+        <td class="src"><a href="https://www.nab.com.au/about-us/security/report-fraud-scams" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    
+  </section>
+  <section class="org" id="anz">
+    <h3>ANZ</h3>
+    <p class="how">Message 'Report fraud' in the ANZ app (24/7), or call 13 22 73 for cards, 13 33 50 for internet and business banking. Forward hoax messages to hoax@cybersecurity.anz.com.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+61132273">13 22 73</a></td>
+        <td>Cards — fraud reporting</td>
+        <td class="src"><a href="https://www.anz.com.au/security/report-scams-fraud/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61133350">13 33 50</a></td>
+        <td>Internet and business banking — fraud</td>
+        <td class="src"><a href="https://www.anz.com.au/security/report-scams-fraud/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61137028">13 70 28</a></td>
+        <td>ANZ Transactive (business) — fraud</td>
+        <td class="src"><a href="https://www.anz.com.au/security/report-scams-fraud/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611800033844">1800 033 844</a></td>
+        <td>Lost or stolen cards</td>
+        <td class="src"><a href="https://www.anz.com.au/support/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61131314">13 13 14</a></td>
+        <td>General enquiries</td>
+        <td class="src"><a href="https://www.anz.com.au/support/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611800037366">1800 037 366</a></td>
+        <td>First Nations support</td>
+        <td class="src"><a href="https://www.anz.com.au/support/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61396839999">(03) 9683 9999</a></td>
+        <td>Cards, from overseas</td>
+        <td class="src"><a href="https://www.anz.com.au/security/report-scams-fraud/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61396838833">(03) 9683 8833</a></td>
+        <td>Internet banking, from overseas</td>
+        <td class="src"><a href="https://www.anz.com.au/security/report-scams-fraud/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61386996955">(03) 8699 6955</a></td>
+        <td>Lost or stolen cards, from overseas</td>
+        <td class="src"><a href="https://www.anz.com.au/support/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61386937153">(03) 8693 7153</a></td>
+        <td>ANZ Transactive, from overseas</td>
+        <td class="src"><a href="https://www.anz.com.au/security/report-scams-fraud/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    
+  </section>
+  <section class="org" id="bendigo-bank">
+    <h3>Bendigo Bank</h3>
+    <p class="how">Call 1300 236 344, or 1800 035 383 (24/7) for a lost or stolen card. Bendigo states it will never call you from +61 3 5485 7872 or +61 3 5485 7123 — both are used to impersonate them.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+611800035383">1800 035 383</a></td>
+        <td>Lost or stolen cards, 24/7</td>
+        <td class="src"><a href="https://www.bendigobank.com.au/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611300236344">1300 236 344</a></td>
+        <td>General enquiries</td>
+        <td class="src"><a href="https://www.bendigobank.com.au/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611800652146">1800 652 146</a></td>
+        <td>Financial difficulty assistance</td>
+        <td class="src"><a href="https://www.bendigobank.com.au/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61354450666">(03) 5445 0666</a></td>
+        <td>General enquiries from overseas</td>
+        <td class="src"><a href="https://www.bendigobank.com.au/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    <div class="warn">
+      <p><b>Bendigo Bank says it will never call you from these numbers.</b>
+      If one of them shows as your caller, the caller ID has been forged. Listed so you can recognise them &mdash; not as a number to ring.</p>
+      <ul><li><span class="nc">(03) 5485 7872</span> Lost or stolen cards from overseas — Bendigo will never call from this number</li><li><span class="nc">(03) 5485 7123</span> Known impersonation number — Bendigo will never call from it</li></ul>
+    </div>
+  </section>
+  <section class="org" id="bank-of-queensland">
+    <h3>Bank of Queensland</h3>
+    <p class="how">Call 1300 55 72 72 — the same line handles fraud and scam reports and lost or stolen cards, including after hours.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+611300557272">1300 55 72 72</a></td>
+        <td>General banking, fraud and scam reports, lost or stolen cards</td>
+        <td class="src"><a href="https://www.boq.com.au/contact-us" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611300737766">1300 737 766</a></td>
+        <td>myBOQ app support</td>
+        <td class="src"><a href="https://www.boq.com.au/contact-us" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611800245614">1800 245 614</a></td>
+        <td>BOQ Finance</td>
+        <td class="src"><a href="https://www.boq.com.au/contact-us" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611300160160">1300 160 160</a></td>
+        <td>BOQ Specialist</td>
+        <td class="src"><a href="https://www.boq.com.au/contact-us" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61733362420">(07) 3336 2420</a></td>
+        <td>From overseas (reverse charges)</td>
+        <td class="src"><a href="https://www.boq.com.au/contact-us" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    
+  </section>
+  <section class="org" id="suncorp-bank">
+    <h3>Suncorp Bank</h3>
+    <p class="how">Call 13 11 75 — the security, scams and fraud line runs 24 hours. From overseas, +61 7 3362 1712. Lost or stolen cards: 1800 775 020.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+61131175">13 11 75</a></td>
+        <td>General enquiries, and security, scams and fraud (24 hours)</td>
+        <td class="src"><a href="https://www.suncorpbank.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611800775020">1800 775 020</a></td>
+        <td>Lost or stolen cards, 24 hours</td>
+        <td class="src"><a href="https://www.suncorpbank.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611800689762">1800 689 762</a></td>
+        <td>Customer relations, complaints and feedback</td>
+        <td class="src"><a href="https://www.suncorpbank.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61733621712">(07) 3362 1712</a></td>
+        <td>From overseas</td>
+        <td class="src"><a href="https://www.suncorpbank.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    
+  </section>
+  <section class="org" id="ing">
+    <h3>ING</h3>
+    <p class="how">Call 1800 052 743 for scams and fraud, 24/7. ING states that its staff will never call and ask you for your card or account details over the phone, or ask you to enter them into your keypad.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+611800052743">1800 052 743</a></td>
+        <td>Scams and fraud, 24/7</td>
+        <td class="src"><a href="https://www.ing.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61133464">133 464</a></td>
+        <td>General enquiries</td>
+        <td class="src"><a href="https://www.ing.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611300349166">1300 349 166</a></td>
+        <td>Financial hardship assistance</td>
+        <td class="src"><a href="https://www.ing.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611800550003">1800 550 003</a></td>
+        <td>Bereavement services</td>
+        <td class="src"><a href="https://www.ing.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61272421974">(02) 7242 1974</a></td>
+        <td>General enquiries from overseas</td>
+        <td class="src"><a href="https://www.ing.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    
+  </section>
+  <section class="org" id="bankwest">
+    <h3>Bankwest</h3>
+    <p class="how">Call 13 17 19, or +61 8 9449 2840 from overseas. Bankwest is part of the Commonwealth Bank group; suspicious emails and texts can be forwarded to hoax@cba.com.au.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+61131719">13 17 19</a></td>
+        <td>General enquiries, and interpreter and relay services</td>
+        <td class="src"><a href="https://www.bankwest.com.au/contact-us" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611300769173">1300 769 173</a></td>
+        <td>Financial hardship</td>
+        <td class="src"><a href="https://www.bankwest.com.au/contact-us" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611800433932">1800 433 932</a></td>
+        <td>Deceased estates, First Nations support, power of attorney</td>
+        <td class="src"><a href="https://www.bankwest.com.au/contact-us" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61894492840">(08) 9449 2840</a></td>
+        <td>From overseas</td>
+        <td class="src"><a href="https://www.bankwest.com.au/contact-us" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    
+  </section>
+</section>
+
+<section class="band">
+  <h2>Who else to tell</h2>
+  <p class="lede">Reporting takes a few minutes and it is what the national scam statistics are built from. Do it even if you lost nothing.</p>
+  <div class="report">
+    
+    <div class="rep">
+      <div><h3>Your bank</h3></div>
+      <p>Stop transactions and freeze accounts. Do this first if money has moved.</p>
+    </div>
+    <div class="rep">
+      <div><h3>Scamwatch (ACCC)</h3><a class="ph" href="https://portal.scamwatch.gov.au/" rel="noopener">Online form</a></div>
+      <p>The national scam report register. Report every scam here, even if you lost nothing — it is what the statistics are built from.</p>
+    </div>
+    <div class="rep">
+      <div><h3>IDCARE</h3><a class="ph" href="tel:+611800595160">1800 595 160</a><a class="ph" href="https://www.idcare.org/" rel="noopener">Phone or web</a></div>
+      <p>Free case support if your identity or personal details have been misused.</p>
+    </div>
+    <div class="rep">
+      <div><h3>ReportCyber</h3><a class="ph" href="https://www.cyber.gov.au/report-and-recover/report" rel="noopener">Online form</a></div>
+      <p>Cybercrime report that goes to police — use when money was stolen, information taken, or you are being extorted.</p>
+    </div>
+    <div class="rep">
+      <div><h3>Police</h3><a class="ph" href="tel:000">000</a></div>
+      <p>Immediate danger or a threat to your safety.</p>
+    </div>
+    <div class="rep">
+      <div><h3>AFCA</h3><a class="ph" href="https://www.afca.org.au/" rel="noopener">Online or phone</a></div>
+      <p>Free external dispute resolution if your bank will not reimburse you and internal complaints have failed.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <h2>Why your bank&rsquo;s own number can appear on a scam call</h2>
+  <div class="explain">
+    <h3>Caller ID is not proof of anything</h3>
+    <p>The number your phone displays is supplied by whoever placed the call, and it can be set to anything. Seeing your bank&rsquo;s real number does not mean your bank is calling.</p>
+    <p>There is a useful tell. Numbers starting <b>13, 1300 and 1800</b> are inbound service lines &mdash; under the Australian numbering plan they cannot make outgoing calls at all. So if one of those shows as your caller, the caller ID has definitely been forged. Some organisations go further and publish numbers they will never ring you from; those are marked <span class="never">never calls you</span> above.</p>
+    <p>The reverse is also true and worth remembering: those same numbers are perfectly safe for <em>you</em> to ring. The direction is what matters.</p>
+  </div>
+</section>
+
+<section class="band">
+  <h2>Support services</h2>
+  
+  <section class="org" id="idcare">
+    <h3>IDCARE</h3>
+    <p class="how">Call 1800 595 160 for free support if your identity or personal information has been misused.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+611800595160">1800 595 160</a></td>
+        <td>National support line</td>
+        <td class="src"><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-accc-phone-numbers-spoofed-by-scammers" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    
+  </section>
+</section>
+
+</div>
+
+<footer><div class="wrap">
+  <p>Built 2026-09-05 from a machine-checked list &mdash; every number is validated as a real Australian number and carries the page it was read from and the date. If a bank changes a number, this page can be wrong until it is rebuilt: the source link beside each entry is the authority, not us.</p>
+  <p>Cooee is an independent project and is not affiliated with, endorsed by, or acting for any organisation listed here. If you have lost money, contact your bank first and then <a href="https://www.cyber.gov.au/report-and-recover/report" rel="noopener">ReportCyber</a>. In immediate danger, call 000.</p>
+</div></footer>
+</body></html>
