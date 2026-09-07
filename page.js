@@ -9,8 +9,35 @@ import { check, organisationNames } from './cooee.js'
 const $ = (s) => document.querySelector(s)
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))
 
-const evRow = (s) =>
-  `<p class="ev"><b>${s.direction === 'risk' ? 'Concern' : 'In its favour'}</b> &mdash; ${esc(s.summary)}</p>`
+/**
+ * A finding, WITH THE THING THAT MAKES IT CHECKABLE.
+ *
+ * This page's own generator opens by saying why it is generated at all: every
+ * number on it carries the URL it was read from and the date it was checked,
+ * "so a reader can verify any line without trusting us". That is the whole of
+ * hard rule 1's payoff, and the lookup card on the same page threw it away —
+ * `citationOf()` resolves a per-finding source and puts it on the payload,
+ * `index.html` prints the source, its kind, its age and a link, the CLI prints
+ * all four, and this surface rendered a direction and a sentence.
+ *
+ * Which mattered most exactly where the card is loudest: *ACMA states they
+ * cannot be used for caller-ID overstamping* and *Commonwealth Bank's own
+ * published number* are quotations from somebody else's page, and a stranger
+ * was asked to take both on our word.
+ *
+ * The link, not a second derivation of it: `detail.source` is resolved once in
+ * the core and travels as `source.url`, and `citation.test.ts` exists because
+ * four surfaces once rendered the source TABLE's generic value instead — a
+ * "source" link that 404ed under the loudest finding in the product.
+ */
+const evRow = (s) => {
+  const age = `observed ${s.ageDays} day${s.ageDays === 1 ? '' : 's'} ago`
+  const cite = s.source.url
+    ? `<a href="${esc(s.source.url)}" target="_blank" rel="noopener">${esc(s.source.name)}<span class="sr-only">, opens in a new tab</span></a>`
+    : esc(s.source.name)
+  return `<p class="ev"><b>${s.direction === 'risk' ? 'Concern' : 'In its favour'}</b> &mdash; ${esc(s.summary)}` +
+    `<span class="prov">${cite} &middot; ${esc(s.source.kind)} &middot; ${age}</span></p>`
+}
 
 function render(a) {
   const ev = a.signals.slice(0, SIGNALS_SHOWN).map(evRow).join('')
@@ -76,11 +103,37 @@ function render(a) {
   // exclusively in the risk channel. The pill is gone (see `tagsFor`); the fact
   // belongs here, where a reader can see it without being accused by it.
   const plan = a.number?.planLabel ? `<p class="rplan">${esc(a.number.planLabel)}</p>` : ''
+  /**
+   * THE VERDICT IN THE WORDS SOMEBODY FRIGHTENED CAN USE, which this surface
+   * had never been told the core computes.
+   *
+   * `plainVerdict()` exists because item 12 established that the headline is
+   * written for accuracy and the plain verdict for a reader mid-scam-call. The
+   * CLI prints both. `index.html` leads with it in plain mode and announces it
+   * alone into the live region, because that one string is the whole of what a
+   * screen-reader user gets before they navigate. This page has no plain mode,
+   * no announcement, and rendered only the headline — so it is the one surface
+   * where the sentence cannot be reached at all, and it is the surface a
+   * stranger reaches on a phone, which is the reader item 12 was written for.
+   *
+   * What that cost is clearest where the product is quietest. At
+   * `insufficient-evidence` the headline is *We hold no information about this
+   * number.* and stops; the plain verdict is *We hold nothing at all about this
+   * number. That is not the same as it being safe.* The second sentence is the
+   * one this whole product exists to say, and it was folded away in the caveat
+   * list on the surface with no second screen.
+   *
+   * Both, not one. Item 21's note applies: the overlap between the plain
+   * verdict and the guidance is deliberate, and saying an imperative twice is
+   * the benign direction of that error.
+   */
+  const plain = a.plain ? `<p class="rplain">${esc(a.plain)}</p>` : ''
   $('#lout').innerHTML = `<div class="verdict">
     <span class="band b-${esc(a.band)}">${esc(a.bandLabel)}</span>
     ${ctx}
     ${plan}
     <h3>${esc(a.headline)}</h3>
+    ${plain}
     ${pills ? `<div class="pills">${pills}</div>` : ''}
     ${acts ? `<span class="lab">Who to ring</span><div class="acts">${acts}</div>` : ''}
     ${g ? `<span class="lab">What to do</span><ul>${g}</ul>` : ''}

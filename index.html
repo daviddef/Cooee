@@ -95,6 +95,10 @@ main{padding:0 0 3rem}
 /* A plan fact, in the neutral register the other two surfaces already use for
    it. Deliberately not a pill: a pill has a tone and there is no neutral one. */
 .rplan{font-family:var(--fm);font-size:.68rem;letter-spacing:.05em;color:var(--ink-3);margin-top:.25rem}
+/* The plain verdict, under the headline and above everything else. Full ink and
+   a reading size: it is the sentence a frightened person acts on, and the other
+   two surfaces both give it the same standing. */
+.rplain{font-size:1.02rem;line-height:1.5;color:var(--ink);margin-top:.55rem;max-width:52ch}
 .pills{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.85rem}
 .pill{font-family:var(--fm);font-size:.7rem;letter-spacing:.02em;padding:.34em .7em;border-radius:999px;white-space:nowrap;font-weight:500}
 .pill.risk{background:var(--stop-wash);color:var(--stop)}
@@ -109,6 +113,18 @@ main{padding:0 0 3rem}
 .verdict ol li::marker{color:var(--accent);font-weight:700}
 .ev{font-size:.92rem;color:var(--ink-2);border-left:3px solid var(--line);padding-left:.75rem;margin-top:.55rem}
 .ev b{color:var(--ink);font-weight:600}
+/* Where the finding came from, on its own line under it. Quieter than the
+   sentence and never hidden: it is what lets a stranger check us rather than
+   believe us, which is the reason this page is generated from cited data at
+   all. The link keeps a visible underline for the same reason the source
+   links in the tables do. */
+.ev .prov{display:block;font-family:var(--fm);font-size:.68rem;letter-spacing:.02em;color:var(--ink-3);margin-top:.3rem}
+.ev .prov a{color:var(--ink-3)}
+/* Visible to a screen reader and to nothing else. The interactive page has had
+   this since item 12 and this page never needed it until a source link arrived
+   that has to announce it leaves the page; without the rule the hint renders as
+   visible text, which is what the class sweep next door caught. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .fine{margin-top:.5rem;font-size:.86rem;color:var(--ink-3)}
 .fine li{margin-top:.3rem}
 /* The caveats that do not stand open. Deliberately in the fine-print register
@@ -199,6 +215,14 @@ tr:last-child td{border-bottom:none}
 .bout a{font-style:normal;white-space:nowrap}
 .bsrc{margin-top:.45rem}
 .bsrc a{font-size:.8rem}
+.alrl{margin-top:.9rem;display:grid;gap:.7rem}
+.alr{border:1px solid var(--line);border-radius:10px;padding:.85rem .9rem;background:var(--surface)}
+.alh{display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem}
+.alh time{font-family:var(--fm);font-size:.8rem;color:var(--ink-3)}
+.alm{font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;font-weight:600;padding:.18rem .5rem;border-radius:999px;background:var(--warn-wash);color:var(--warn)}
+.alr h3{font-size:1.02rem;font-weight:600;line-height:1.3}
+.alr h3 a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--bright)}
+.alsum{font-size:.9rem;color:var(--ink-2);margin-top:.45rem}
 .bfoot{font-size:.82rem;color:var(--ink-3);margin-top:1rem;line-height:1.55}
 .report{margin-top:.6rem}
 .rep{padding:.75rem 0;border-bottom:1px solid var(--line-2);display:grid;grid-template-columns:10rem 1fr;gap:.8rem}
@@ -206,6 +230,10 @@ tr:last-child td{border-bottom:none}
 .rep h3{font-size:.98rem;font-weight:600}
 .rep .ph{font-family:var(--fm);font-size:.9rem;display:block;margin-top:.15rem}
 .rep p{font-size:.9rem;color:var(--ink-2)}
+/* The how-to-reach-them line where there is no link to carry it. It is an
+   instruction rather than a description, so it does not fade with the sentence
+   in front of it. */
+.rep .hw{color:var(--ink)}
 .explain p{font-size:.94rem;color:var(--ink-2);margin-top:.6rem;max-width:64ch}
 footer{border-top:1px solid var(--line);padding:1.3rem 0 2rem;margin-top:2rem}
 footer p{font-size:.82rem;color:var(--ink-3);max-width:70ch}
@@ -290,6 +318,7 @@ footer p+p{margin-top:.5rem}
     <p class="mg">Report and check <span>After the fact.</span></p>
     <ul class="ml">
       <li><a href="#report">Who to tell</a></li>
+      <li><a href="#alarms">Recent alarms<span class="cnt">10</span></a></li>
       <li><a href="#breaches">Where your details may already be<span class="cnt">14</span></a></li>
     </ul>
     <p class="mg">How this works</p>
@@ -1383,7 +1412,7 @@ footer p+p{margin-top:.5rem}
     
     <div class="rep">
       <div><h3>Your bank</h3></div>
-      <p>Stop transactions and freeze accounts. Do this first if money has moved.</p>
+      <p>Stop transactions and freeze accounts. Do this first if money has moved. <span class="hw">Use the number on the back of your card or in the bank's own app — never a number the caller gave you.</span></p>
     </div>
     <div class="rep">
       <div><h3>Scamwatch (ACCC)</h3><a class="ph" href="https://portal.scamwatch.gov.au/" rel="noopener">Online form</a></div>
@@ -1399,13 +1428,71 @@ footer p+p{margin-top:.5rem}
     </div>
     <div class="rep">
       <div><h3>Police</h3><a class="ph" href="tel:000">000</a></div>
-      <p>Immediate danger or a threat to your safety.</p>
+      <p>Immediate danger or a threat to your safety. <span class="hw">Emergency</span></p>
     </div>
     <div class="rep">
       <div><h3>AFCA</h3><a class="ph" href="https://www.afca.org.au/" rel="noopener">Online or phone</a></div>
       <p>Free external dispute resolution if your bank will not reimburse you and internal complaints have failed.</p>
     </div>
   </div>
+</section>
+<section class="view" id="v-alarms" aria-labelledby="h-alarms">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-alarms" tabindex="-1">Recent alarms <span class="cnt">10</span></h2>
+  <p class="lede">What the National Anti-Scam Centre is warning about right now. If what happened to you matches one of these, it will be said in the answer above as well.</p>
+  <div class="alrl">
+    <article class="alr">
+      <div class="alh"><time>2026-08-17</time></div>
+      <h3><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/nasc-contacts-australians-following-international-cryptocurrency-scam-investigation" rel="noopener">National Anti-Scam Centre contacts more than 10,000 Australians following international cryptocurrency scam investigation</a></h3>
+      <p class="alsum">The National Anti-Scam Centre contacted more than 10,000 Australians via email after their contact details were identified during a United Kingdom police investigation into an organised crime group targeting cryptocurrency exchange and hardware wallet users across multiple countries.</p>
+    </article>
+    <article class="alr">
+      <div class="alh"><time>2026-07-14</time><span class="alm">Matched automatically</span></div>
+      <h3><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-fake-purchase-callback-scams" rel="noopener">Scam alert: Fake purchase callback scams</a></h3>
+      <p class="alsum">Scammers are sending fake messages that say you bought something you didn’t buy and tells you to call a phone number to stop or reverse the payment.</p>
+    </article>
+    <article class="alr">
+      <div class="alh"><time>2026-06-26</time><span class="alm">Matched automatically</span></div>
+      <h3><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/australian-taxation-office-ato-and-mygov-impersonation-scams" rel="noopener">Australian Taxation Office (ATO) and ‘myGov’ impersonation scams</a></h3>
+      <p class="alsum">With tax time 2026 fast approaching, Scamwatch and the Australian Taxation Office (ATO) are reminding Australians to be aware of communications claiming to be from the ATO or ‘myGov’.</p>
+    </article>
+    <article class="alr">
+      <div class="alh"><time>2026-06-22</time></div>
+      <h3><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/national-anti-scam-centre-contacted-victims-following-successful-money-laundering-prosecution" rel="noopener">National Anti-Scam Centre contacted victims following successful money laundering prosecution</a></h3>
+      <p class="alsum">Following the successful money laundering prosecution of the director of Blue Star Exchange Pty Ltd, the National Anti-Scam Centre contacted around 1,500 victims via email today.</p>
+    </article>
+    <article class="alr">
+      <div class="alh"><time>2026-06-12</time><span class="alm">Matched automatically</span></div>
+      <h3><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-food-delivery-scams" rel="noopener">Scam alert: Food delivery scams</a></h3>
+      <p class="alsum">Scammers are targeting people who use food delivery platforms, including restaurants, customers and delivery workers. They may pretend to be DoorDash, Uber Eats, a restaurant or a customer.</p>
+    </article>
+    <article class="alr">
+      <div class="alh"><time>2026-05-20</time><span class="alm">Matched automatically</span></div>
+      <h3><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-job-recruitment-scams" rel="noopener">Scam alert: Job recruitment scams</a></h3>
+      <p class="alsum">Spike in reports of scammers impersonating recruiters for companies like Amazon and Youtube.</p>
+    </article>
+    <article class="alr">
+      <div class="alh"><time>2026-05-19</time><span class="alm">Matched automatically</span></div>
+      <h3><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-fake-crypto-trading-platforms" rel="noopener">Scam alert: Fake crypto trading platforms</a></h3>
+      <p class="alsum">Scammers are promoting fake crypto asset trading platforms to people who have joined ‘share trading’ or ‘stock tips’ messaging app groups.</p>
+    </article>
+    <article class="alr">
+      <div class="alh"><time>2026-04-13</time><span class="alm">Matched automatically</span></div>
+      <h3><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/spot-the-signs-of-a-relationship-scam" rel="noopener">Spot the signs of a relationship scam</a></h3>
+      <p class="alsum">Scamwatch is running a campaign to help people spot the signs of a relationship scam.</p>
+    </article>
+    <article class="alr">
+      <div class="alh"><time>2026-04-07</time><span class="alm">Matched automatically</span></div>
+      <h3><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-watch-out-for-mobile-fraud" rel="noopener">Scam alert: Watch out for mobile fraud</a></h3>
+      <p class="alsum">This scam alert is a joint alert from the Australian Communications and Media Authority (ACMA) and the National Anti-Scam Centre’s Scamwatch warning consumers of mobile fraud.</p>
+    </article>
+    <article class="alr">
+      <div class="alh"><time>2026-03-19</time><span class="alm">Matched automatically</span></div>
+      <h3><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-personal-loan-scams" rel="noopener">Scam alert: Personal loan scams</a></h3>
+      <p class="alsum">Scammers are setting up fraudulent websites offering personal loans.</p>
+    </article>
+  </div>
+  <p class="bfoot">Published by Scamwatch, National Anti-Scam Centre (ACCC) and read from <a href="https://www.scamwatch.gov.au/about-us/news-and-alerts" rel="noopener">its own alerts page</a>, last on 2026-09-07. This is a copy taken on that date, not a live feed &mdash; check the page itself for anything newer. An alert describes a pattern that is current; it says nothing about any particular number, and Cooee never treats one as proof that a caller is a scammer.</p>
 </section>
 <section class="view" id="v-breaches" aria-labelledby="h-breaches">
   <a class="back" href="#">&larr; Back to the check</a>
