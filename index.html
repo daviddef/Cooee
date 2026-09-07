@@ -2,8 +2,8 @@
 <html lang="en-AU"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Report a scam call — the real numbers for Australian banks | Cooee</title>
-<meta name="description" content="Verified fraud-reporting numbers for major Australian banks, each cited to the bank's own published page. Plus who else to tell, and why a bank's own number showing on your screen does not mean the bank is calling.">
+<title>Is this number a scam? | Cooee</title>
+<meta name="description" content="Check an Australian phone number or text sender against the numbering plan and published registers. Plus the real fraud-reporting numbers for Australian banks, each cited to the bank's own page.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='114' fill='%230B1416'/%3E%3Cpath d='M206 115 A 178 178 0 0 0 206 397' fill='none' stroke='%234ECDD4' stroke-width='50' stroke-linecap='round'/%3E%3Ccircle cx='338' cy='256' r='47' fill='%234ECDD4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,6 +51,32 @@ tr:last-child td{border-bottom:none}
 .warn ul{margin:.5rem 0 0;padding-left:1.1rem}
 .warn li{font-size:.9rem;color:var(--ink-2)}
 .warn .nc{font-family:var(--fm);color:var(--stop);font-weight:500}
+.warn p + p{margin-top:.5rem}
+.warn .psrc a{font-family:var(--fm);font-size:.72rem;color:var(--ink-3)}
+/* the lookup */
+.look{background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:1.4rem;margin-top:1.4rem}
+.look h2{font-size:1.35rem;font-weight:700}
+.look p.sub{margin-top:.35rem;color:var(--ink-2);font-size:.95rem;max-width:58ch}
+.look form{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.look input[type=text]{flex:1 1 15rem;font-family:var(--fm);font-size:1.1rem;padding:.7rem .85rem;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink);min-width:0}
+.look button{font-family:var(--fb);font-weight:600;font-size:.95rem;padding:.7rem 1.4rem;border:1px solid var(--accent);border-radius:3px;background:var(--accent);color:var(--paper);cursor:pointer}
+.look .more{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;font-size:.85rem;color:var(--ink-3)}
+.look .more select,.look .more input[type=text]{flex:0 1 auto;font-family:var(--fb);font-size:.85rem;padding:.4rem .5rem;width:auto}
+.look .more label{display:flex;align-items:center;gap:.35rem}
+.verdict{margin-top:1.2rem;border-top:1px solid var(--line);padding-top:1.2rem}
+.verdict .band{display:inline-block;font-family:var(--fm);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:.22em .6em;border-radius:2px}
+.b-confirmed,.b-severe{background:var(--stop-wash);color:var(--stop)}
+.b-high,.b-elevated{background:#F5EBD8;color:#8A5A05}
+.b-low{background:#E0EFE6;color:#1F6B45}
+.b-insufficient-evidence{background:var(--surface-2);color:var(--ink-3)}
+.verdict h3{font-size:1.2rem;font-weight:600;margin-top:.6rem;text-wrap:balance}
+.verdict ul{margin:.7rem 0 0;padding-left:1.1rem}
+.verdict li{font-size:.92rem;color:var(--ink-2);margin-top:.3rem}
+.verdict .lab{font-family:var(--fm);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:1rem;display:block}
+.verdict .ev{font-size:.9rem;color:var(--ink-2);border-left:2px solid var(--line);padding-left:.7rem;margin-top:.5rem}
+.verdict .ev b{color:var(--ink);font-weight:600}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .b-high,:root:not([data-theme=light]) .b-elevated{background:#2B2213;color:#E0B368}
+:root:not([data-theme=light]) .b-low{background:#122A1E;color:#68CE97}}
 .report{background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden}
 .rep{padding:1.05rem 1.3rem;border-bottom:1px solid var(--line-2);display:grid;grid-template-columns:11rem 1fr;gap:1rem}
 .rep:last-child{border-bottom:none}
@@ -72,16 +98,43 @@ footer p + p{margin-top:.6rem}
     <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M206 115 A 178 178 0 0 0 206 397" fill="none" stroke="currentColor" stroke-width="50" stroke-linecap="round"/><circle cx="338" cy="256" r="47" fill="currentColor"/></svg>
     <span>Cooee</span>
   </div>
-  <h1>Report a scam call</h1>
-  <p class="stand">The real fraud-reporting numbers for Australian banks, each one checked against the bank&rsquo;s own published page. Every line below links to where we read it, so you never have to take our word for it.</p>
+  <h1>Is this number a scam?</h1>
+  <p class="stand">Check a number that called you, or the name at the top of a text. Below that, the real fraud-reporting numbers for Australian banks &mdash; each one checked against the bank&rsquo;s own published page, so you never have to take our word for it.</p>
+<section class="look" id="lookup" aria-label="Check a number">
+  <p class="sub">Checked against the Australian numbering plan and the registers published below. Nothing you type leaves your phone.</p>
+  <form id="lf">
+    <input type="text" id="lq" placeholder="e.g. 1800 123 456, or a sender name" autocomplete="off" aria-label="Number or sender name">
+    <button type="submit">Check</button>
+    <div class="more">
+      <label>Who did they say they were?
+        <select id="lclaimed">
+          <option value="none">They didn&rsquo;t say</option>
+          <option value="bank">A bank</option>
+          <option value="government">A government agency</option>
+          <option value="law-enforcement">Police</option>
+          <option value="crypto-exchange">A crypto exchange</option>
+          <option value="telco">A phone company</option>
+          <option value="utility">A utility</option>
+          <option value="delivery">A delivery service</option>
+          <option value="tech-support">Tech support</option>
+        </select>
+      </label>
+      <label>Which one? <input type="text" id="lorg" placeholder="e.g. NAB" autocomplete="off"></label>
+      <label><input type="checkbox" id="lsms"> It was a text message</label>
+      <label><input type="checkbox" id="lcode"> It had a code I didn&rsquo;t ask for</label>
+    </div>
+  </form>
+  <div id="lout" aria-live="polite"></div>
+</section>
   <div class="urgent"><p><b>If someone just called claiming to be your bank, hang up.</b> Then ring the number on the back of your card, or the number below. Never call back on a number the caller gave you, and never read out a code that arrives by text.</p></div>
 </div></header>
 
 <div class="wrap">
 
+
 <section class="band">
   <h2>Banks</h2>
-  <p class="lede">Ordered with the fraud line first. Tap a number to call it. This is not a complete list &mdash; each bank has other legitimate numbers, so a number missing from here is not evidence of a scam.</p>
+  <p class="lede">Ordered with the fraud line first. Tap a number to call it. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
   
   <section class="org" id="commonwealth-bank">
     <h3>Commonwealth Bank</h3>
@@ -105,6 +158,7 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.commbank.com.au/support/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
       </tr></tbody>
     </table></div>
+    
     
   </section>
   <section class="org" id="westpac">
@@ -145,6 +199,7 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
+    
   </section>
   <section class="org" id="nab">
     <h3>NAB</h3>
@@ -168,6 +223,7 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.nab.com.au/about-us/security/report-fraud-scams" rel="nofollow noopener">checked 2026-09-05</a></td>
       </tr></tbody>
     </table></div>
+    
     
   </section>
   <section class="org" id="anz">
@@ -228,6 +284,7 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
+    
   </section>
   <section class="org" id="bendigo-bank">
     <h3>Bendigo Bank</h3>
@@ -256,6 +313,7 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.bendigobank.com.au/contact-us/" rel="nofollow noopener">checked 2026-09-05</a></td>
       </tr></tbody>
     </table></div>
+    
     <div class="warn">
       <p><b>Bendigo Bank says it will never call you from these numbers.</b>
       If one of them shows as your caller, the caller ID has been forged. Listed so you can recognise them &mdash; not as a number to ring.</p>
@@ -295,6 +353,7 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
+    
   </section>
   <section class="org" id="suncorp-bank">
     <h3>Suncorp Bank</h3>
@@ -323,6 +382,7 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.suncorpbank.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-05</a></td>
       </tr></tbody>
     </table></div>
+    
     
   </section>
   <section class="org" id="ing">
@@ -358,6 +418,7 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
+    
   </section>
   <section class="org" id="bankwest">
     <h3>Bankwest</h3>
@@ -386,6 +447,7 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.bankwest.com.au/contact-us" rel="nofollow noopener">checked 2026-09-05</a></td>
       </tr></tbody>
     </table></div>
+    
     
   </section>
   <section class="org" id="st-george-bank">
@@ -446,6 +508,7 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
+    
   </section>
   <section class="org" id="macquarie-bank">
     <h3>Macquarie Bank</h3>
@@ -464,6 +527,7 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.macquarie.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-06</a></td>
       </tr></tbody>
     </table></div>
+    
     
   </section>
   <section class="org" id="hsbc-australia">
@@ -524,6 +588,7 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
+    
   </section>
   <section class="org" id="bank-of-melbourne">
     <h3>Bank of Melbourne</h3>
@@ -572,6 +637,7 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.bankofmelbourne.com.au/contact-us" rel="nofollow noopener">checked 2026-09-06</a></td>
       </tr></tbody>
     </table></div>
+    
     
   </section>
   <section class="org" id="banksa">
@@ -637,6 +703,7 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
+    
   </section>
   <section class="org" id="great-southern-bank">
     <h3>Great Southern Bank</h3>
@@ -675,6 +742,7 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.greatsouthernbank.com.au/help-and-contact" rel="nofollow noopener">checked 2026-09-06</a></td>
       </tr></tbody>
     </table></div>
+    
     
   </section>
   <section class="org" id="amp-bank">
@@ -720,6 +788,7 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
+    
   </section>
   <section class="org" id="bank-australia">
     <h3>Bank Australia</h3>
@@ -748,6 +817,7 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.bankaust.com.au/contact-us" rel="nofollow noopener">checked 2026-09-06</a></td>
       </tr></tbody>
     </table></div>
+    
     
   </section>
   <section class="org" id="beyond-bank">
@@ -782,6 +852,7 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.beyondbank.com.au/contact-us.html" rel="nofollow noopener">checked 2026-09-06</a></td>
       </tr></tbody>
     </table></div>
+    
     
   </section>
 </section>
@@ -823,47 +894,17 @@ footer p + p{margin-top:.6rem}
   <div class="explain">
     <h3>Caller ID is not proof of anything</h3>
     <p>The number your phone displays is supplied by whoever placed the call, and it can be set to anything. Seeing your bank&rsquo;s real number does not mean your bank is calling.</p>
-    <p>There is a useful tell. Numbers starting <b>13, 1300 and 1800</b> are inbound service lines &mdash; under the Australian numbering plan they cannot make outgoing calls at all. So if one of those shows as your caller, the caller ID has definitely been forged. Some organisations go further and publish numbers they will never ring you from; those are marked <span class="never">never calls you</span> above.</p>
+    <p>There is a useful tell. Numbers starting <b>13, 1300 and 1800</b> are inbound service lines &mdash; under the Australian numbering plan they cannot make outgoing calls at all. So if one of those shows as your caller, the caller ID has definitely been forged.</p>
+    <p>Some organisations go further, and where they do it is written in a red panel under that organisation above. A few publish specific numbers they will never ring you from &mdash; those are listed there to be recognised, not to be rung. And some publish that <em>none</em> of their calls display a number at all, which settles it for every number they have: a caller ID naming them is forged whatever it shows, including their own real numbers.</p>
     <p>The reverse is also true and worth remembering: those same numbers are perfectly safe for <em>you</em> to ring. The direction is what matters.</p>
   </div>
 </section>
 
+
 <section class="band">
-  <h2>Support services</h2>
+  <h2>Government agencies</h2>
+  <p class="lede">Agencies impersonated often enough to be worth checking. Read the note under each one: some publish a policy about how they call you, which is stronger evidence than any list of numbers. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
   
-  <section class="org" id="idcare">
-    <h3>IDCARE</h3>
-    <p class="how">Call 1800 595 160 for free support if your identity or personal information has been misused.</p>
-    <div class="tw"><table>
-      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
-      <tbody>
-      <tr>
-        <td class="num"><a href="tel:+611800595160">1800 595 160</a></td>
-        <td>National support line</td>
-        <td class="src"><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-accc-phone-numbers-spoofed-by-scammers" rel="nofollow noopener">checked 2026-09-05</a></td>
-      </tr></tbody>
-    </table></div>
-    
-  </section>
-  <section class="org" id="telstra">
-    <h3>Telstra</h3>
-    <p class="how">Call 13 22 00, Telstra's general customer service line. Their contact page publishes no separate fraud number.</p>
-    <div class="tw"><table>
-      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
-      <tbody>
-      <tr>
-        <td class="num"><a href="tel:+61132200">13 22 00</a></td>
-        <td>General customer service</td>
-        <td class="src"><a href="https://www.telstra.com.au/contact-us" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr>
-      <tr>
-        <td class="num"><a href="tel:+611800241600">1800 241 600</a></td>
-        <td>Free interpreting service</td>
-        <td class="src"><a href="https://www.telstra.com.au/contact-us" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr></tbody>
-    </table></div>
-    
-  </section>
   <section class="org" id="australian-taxation-office">
     <h3>Australian Taxation Office</h3>
     <p class="how">If you are not sure a call, email or SMS is really the ATO, do not respond — call 1800 008 540 to check. The ATO will never threaten you with arrest, demand you stay on the line, or ask for payment by gift card, crypto or cash delivery.</p>
@@ -891,6 +932,15 @@ footer p + p{margin-top:.6rem}
         <td class="src"><a href="https://www.ato.gov.au/about-ato/contact-us/phone-us" rel="nofollow noopener">checked 2026-09-06</a></td>
       </tr></tbody>
     </table></div>
+    
+    <div class="warn">
+      <p><b>Australian Taxation Office publishes that its calls show no caller ID at all.</b> In their words: &ldquo;Phone calls from the ATO will show as No Caller ID.&rdquo;</p>
+      <p>The numbers above are Australian Taxation Office&rsquo;s own and ringing them is right. But it also settles the
+      other direction: <b>any</b> number displayed as Australian Taxation Office calling you has been forged &mdash; these
+      ones included, because an organisation&rsquo;s own published numbers are the obvious ones to imitate.
+      There is no number Australian Taxation Office will ring you from.</p>
+      <p class="psrc"><a href="https://www.ato.gov.au/online-services/scams-cyber-safety-and-identity-protection/verify-or-report-an-ato-scam" rel="nofollow noopener">Australian Taxation Office&rsquo;s published policy</a></p>
+    </div>
     
   </section>
   <section class="org" id="services-australia">
@@ -986,6 +1036,32 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
+    
+  </section>
+</section>
+<section class="band">
+  <h2>Phone and internet providers</h2>
+  <p class="lede">Your telco is who to tell if your number has been ported away from you without your knowledge, which is how a scammer gets past a code sent by text. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
+  
+  <section class="org" id="telstra">
+    <h3>Telstra</h3>
+    <p class="how">Call 13 22 00, Telstra's general customer service line. Their contact page publishes no separate fraud number.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+61132200">13 22 00</a></td>
+        <td>General customer service</td>
+        <td class="src"><a href="https://www.telstra.com.au/contact-us" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611800241600">1800 241 600</a></td>
+        <td>Free interpreting service</td>
+        <td class="src"><a href="https://www.telstra.com.au/contact-us" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr></tbody>
+    </table></div>
+    
+    
   </section>
   <section class="org" id="optus">
     <h3>Optus</h3>
@@ -1005,91 +1081,6 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
-  </section>
-  <section class="org" id="australia-post">
-    <h3>Australia Post</h3>
-    <p class="how">Call 13 76 78 (13POST). Their published customer lines carry no separate fraud number — a missed-delivery text asking you to pay a fee or confirm details is the common scam, and Australia Post does not ask for payment that way.</p>
-    <div class="tw"><table>
-      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
-      <tbody>
-      <tr>
-        <td class="num"><a href="tel:+61137678">13 76 78</a></td>
-        <td>General enquiries, in Australia</td>
-        <td class="src"><a href="https://auspost.com.au/about-us/corporate-information/complaints-and-feedback" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr>
-      <tr>
-        <td class="num"><a href="tel:+61131118">13 11 18</a></td>
-        <td>Business</td>
-        <td class="src"><a href="https://auspost.com.au/about-us/corporate-information/complaints-and-feedback" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr>
-      <tr>
-        <td class="num"><a href="tel:+61132345">13 23 45</a></td>
-        <td>StarTrack</td>
-        <td class="src"><a href="https://auspost.com.au/about-us/corporate-information/complaints-and-feedback" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr>
-      <tr>
-        <td class="num"><a href="tel:+61131320">13 13 20</a></td>
-        <td>StarTrack Courier</td>
-        <td class="src"><a href="https://auspost.com.au/about-us/corporate-information/complaints-and-feedback" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr></tbody>
-    </table></div>
-    
-  </section>
-  <section class="org" id="energyaustralia">
-    <h3>EnergyAustralia</h3>
-    <p class="how">Call 133 466. Their contact page publishes no separate fraud number — an overdue-bill demand pressing you to pay immediately is the common impersonation, and a real retailer will let you call back on the number on your bill.</p>
-    <div class="tw"><table>
-      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
-      <tbody>
-      <tr>
-        <td class="num"><a href="tel:+61133466">133 466</a></td>
-        <td>General enquiries</td>
-        <td class="src"><a href="https://www.energyaustralia.com.au/home/help-and-support/contact-us" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr></tbody>
-    </table></div>
-    
-  </section>
-  <section class="org" id="red-energy">
-    <h3>Red Energy</h3>
-    <p class="how">Call 131 806, or +61 3 7046 4100 from overseas. Their contact page publishes no separate fraud number.</p>
-    <div class="tw"><table>
-      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
-      <tbody>
-      <tr>
-        <td class="num"><a href="tel:+61131806">131 806</a></td>
-        <td>General enquiries</td>
-        <td class="src"><a href="https://www.redenergy.com.au/contactus/" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr>
-      <tr>
-        <td class="num"><a href="tel:+61370464100">(03) 7046 4100</a></td>
-        <td>From overseas</td>
-        <td class="src"><a href="https://www.redenergy.com.au/contactus/" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr></tbody>
-    </table></div>
-    
-  </section>
-  <section class="org" id="agl">
-    <h3>AGL</h3>
-    <p class="how">Call 131 245 — the same line AGL publishes for life support and emergencies. Their contact page publishes no separate fraud number.</p>
-    <div class="tw"><table>
-      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
-      <tbody>
-      <tr>
-        <td class="num"><a href="tel:+61131245">131 245</a></td>
-        <td>Call us — general, life support and emergencies</td>
-        <td class="src"><a href="https://www.agl.com.au/help-support/contact-us/" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr>
-      <tr>
-        <td class="num"><a href="tel:+611300307245">1300 307 245</a></td>
-        <td>Interpreter services</td>
-        <td class="src"><a href="https://www.agl.com.au/help-support/contact-us/" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr>
-      <tr>
-        <td class="num"><a href="tel:+611300664358">1300 664 358</a></td>
-        <td>National Relay Service number for AGL</td>
-        <td class="src"><a href="https://www.agl.com.au/help-support/contact-us/" rel="nofollow noopener">checked 2026-09-06</a></td>
-      </tr></tbody>
-    </table></div>
     
   </section>
   <section class="org" id="tpg">
@@ -1130,13 +1121,136 @@ footer p + p{margin-top:.6rem}
       </tr></tbody>
     </table></div>
     
+    
   </section>
 </section>
+<section class="band">
+  <h2>Energy retailers</h2>
+  <p class="lede">Billing and disconnection threats are a common approach. Your retailer’s own number is on your bill as well as here. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
+  
+  <section class="org" id="energyaustralia">
+    <h3>EnergyAustralia</h3>
+    <p class="how">Call 133 466. Their contact page publishes no separate fraud number — an overdue-bill demand pressing you to pay immediately is the common impersonation, and a real retailer will let you call back on the number on your bill.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+61133466">133 466</a></td>
+        <td>General enquiries</td>
+        <td class="src"><a href="https://www.energyaustralia.com.au/home/help-and-support/contact-us" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr></tbody>
+    </table></div>
+    
+    
+  </section>
+  <section class="org" id="red-energy">
+    <h3>Red Energy</h3>
+    <p class="how">Call 131 806, or +61 3 7046 4100 from overseas. Their contact page publishes no separate fraud number.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+61131806">131 806</a></td>
+        <td>General enquiries</td>
+        <td class="src"><a href="https://www.redenergy.com.au/contactus/" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61370464100">(03) 7046 4100</a></td>
+        <td>From overseas</td>
+        <td class="src"><a href="https://www.redenergy.com.au/contactus/" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr></tbody>
+    </table></div>
+    
+    
+  </section>
+  <section class="org" id="agl">
+    <h3>AGL</h3>
+    <p class="how">Call 131 245 — the same line AGL publishes for life support and emergencies. Their contact page publishes no separate fraud number.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+61131245">131 245</a></td>
+        <td>Call us — general, life support and emergencies</td>
+        <td class="src"><a href="https://www.agl.com.au/help-support/contact-us/" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611300307245">1300 307 245</a></td>
+        <td>Interpreter services</td>
+        <td class="src"><a href="https://www.agl.com.au/help-support/contact-us/" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+611300664358">1300 664 358</a></td>
+        <td>National Relay Service number for AGL</td>
+        <td class="src"><a href="https://www.agl.com.au/help-support/contact-us/" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr></tbody>
+    </table></div>
+    
+    
+  </section>
+</section>
+<section class="band">
+  <h2>Post and delivery</h2>
+  <p class="lede">A missed-delivery message asking for a small fee is one of the most reported scams in Australia. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
+  
+  <section class="org" id="australia-post">
+    <h3>Australia Post</h3>
+    <p class="how">Call 13 76 78 (13POST). Their published customer lines carry no separate fraud number — a missed-delivery text asking you to pay a fee or confirm details is the common scam, and Australia Post does not ask for payment that way.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+61137678">13 76 78</a></td>
+        <td>General enquiries, in Australia</td>
+        <td class="src"><a href="https://auspost.com.au/about-us/corporate-information/complaints-and-feedback" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61131118">13 11 18</a></td>
+        <td>Business</td>
+        <td class="src"><a href="https://auspost.com.au/about-us/corporate-information/complaints-and-feedback" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61132345">13 23 45</a></td>
+        <td>StarTrack</td>
+        <td class="src"><a href="https://auspost.com.au/about-us/corporate-information/complaints-and-feedback" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr>
+      <tr>
+        <td class="num"><a href="tel:+61131320">13 13 20</a></td>
+        <td>StarTrack Courier</td>
+        <td class="src"><a href="https://auspost.com.au/about-us/corporate-information/complaints-and-feedback" rel="nofollow noopener">checked 2026-09-06</a></td>
+      </tr></tbody>
+    </table></div>
+    
+    
+  </section>
+</section>
+<section class="band">
+  <h2>Support services</h2>
+  <p class="lede">For help after the fact — recovering identity documents, and working out what to do next. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
+  
+  <section class="org" id="idcare">
+    <h3>IDCARE</h3>
+    <p class="how">Call 1800 595 160 for free support if your identity or personal information has been misused.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Number</th><th>What it is for</th><th>Source</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="num"><a href="tel:+611800595160">1800 595 160</a></td>
+        <td>National support line</td>
+        <td class="src"><a href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-accc-phone-numbers-spoofed-by-scammers" rel="nofollow noopener">checked 2026-09-05</a></td>
+      </tr></tbody>
+    </table></div>
+    
+    
+  </section>
+</section>
+
 
 </div>
 
 <footer><div class="wrap">
-  <p>Built 2026-09-06 from a machine-checked list &mdash; every number is validated as a real Australian number and carries the page it was read from and the date. If a bank changes a number, this page can be wrong until it is rebuilt: the source link beside each entry is the authority, not us.</p>
+  <p>Built 2026-09-07 from a machine-checked list &mdash; every number is validated as a real Australian number and carries the page it was read from and the date. If a bank changes a number, this page can be wrong until it is rebuilt: the source link beside each entry is the authority, not us.</p>
   <p>Cooee is an independent project and is not affiliated with, endorsed by, or acting for any organisation listed here. If you have lost money, contact your bank first and then <a href="https://www.cyber.gov.au/report-and-recover/report" rel="noopener">ReportCyber</a>. In immediate danger, call 000.</p>
 </div></footer>
+<script type="module" src="./page.js"></script>
 </body></html>
