@@ -72,6 +72,11 @@ tr:last-child td{border-bottom:none}
 .b-low{background:#E0EFE6;color:#1F6B45}
 .b-insufficient-evidence{background:var(--surface-2);color:var(--ink-3)}
 .verdict h3{font-size:1.2rem;font-weight:600;margin-top:.6rem;text-wrap:balance}
+.pills{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.pill{font-family:var(--fm);font-size:.68rem;letter-spacing:.03em;padding:.28em .6em;border-radius:999px;white-space:nowrap;border:1px solid transparent}
+.pill.risk{background:var(--stop-wash);color:var(--stop);border-color:color-mix(in srgb, var(--stop) 22%, transparent)}
+.pill.trust{background:#E0EFE6;color:#1F6B45;border-color:color-mix(in srgb, #1F6B45 22%, transparent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .pill.trust{background:#122A1E;color:#68CE97}}
 .verdict ul{margin:.7rem 0 0;padding-left:1.1rem}
 .verdict li{font-size:.92rem;color:var(--ink-2);margin-top:.3rem}
 .verdict .lab{font-family:var(--fm);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:1rem;display:block}
