@@ -30,6 +30,11 @@ function render(a) {
 
 $('#lf').addEventListener('submit', (e) => {
   e.preventDefault()
+  // The mark is a call going out and an answer coming back, so it answers when
+  // you call. Behind prefers-reduced-motion in the stylesheet.
+  document.body.classList.remove('listening')
+  void document.body.offsetWidth
+  document.body.classList.add('listening')
   const q = $('#lq').value.trim()
   if (!q) return
   render(check(q, {
