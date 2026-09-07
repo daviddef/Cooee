@@ -72,6 +72,11 @@ function render(a) {
   // a safety question, not a presentation one.
   const acts = (a.actions ?? []).map(x =>
     `<a class="act" href="tel:${esc(x.e164)}"><b>${esc(x.display)}</b><span>${esc(x.organisation)} — ${esc(x.label)}</span></a>`).join('')
+  // Where to send the message itself. A separate list from the numbers above,
+  // because it answers a different question and only a reader holding a text
+  // has that question — the core decides whether there is one.
+  const sendTo = (a.reportTo ?? []).map(x =>
+    `<a class="act send" href="mailto:${esc(x.address)}"><b>${esc(x.address)}</b><span>${esc(x.organisation)} — forward the message here</span></a>`).join('')
   // Decided in the core and rendered here. Composing these labels in the page
   // would be the band-chip mistake a third time.
   const pills = (a.tags ?? []).map(t =>
@@ -136,6 +141,7 @@ function render(a) {
     ${plain}
     ${pills ? `<div class="pills">${pills}</div>` : ''}
     ${acts ? `<span class="lab">Who to ring</span><div class="acts">${acts}</div>` : ''}
+    ${sendTo ? `<span class="lab">Where to send it</span><div class="acts">${sendTo}</div>` : ''}
     ${g ? `<span class="lab">What to do</span><ul>${g}</ul>` : ''}
     ${ev ? `<span class="lab">Why</span>${ev}` : ''}
     ${overflow(a.signals.slice(SIGNALS_SHOWN),
