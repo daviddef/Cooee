@@ -134,6 +134,31 @@ tr:last-child td{border-bottom:none}
 .warn li{font-size:.88rem;color:var(--ink-2)}
 .warn .nc{font-family:var(--fm);color:var(--stop);font-weight:500}
 .psrc{margin-top:.45rem;font-family:var(--fm);font-size:.68rem}
+.bnote{background:var(--warn-wash);border-left:3px solid var(--warn);padding:.8rem .9rem;border-radius:0 8px 8px 0;margin:.9rem 0}
+.bnote p{font-size:.88rem;color:var(--ink-2);margin:0}
+.bnote p+p{margin-top:.55rem}
+.bfl{display:block;font-size:.8rem;color:var(--ink-3);margin:1rem 0 .3rem}
+#bfilter{width:100%;font-family:var(--fb);font-size:1rem;padding:.6rem .7rem;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.brl{margin-top:.9rem;display:grid;gap:.7rem}
+.brc{border:1px solid var(--line);border-radius:10px;padding:.85rem .9rem;background:var(--surface)}
+.brc[hidden]{display:none}
+.brh{display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem}
+.brh time{font-family:var(--fm);font-size:.8rem;color:var(--ink-3)}
+.bb{font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding:.2rem .5rem;border-radius:999px}
+.bb-severe{background:var(--stop-wash);color:var(--stop)}
+.bb-high{background:var(--warn-wash);color:var(--warn)}
+.bb-moderate{background:var(--surface-2);color:var(--ink-2)}
+.bb-low{background:var(--go-wash);color:var(--go)}
+.brc h3{font-size:1.02rem;font-weight:600}
+.bmeta{font-size:.8rem;color:var(--ink-3);margin-top:.1rem}
+.bsum{font-size:.9rem;color:var(--ink-2);margin-top:.45rem}
+.bcls{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.55rem}
+.bcl{font-size:.74rem;padding:.2rem .5rem;border-radius:999px;border:1px solid var(--line);color:var(--ink-2)}
+.bwhy{font-size:.85rem;color:var(--ink-2);margin-top:.55rem}
+.bout{font-size:.83rem;color:var(--ink-2);margin-top:.4rem;font-style:italic}
+.bsrc{margin-top:.45rem}
+.bsrc a{font-size:.8rem}
+.bfoot{font-size:.82rem;color:var(--ink-3);margin-top:1rem;line-height:1.55}
 .report{margin-top:.6rem}
 .rep{padding:.75rem 0;border-bottom:1px solid var(--line-2);display:grid;grid-template-columns:10rem 1fr;gap:.8rem}
 .rep:last-child{border-bottom:none}
@@ -955,6 +980,207 @@ footer p+p{margin-top:.5rem}
       <p>Free external dispute resolution if your bank will not reimburse you and internal complaints have failed.</p>
     </div>
   </div>
+</details>
+
+
+<details class="more" id="breaches">
+  <summary>Where your details may already be</summary>
+  <p class="lede">If a stranger rang knowing your name and your bank, they may not have guessed. 14 recorded breaches, most recent first.</p>
+
+  <div class="bnote">
+    <p><b>We do not check your email address here, and it is worth saying why.</b> Every service that will tell you whether an address appears in a breach takes that address in plain text and keeps it. This page promises that nothing you type into it leaves your phone, and that promise is worth more than this feature. So the list below is the other way round: recognise the organisations you had an account with. That requires typing nothing about yourself.</p>
+    <p>If you do want an address checked, <a href="https://haveibeenpwned.com" rel="noopener">Have I Been Pwned</a> is the one to use &mdash; run by a security researcher, free, and it will not sell you anything. You will be handing it your email address, which is the trade.</p>
+  </div>
+
+  <label class="bfl" for="bfilter">Find an organisation</label>
+  <input id="bfilter" type="search" autocomplete="off" placeholder="Type a name &mdash; Optus, Medibank, a sector&hellip;">
+  <p class="tiny" id="bcount" aria-live="polite"></p>
+
+  <div class="brl">
+  <article class="brc" data-org="qantas airline">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2025-07-02</time>
+    </div>
+    <h3>Qantas</h3>
+    <p class="bmeta">Airline &middot; 5.7 million people</p>
+    <p class="bsum">A third-party call centre platform was reached by social engineering. Names, email addresses, phone numbers, dates of birth and frequent flyer numbers. Qantas stated no credit card details, financial information or passport details were held in that system.</p>
+    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
+    <p class="bout">Reported to the OAIC and the Australian Cyber Security Centre</p>
+    <p class="bsrc"><a href="https://www.qantas.com/au/en/support/cyber-incident.html" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="genea health">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2025-02-19</time>
+    </div>
+    <h3>Genea</h3>
+    <p class="bmeta">Health &middot; number not disclosed</p>
+    <p class="bsum">A fertility clinic. Medicare numbers, private health insurance details, medical history and fertility treatment records were exfiltrated and later published.</p>
+    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span></div>
+    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
+    <p class="bout">Reported to the OAIC; Supreme Court of NSW injunction restraining dissemination of the data</p>
+    <p class="bsrc"><a href="https://www.genea.com.au/cyber-incident" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="finsure finance">
+    <div class="brh">
+      <span class="bb bb-moderate">Moderate</span>
+      <time>2024-10-15</time>
+    </div>
+    <h3>Finsure</h3>
+    <p class="bmeta">Finance &middot; 296,124 people</p>
+    <p class="bsum">A mortgage aggregator. Names, email addresses, phone numbers and physical addresses.</p>
+    <div class="bcls"><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why moderate:</b> This is the list the scam calls are dialled from. Changing it means telling everyone you know.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Finsure" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="digidirect retail">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2024-09-29</time>
+    </div>
+    <h3>digiDirect</h3>
+    <p class="bmeta">Retail &middot; 304,337 people</p>
+    <p class="bsum">Names, dates of birth, email addresses, phone numbers and addresses from an online camera retailer.</p>
+    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/digiDirect" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="ticketek ticketing">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2024-05-31</time>
+    </div>
+    <h3>Ticketek</h3>
+    <p class="bmeta">Ticketing &middot; 18 million people</p>
+    <p class="bsum">Names, dates of birth and email addresses held in a cloud platform run by a third-party supplier. Ticketek stated no card or account details were involved.</p>
+    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Name</span><span class="bcl">Email address</span><span class="bcl">Gender</span></div>
+    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Ticketek" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="medisecure health">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2024-05-16</time>
+    </div>
+    <h3>MediSecure</h3>
+    <p class="bmeta">Health &middot; 13 million people</p>
+    <p class="bsum">Ransomware attack on an electronic prescription provider. Prescription records — the medicines people were dispensed — along with names, addresses, Medicare and healthcare identifier numbers.</p>
+    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span></div>
+    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
+    <p class="bout">MediSecure entered administration in June 2024</p>
+    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/medisecure-data-breach" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="tangerine telecom telecommunications">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2024-02-18</time>
+    </div>
+    <h3>Tangerine Telecom</h3>
+    <p class="bmeta">Telecommunications &middot; 243,462 people</p>
+    <p class="bsum">Names, dates of birth, email addresses, phone numbers, addresses and password hashes from an internet provider.</p>
+    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Passwords</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Tangerine" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="dymocks retail">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2023-06-20</time>
+    </div>
+    <h3>Dymocks</h3>
+    <p class="bmeta">Retail &middot; 836,120 people</p>
+    <p class="bsum">Booklover loyalty records: names, dates of birth, email addresses, phone numbers, postal addresses and gender.</p>
+    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span><span class="bcl">Gender</span></div>
+    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Dymocks" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="latitude financial finance">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2023-03-16</time>
+    </div>
+    <h3>Latitude Financial</h3>
+    <p class="bmeta">Finance &middot; 7.9 million people</p>
+    <p class="bsum">Around 7.9 million Australian and New Zealand driver licence numbers, plus roughly 53,000 passport numbers and a smaller set of financial statements.</p>
+    <div class="bcls"><span class="bcl">Identity documents</span><span class="bcl">Bank or card details</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why severe:</b> A passport, licence or Medicare number cannot be quietly changed. Replacing one costs money and weeks, and the old number stays useful to whoever holds it.</p>
+    <p class="bout">OAIC and New Zealand Privacy Commissioner joint investigation</p>
+    <p class="bsrc"><a href="https://www.latitudefinancial.com.au/latitude-cyber-incident/" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="medibank private health insurance">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2022-10-13</time>
+    </div>
+    <h3>Medibank Private</h3>
+    <p class="bmeta">Health insurance &middot; 9.7 million people</p>
+    <p class="bsum">Customer names, dates of birth, Medicare numbers and health claims data — including the procedures people had claimed for — were taken and later published.</p>
+    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
+    <p class="bout">OAIC alleges Medibank seriously interfered with the privacy of 9.7 million Australians; civil penalty proceedings on foot</p>
+    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/oaic-takes-civil-penalty-action-against-medibank" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="optus telecommunications">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2022-09-22</time>
+    </div>
+    <h3>Optus</h3>
+    <p class="bmeta">Telecommunications &middot; 9.8 million people</p>
+    <p class="bsum">Names, dates of birth, phone numbers, email and home addresses taken from current and former customers. For about 2.1 million people the records included passport, driver licence or Medicare numbers.</p>
+    <div class="bcls"><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why severe:</b> A passport, licence or Medicare number cannot be quietly changed. Replacing one costs money and weeks, and the old number stays useful to whoever holds it.</p>
+    <p class="bout">OAIC civil penalty proceedings on foot in the Federal Court</p>
+    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/oaic-takes-civil-penalty-action-against-optus" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="amart furniture retail">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2022-05-16</time>
+    </div>
+    <h3>Amart Furniture</h3>
+    <p class="bmeta">Retail &middot; 108,940 people</p>
+    <p class="bsum">Names, email addresses, phone numbers and password hashes.</p>
+    <div class="bcls"><span class="bcl">Passwords</span><span class="bcl">Phone number</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why high:</b> Changeable this afternoon — but only on the accounts you remember reusing it on.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/AmartFurniture" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="australian clinical labs (medlab pathology) health">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2022-02-25</time>
+    </div>
+    <h3>Australian Clinical Labs (Medlab Pathology)</h3>
+    <p class="bmeta">Health &middot; 223,000 people</p>
+    <p class="bsum">Pathology records including medical and health information, Medicare numbers and some credit card details, published on the dark web.</p>
+    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Bank or card details</span><span class="bcl">Date of birth</span><span class="bcl">Home address</span><span class="bcl">Name</span></div>
+    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
+    <p class="bout">Federal Court ordered a $5.8 million civil penalty on 8 October 2025 — the first civil penalty ever imposed under the Privacy Act</p>
+    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/australian-clinical-labs-ordered-to-pay-penalties-in-relation-to-medlab-pathology-data-breach-in-first-for-privacy-act" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="canva technology">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2019-05-24</time>
+    </div>
+    <h3>Canva</h3>
+    <p class="bmeta">Technology &middot; 137 million people</p>
+    <p class="bsum">Usernames, email addresses, cities of residence and password hashes for 137 million accounts.</p>
+    <div class="bcls"><span class="bcl">Passwords</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why high:</b> Changeable this afternoon — but only on the accounts you remember reusing it on.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Canva" rel="noopener">Source</a></p>
+  </article></div>
+
+  <p class="bfoot">There is no official list of Australian data breaches. The OAIC runs the Notifiable Data Breaches scheme and publishes the totals &mdash; <a href="https://www.oaic.gov.au/news/blog/latest-notifiable-data-breach-statistics-for-january-to-june-2025" rel="noopener">532 notifications in January to June 2025</a>, 58% of them criminal attacks &mdash; but never names the organisation. So this list is compiled from public disclosures and each entry carries its source. A name missing from it means nobody here has recorded it, not that the organisation was never breached.</p>
 </details>
 
 <details class="more">

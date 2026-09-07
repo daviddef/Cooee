@@ -153,3 +153,37 @@ $('#lf').addEventListener('submit', (e) => {
       : undefined,
   }))
 })
+
+/* ---------------------------------------------------------------------------
+ * Breach list filter.
+ *
+ * Filters on organisation and sector text only, and never sends a keystroke
+ * anywhere: the whole list is already in the page, so this is a `hidden`
+ * toggle over elements that are all present at load. That is the reason the
+ * section can promise what it promises.
+ * ------------------------------------------------------------------------- */
+;(function breachFilter() {
+  const box = document.getElementById('bfilter')
+  const count = document.getElementById('bcount')
+  if (!box || !count) return
+  const cards = Array.prototype.slice.call(document.querySelectorAll('.brc'))
+  const total = cards.length
+
+  function paint() {
+    const q = box.value.trim().toLowerCase()
+    let shown = 0
+    for (const c of cards) {
+      const hit = q.length < 2 || (c.dataset.org || '').indexOf(q) !== -1
+      c.hidden = !hit
+      if (hit) shown++
+    }
+    count.textContent = q.length < 2
+      ? total + ' recorded, most recent first'
+      : shown === 0
+        ? 'Nothing recorded here for “' + box.value.trim() + '” — which is not the same as nothing having happened.'
+        : shown + ' of ' + total + ' shown'
+  }
+
+  box.addEventListener('input', paint)
+  paint()
+})()
