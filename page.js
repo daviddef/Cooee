@@ -9,10 +9,37 @@ import { check, organisationNames } from './cooee.js'
 const $ = (s) => document.querySelector(s)
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))
 
+const evRow = (s) =>
+  `<p class="ev"><b>${s.direction === 'risk' ? 'Concern' : 'In its favour'}</b> &mdash; ${esc(s.summary)}</p>`
+
 function render(a) {
-  const ev = a.signals.slice(0, 4).map(s =>
-    `<p class="ev"><b>${s.direction === 'risk' ? 'Concern' : 'In its favour'}</b> &mdash; ${esc(s.summary)}</p>`).join('')
-  const g = (a.guidance ?? []).slice(0, 4).map(x => `<li>${esc(x)}</li>`).join('')
+  const ev = a.signals.slice(0, SIGNALS_SHOWN).map(evRow).join('')
+  /**
+   * EVERY INSTRUCTION, AND THIS ONE IS NOT FOLDED EITHER.
+   *
+   * It was `.slice(0, 4)`, dropping the rest in silence — the caveat defect of
+   * two runs ago, in the channel beside it, and it survived that fix because the
+   * fix was written about caveats rather than about discarding. Live on the
+   * shipped registry with no database, on 787 combinations of number, context,
+   * claim and code: the line dropped every single time is the one every result
+   * carries, *report it to Scamwatch … contact IDCARE on 1800 595 160*, because
+   * it is always last. Commonwealth Bank's own `13 2221` seen as an incoming
+   * call with an unrequested code — `confirmed`, 88, "this caller ID is forged"
+   * — showed four lines of checking advice and silently cut, in order: *ring
+   * your bank now, a payment can sometimes be stopped while it is still
+   * moving*, *do not do what you were asked to do*, the line saying the number
+   * itself is CommBank's and may be dialled, *hang up and call back*, and the
+   * reporting line. Everything item 21 exists to add, gone from the surface a
+   * stranger actually reaches, on the verdict that matters most.
+   *
+   * Unlike the caveats, these are not folded behind a disclosure. Item 12 put
+   * the instruction above the score because it is the part a frightened person
+   * can act on, and an instruction behind a click is an instruction not
+   * followed. `index.html` has rendered the whole list since guidance existed;
+   * two surfaces disagreeing about how much of it a reader gets is the second
+   * copy of a decision this project keeps shipping defects from.
+   */
+  const g = (a.guidance ?? []).map(x => `<li>${esc(x)}</li>`).join('')
   // The organisation they actually named, with its own published number, ahead
   // of any general advice. Decided in the core: which numbers may be offered is
   // a safety question, not a presentation one.
@@ -22,16 +49,109 @@ function render(a) {
   // would be the band-chip mistake a third time.
   const pills = (a.tags ?? []).map(t =>
     `<span class="pill ${esc(t.tone)}">${esc(t.label)}</span>`).join('')
+  // WHICH QUESTION THIS ANSWERED, ahead of the answer.
+  //
+  // Off the payload, never composed here: the CLI worked this out for itself
+  // once, wrote a private table, and the core gained `contextLabel()` so that
+  // three surfaces could not disagree. This form is the fourth and it had never
+  // been told — it passes no context at all, so every result is read as a call
+  // the number made to you, which is the reading that produces "this caller ID
+  // is forged, that is a fact". A reader who was HANDED this number to ring got
+  // that verdict with nothing on the screen saying what had been assumed.
+  //
+  // Saying so is the half that is ours. OFFERING THE CHOICE IS ROADMAP ITEM 22
+  // and is a product decision, not this file's: the same 1800 number swings from
+  // `confirmed` to `insufficient-evidence` across the three readings, and "I'm
+  // not sure" is the easiest thing on a form to click.
+  const ctx = a.contextLabel ? `<p class="rctx">${esc(a.contextLabel)}</p>` : ''
+  // WHAT THE NUMBERING PLAN SAYS ABOUT THE NUMBER, as a fact rather than as a
+  // finding.
+  //
+  // Off the payload, and this surface had never been told it existed —
+  // `planLabel` was extracted into the core precisely because the interactive
+  // page and the CLI each derived the plan word for themselves and the page's
+  // version over-reached, calling an unparseable string "not allocated". Both of
+  // those render it in a neutral meta line. This one rendered it ONLY as a red
+  // "Not allocated" pill, so the fifth surface took a plan fact and showed it
+  // exclusively in the risk channel. The pill is gone (see `tagsFor`); the fact
+  // belongs here, where a reader can see it without being accused by it.
+  const plan = a.number?.planLabel ? `<p class="rplan">${esc(a.number.planLabel)}</p>` : ''
   $('#lout').innerHTML = `<div class="verdict">
     <span class="band b-${esc(a.band)}">${esc(a.bandLabel)}</span>
+    ${ctx}
+    ${plan}
     <h3>${esc(a.headline)}</h3>
     ${pills ? `<div class="pills">${pills}</div>` : ''}
     ${acts ? `<span class="lab">Who to ring</span><div class="acts">${acts}</div>` : ''}
     ${g ? `<span class="lab">What to do</span><ul>${g}</ul>` : ''}
     ${ev ? `<span class="lab">Why</span>${ev}` : ''}
+    ${overflow(a.signals.slice(SIGNALS_SHOWN),
+      (n) => `${n} more finding${n === 1 ? '' : 's'}`,
+      (rest) => rest.map(evRow).join(''))}
     <span class="lab">What this does not tell you</span>
-    <ul>${a.caveats.slice(0, 3).map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+    <ul>${a.caveats.slice(0, CAVEATS_SHOWN).map(c => `<li>${esc(c)}</li>`).join('')}</ul>
+    ${overflow(a.caveats.slice(CAVEATS_SHOWN),
+      (n) => `${n} more thing${n === 1 ? '' : 's'} this does not tell you`,
+      (rest) => `<ul>${rest.map(c => `<li>${esc(c)}</li>`).join('')}</ul>`)}
   </div>`
+}
+
+/**
+ * How many caveats stand open, and what happens to the rest.
+ *
+ * THE REST USED TO BE DROPPED, SILENTLY, AND THAT HAS ALREADY COST ONE DEFECT
+ * HERE. `entry.ts` appended "this page does not check complaint records" last,
+ * so a 1800 number checked against a named bank showed the reader "a clean
+ * result means this number has not been reported" — which presupposes that
+ * reporting was checked — and cut the sentence saying it was not. The corrective
+ * half removed by a truncation that keeps the half it corrects, and removed
+ * exactly when the result is busiest and the page therefore looks most thorough.
+ *
+ * That was fixed by making the important sentence LEAD, which was right and
+ * which left the mechanism in place: caveat four onwards still vanished, and the
+ * ordering only decided which of them. So the fix held exactly as long as
+ * nothing else was added — and then the breach caveat arrived, took the third
+ * slot for any lookup naming an organisation, and pushed the general
+ * caller-ID-forgery sentence off the page. A priority list is not a fix for
+ * dropping things; it is a rule for choosing what to drop.
+ *
+ * Nothing is dropped now. Three stand open, because a wall of qualifications
+ * under a verdict is its own way of not being read, and the remainder is one
+ * click away and COUNTED IN THE SUMMARY, so a reader can see that there is more
+ * rather than having to suspect it.
+ *
+ * AND THE FIX WAS WRITTEN ABOUT CAVEATS RATHER THAN ABOUT DISCARDING, which is
+ * why `render` went on cutting guidance and findings for two more runs in the
+ * three lines directly above the one this fixed. The helper below is now shared
+ * so that a list added to the payload has somewhere to go that is not the floor.
+ */
+const CAVEATS_SHOWN = 3
+
+/**
+ * How many findings stand open before the rest fold.
+ *
+ * Findings ARE folded where instructions are not, and the difference is what
+ * each channel costs a reader who never opens it: a supporting finding behind a
+ * counted disclosure is still visibly there to be read, while an instruction
+ * behind a click is an instruction not followed. Latent rather than live — the
+ * browser build runs on `NO_CORPUS` and nothing reachable there has yet raised
+ * a fifth finding — and fixed anyway, because the mechanism is the defect and
+ * the day a message raises five is not the day to notice it.
+ */
+const SIGNALS_SHOWN = 4
+
+/**
+ * Whatever the open list did not show, folded behind a disclosure that counts
+ * it. `rest` is already sliced by the caller, so this cannot fold a different
+ * remainder from the one that was left out.
+ *
+ * `rows` is supplied rather than assumed because a caveat is a sentence and a
+ * finding is a direction and a summary; flattening one into the other to share
+ * a helper would put a second copy of the row markup in this file.
+ */
+function overflow(rest, summary, rows) {
+  if (rest.length === 0) return ''
+  return `<details class="morecav"><summary>${esc(summary(rest.length))}</summary>${rows(rest)}</details>`
 }
 
 // The organisations the box will actually resolve, from the same registry the
@@ -140,6 +260,9 @@ $('#lf').addEventListener('submit', (e) => {
   document.body.classList.add('listening')
   const q = $('#lq').value.trim()
   if (!q) return
+  // Asking a question means leaving the list you were reading. Otherwise the
+  // answer renders above an open library section and the page shows both.
+  if (location.hash && location.hash !== '#') location.hash = ''
   rememberRecent(q)
   paintRecent()
   render(check(q, {
@@ -186,4 +309,78 @@ $('#lf').addEventListener('submit', (e) => {
 
   box.addEventListener('input', paint)
   paint()
+})()
+
+/* ---------------------------------------------------------------------------
+ * The menu, and the library behind it.
+ *
+ * The front page answers one question. Everything else — 28 organisations, the
+ * reporting contacts, the breach list — is a view, hidden until it is chosen
+ * and shown in place of the front page rather than stacked underneath it.
+ *
+ * ROUTED ON THE HASH, not on a variable, for three reasons that all matter on a
+ * phone: the back button leaves a list instead of leaving the site, a link to a
+ * list can be sent to someone, and a reload stays where it was. The state lives
+ * in the URL, so there is only one of it.
+ *
+ * If this script does not run, every view is an ordinary stacked section and
+ * the burger is hidden. The reference material is safety information and does
+ * not get to depend on a script.
+ * ------------------------------------------------------------------------- */
+;(function library() {
+  const menu = document.getElementById('menu')
+  const btn = document.getElementById('mbtn')
+  const close = document.getElementById('mclose')
+  const views = Array.prototype.slice.call(document.querySelectorAll('.view'))
+  if (!menu || !btn || !views.length) return
+
+  function openMenu() {
+    menu.hidden = false
+    btn.setAttribute('aria-expanded', 'true')
+    document.body.style.overflow = 'hidden'
+    const first = menu.querySelector('.ml a')
+    if (first) first.focus()
+  }
+
+  function closeMenu(restoreFocus) {
+    menu.hidden = true
+    btn.setAttribute('aria-expanded', 'false')
+    document.body.style.overflow = ''
+    if (restoreFocus) btn.focus()
+  }
+
+  /**
+   * Show at most one view. An unknown hash falls back to the front page rather
+   * than to a blank one — a stale or mistyped link must never leave someone
+   * looking at nothing on a page they opened because they were worried.
+   */
+  function route() {
+    const want = (location.hash || '').replace(/^#/, '')
+    let shown = null
+    for (const v of views) {
+      const on = v.id === 'v-' + want
+      v.classList.toggle('on', on)
+      if (on) shown = v
+    }
+    document.body.classList.toggle('viewing', !!shown)
+    if (shown) {
+      const h = shown.querySelector('h2')
+      if (h) h.focus({ preventScroll: true })
+      window.scrollTo(0, 0)
+    }
+  }
+
+  btn.addEventListener('click', openMenu)
+  if (close) close.addEventListener('click', function () { closeMenu(true) })
+  // The scrim is the panel's sibling ground; a click that lands on it is a
+  // click outside the panel.
+  menu.addEventListener('click', function (e) { if (e.target === menu) closeMenu(true) })
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !menu.hidden) closeMenu(true)
+  })
+  menu.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('.ml a')) closeMenu(false)
+  })
+  window.addEventListener('hashchange', route)
+  route()
 })()

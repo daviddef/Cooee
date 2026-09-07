@@ -90,7 +90,11 @@ main{padding:0 0 3rem}
 .b-high,.b-elevated{background:var(--warn-wash);color:var(--warn)}
 .b-low{background:var(--go-wash);color:var(--go)}
 .b-insufficient-evidence{background:var(--surface-2);color:var(--ink-3)}
-.verdict h2{font-size:clamp(1.3rem,3.6vw,1.75rem);font-weight:700;margin-top:.6rem}
+.verdict h2,.verdict h3{font-size:clamp(1.3rem,3.6vw,1.75rem);font-weight:700;margin-top:.6rem}
+.rctx{font-family:var(--fm);font-size:.68rem;letter-spacing:.05em;color:var(--ink-3);margin-top:.55rem}
+/* A plan fact, in the neutral register the other two surfaces already use for
+   it. Deliberately not a pill: a pill has a tone and there is no neutral one. */
+.rplan{font-family:var(--fm);font-size:.68rem;letter-spacing:.05em;color:var(--ink-3);margin-top:.25rem}
 .pills{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.85rem}
 .pill{font-family:var(--fm);font-size:.7rem;letter-spacing:.02em;padding:.34em .7em;border-radius:999px;white-space:nowrap;font-weight:500}
 .pill.risk{background:var(--stop-wash);color:var(--stop)}
@@ -107,15 +111,50 @@ main{padding:0 0 3rem}
 .ev b{color:var(--ink);font-weight:600}
 .fine{margin-top:.5rem;font-size:.86rem;color:var(--ink-3)}
 .fine li{margin-top:.3rem}
+/* The caveats that do not stand open. Deliberately in the fine-print register
+   rather than the section register details.more uses: this sits inside the
+   verdict card, and a 1.15rem heading with a rule above it would read as a new
+   section of the page rather than the end of this answer. */
+details.morecav{margin-top:.6rem}
+details.morecav>summary{cursor:pointer;font-size:.84rem;color:var(--accent);list-style:none}
+details.morecav>summary::-webkit-details-marker{display:none}
+details.morecav>summary::before{content:"+ ";font-family:var(--fm)}
+details.morecav[open]>summary::before{content:"– "}
+details.morecav ul{margin:.4rem 0 0;padding-left:1.15rem}
 
-/* everything that is not the answer */
-details.more{margin-top:1.6rem;border-top:1px solid var(--line);padding-top:1.1rem}
-details.more>summary{cursor:pointer;font-family:var(--fd);font-size:1.15rem;font-weight:600;list-style:none;display:flex;align-items:center;gap:.5rem}
-details.more>summary::-webkit-details-marker{display:none}
-details.more>summary::after{content:"→";color:var(--accent);transition:transform .15s ease}
-details.more[open]>summary::after{transform:rotate(90deg)}
-details.more .lede{color:var(--ink-2);font-size:.94rem;margin-top:.5rem;max-width:62ch}
-.more .cnt{font-family:var(--fm);font-size:.7rem;color:var(--ink-3);font-weight:400}
+/* the burger, and the library behind it */
+.brandbar{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.burger{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--fd);font-weight:600;font-size:.95rem;padding:.5rem .8rem;border:1px solid #2B6B70;border-radius:999px;background:#08444A;color:#BFE7E9;cursor:pointer}
+.burger svg{width:1.15rem;height:1.15rem}
+.burger:hover{border-color:var(--bright);color:#fff}
+.menu[hidden]{display:none}
+.menu{position:fixed;inset:0;z-index:60;background:rgba(4,20,22,.55);display:flex;justify-content:flex-end}
+.mpanel{width:min(23rem,88vw);height:100%;overflow-y:auto;background:var(--deep);color:var(--on-deep);padding:1.1rem 1.2rem 2.5rem;box-shadow:-14px 0 40px -18px rgba(0,0,0,.8)}
+.mhead{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.mhead span{font-family:var(--fd);font-size:1.15rem;font-weight:700}
+#mclose{font-size:1.5rem;line-height:1;padding:.2rem .5rem;border:0;border-radius:6px;background:transparent;color:#BFE7E9;cursor:pointer}
+#mclose:hover{color:#fff}
+.mg{font-family:var(--fm);font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;color:#7FC0C4;margin-top:1.5rem}
+.mg span{display:block;letter-spacing:0;text-transform:none;font-family:var(--fb);font-size:.78rem;color:#9FD2D5;margin-top:.25rem}
+.ml{list-style:none;margin:.5rem 0 0;padding:0}
+.ml a{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.7rem .1rem;color:var(--on-deep);text-decoration:none;border-bottom:1px solid #1A5A60;font-size:1rem}
+.ml a:hover{color:var(--bright)}
+.ml .cnt{font-family:var(--fm);font-size:.75rem;color:#7FC0C4}
+/* A view is one library section, shown in place of the front page. Without a
+   script every one of them renders as an ordinary stacked section, which is
+   what this page did before the menu existed. */
+.view{display:none;padding-top:.4rem}
+.view.on{display:block}
+.back{display:inline-block;font-size:.86rem;text-decoration:none;margin-bottom:.9rem}
+.back:hover{text-decoration:underline}
+.view>h2{font-size:1.6rem;font-weight:700;outline:none}
+.view .lede{color:var(--ink-2);font-size:.94rem;margin-top:.5rem;max-width:62ch}
+.view .cnt{font-family:var(--fm);font-size:.8rem;color:var(--ink-3);font-weight:400}
+/* Reading a list: the shout is not the point any more, so the header gives its
+   room back and keeps only the brand and the box you type in. */
+.viewing header h1,.viewing header .say,.viewing header .opts,.viewing header .recent,.viewing header .tiny{display:none}
+.viewing header{padding-bottom:1.1rem}
+.viewing .verdict{margin-top:0}
 .org{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1rem;margin-top:.8rem}
 .org h3{font-size:1.05rem;font-weight:600}
 .how{font-size:.9rem;color:var(--ink-2);margin-top:.35rem}
@@ -156,6 +195,8 @@ tr:last-child td{border-bottom:none}
 .bcl{font-size:.74rem;padding:.2rem .5rem;border-radius:999px;border:1px solid var(--line);color:var(--ink-2)}
 .bwhy{font-size:.85rem;color:var(--ink-2);margin-top:.55rem}
 .bout{font-size:.83rem;color:var(--ink-2);margin-top:.4rem;font-style:italic}
+/* The citation is not part of the claim, so it does not inherit the italic. */
+.bout a{font-style:normal;white-space:nowrap}
 .bsrc{margin-top:.45rem}
 .bsrc a{font-size:.8rem}
 .bfoot{font-size:.82rem;color:var(--ink-3);margin-top:1rem;line-height:1.55}
@@ -175,12 +216,20 @@ footer p+p{margin-top:.5rem}
   .listening .brand svg{animation:cooee .6s ease}
   @keyframes cooee{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
 }
-</style></head><body>
+</style>
+<noscript><style>.view{display:block}.burger{display:none}</style></noscript>
+</head><body>
 
 <header><div class="wrap">
-  <div class="brand">
-    <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M206 115 A 178 178 0 0 0 206 397" fill="none" stroke="currentColor" stroke-width="50" stroke-linecap="round"/><circle cx="338" cy="256" r="47" fill="currentColor"/></svg>
-    <span>Cooee</span>
+  <div class="brandbar">
+    <div class="brand">
+      <svg viewBox="0 0 512 512" aria-hidden="true"><path d="M206 115 A 178 178 0 0 0 206 397" fill="none" stroke="currentColor" stroke-width="50" stroke-linecap="round"/><circle cx="338" cy="256" r="47" fill="currentColor"/></svg>
+      <span>Cooee</span>
+    </div>
+    <button type="button" id="mbtn" class="burger" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+      <span>Lists</span>
+    </button>
   </div>
   <h1>Who&rsquo;s this?</h1>
   <p class="say">Give a number or a sender a cooee. We&rsquo;ll tell you what&rsquo;s known about it &mdash; and what isn&rsquo;t.</p>
@@ -221,12 +270,41 @@ footer p+p{margin-top:.5rem}
   <p class="tiny">Nothing you type leaves your phone. Recent checks are remembered on this device only.</p>
 </div></header>
 
+
+<nav id="menu" class="menu" hidden>
+  <div class="mpanel" role="dialog" aria-modal="true" aria-label="Everything else on this page">
+    <div class="mhead">
+      <span>Everything else</span>
+      <button type="button" id="mclose" aria-label="Close menu">&times;</button>
+    </div>
+    
+    <p class="mg">Who to ring <span>Fraud lines, cited to each organisation&rsquo;s own page.</span></p>
+    <ul class="ml">
+      <li><a href="#banks">Banks<span class="cnt">18</span></a></li>
+      <li><a href="#government">Government agencies<span class="cnt">2</span></a></li>
+      <li><a href="#telco">Phone and internet providers<span class="cnt">3</span></a></li>
+      <li><a href="#utility">Energy retailers<span class="cnt">3</span></a></li>
+      <li><a href="#delivery">Post and delivery<span class="cnt">1</span></a></li>
+      <li><a href="#support-service">Support services<span class="cnt">1</span></a></li>
+    </ul>
+    <p class="mg">Report and check <span>After the fact.</span></p>
+    <ul class="ml">
+      <li><a href="#report">Who to tell</a></li>
+      <li><a href="#breaches">Where your details may already be<span class="cnt">14</span></a></li>
+    </ul>
+    <p class="mg">How this works</p>
+    <ul class="ml">
+      <li><a href="#spoofing">Why a real number can show on a scam call</a></li>
+    </ul>
+  </div>
+</nav>
+
 <main class="wrap">
 <div id="lout" aria-live="polite"></div>
 
-
-<details class="more">
-  <summary>Banks <span class="cnt">18</span></summary>
+<section class="view" id="v-banks" aria-labelledby="h-banks">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-banks" tabindex="-1">Banks <span class="cnt">18</span></h2>
   <p class="lede">Fraud line first. Tap a number to call it. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
   
   <section class="org" id="commonwealth-bank">
@@ -948,254 +1026,10 @@ footer p+p{margin-top:.5rem}
     
     
   </section>
-</details>
-
-<details class="more">
-  <summary>Who to tell</summary>
-  <p class="lede">A few minutes, and it is what the national scam figures are built from. Worth doing even if you lost nothing.</p>
-  <div class="report">
-    
-    <div class="rep">
-      <div><h3>Your bank</h3></div>
-      <p>Stop transactions and freeze accounts. Do this first if money has moved.</p>
-    </div>
-    <div class="rep">
-      <div><h3>Scamwatch (ACCC)</h3><a class="ph" href="https://portal.scamwatch.gov.au/" rel="noopener">Online form</a></div>
-      <p>The national scam report register. Report every scam here, even if you lost nothing — it is what the statistics are built from.</p>
-    </div>
-    <div class="rep">
-      <div><h3>IDCARE</h3><a class="ph" href="tel:+611800595160">1800 595 160</a><a class="ph" href="https://www.idcare.org/" rel="noopener">Phone or web</a></div>
-      <p>Free case support if your identity or personal details have been misused.</p>
-    </div>
-    <div class="rep">
-      <div><h3>ReportCyber</h3><a class="ph" href="https://www.cyber.gov.au/report-and-recover/report" rel="noopener">Online form</a></div>
-      <p>Cybercrime report that goes to police — use when money was stolen, information taken, or you are being extorted.</p>
-    </div>
-    <div class="rep">
-      <div><h3>Police</h3><a class="ph" href="tel:000">000</a></div>
-      <p>Immediate danger or a threat to your safety.</p>
-    </div>
-    <div class="rep">
-      <div><h3>AFCA</h3><a class="ph" href="https://www.afca.org.au/" rel="noopener">Online or phone</a></div>
-      <p>Free external dispute resolution if your bank will not reimburse you and internal complaints have failed.</p>
-    </div>
-  </div>
-</details>
-
-
-<details class="more" id="breaches">
-  <summary>Where your details may already be</summary>
-  <p class="lede">If a stranger rang knowing your name and your bank, they may not have guessed. 14 recorded breaches, most recent first.</p>
-
-  <div class="bnote">
-    <p><b>We do not check your email address here, and it is worth saying why.</b> Every service that will tell you whether an address appears in a breach takes that address in plain text and keeps it. This page promises that nothing you type into it leaves your phone, and that promise is worth more than this feature. So the list below is the other way round: recognise the organisations you had an account with. That requires typing nothing about yourself.</p>
-    <p>If you do want an address checked, <a href="https://haveibeenpwned.com" rel="noopener">Have I Been Pwned</a> is the one to use &mdash; run by a security researcher, free, and it will not sell you anything. You will be handing it your email address, which is the trade.</p>
-  </div>
-
-  <label class="bfl" for="bfilter">Find an organisation</label>
-  <input id="bfilter" type="search" autocomplete="off" placeholder="Type a name &mdash; Optus, Medibank, a sector&hellip;">
-  <p class="tiny" id="bcount" aria-live="polite"></p>
-
-  <div class="brl">
-  <article class="brc" data-org="qantas airline">
-    <div class="brh">
-      <span class="bb bb-high">High</span>
-      <time>2025-07-02</time>
-    </div>
-    <h3>Qantas</h3>
-    <p class="bmeta">Airline &middot; 5.7 million people</p>
-    <p class="bsum">A third-party call centre platform was reached by social engineering. Names, email addresses, phone numbers, dates of birth and frequent flyer numbers. Qantas stated no credit card details, financial information or passport details were held in that system.</p>
-    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
-    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
-    <p class="bout">Reported to the OAIC and the Australian Cyber Security Centre</p>
-    <p class="bsrc"><a href="https://www.qantas.com/au/en/support/cyber-incident.html" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="genea health">
-    <div class="brh">
-      <span class="bb bb-severe">Severe</span>
-      <time>2025-02-19</time>
-    </div>
-    <h3>Genea</h3>
-    <p class="bmeta">Health &middot; number not disclosed</p>
-    <p class="bsum">A fertility clinic. Medicare numbers, private health insurance details, medical history and fertility treatment records were exfiltrated and later published.</p>
-    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span></div>
-    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
-    <p class="bout">Reported to the OAIC; Supreme Court of NSW injunction restraining dissemination of the data</p>
-    <p class="bsrc"><a href="https://www.genea.com.au/cyber-incident" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="finsure finance">
-    <div class="brh">
-      <span class="bb bb-moderate">Moderate</span>
-      <time>2024-10-15</time>
-    </div>
-    <h3>Finsure</h3>
-    <p class="bmeta">Finance &middot; 296,124 people</p>
-    <p class="bsum">A mortgage aggregator. Names, email addresses, phone numbers and physical addresses.</p>
-    <div class="bcls"><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
-    <p class="bwhy"><b>Why moderate:</b> This is the list the scam calls are dialled from. Changing it means telling everyone you know.</p>
-    
-    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Finsure" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="digidirect retail">
-    <div class="brh">
-      <span class="bb bb-high">High</span>
-      <time>2024-09-29</time>
-    </div>
-    <h3>digiDirect</h3>
-    <p class="bmeta">Retail &middot; 304,337 people</p>
-    <p class="bsum">Names, dates of birth, email addresses, phone numbers and addresses from an online camera retailer.</p>
-    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
-    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
-    
-    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/digiDirect" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="ticketek ticketing">
-    <div class="brh">
-      <span class="bb bb-high">High</span>
-      <time>2024-05-31</time>
-    </div>
-    <h3>Ticketek</h3>
-    <p class="bmeta">Ticketing &middot; 18 million people</p>
-    <p class="bsum">Names, dates of birth and email addresses held in a cloud platform run by a third-party supplier. Ticketek stated no card or account details were involved.</p>
-    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Name</span><span class="bcl">Email address</span><span class="bcl">Gender</span></div>
-    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
-    
-    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Ticketek" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="medisecure health">
-    <div class="brh">
-      <span class="bb bb-severe">Severe</span>
-      <time>2024-05-16</time>
-    </div>
-    <h3>MediSecure</h3>
-    <p class="bmeta">Health &middot; 13 million people</p>
-    <p class="bsum">Ransomware attack on an electronic prescription provider. Prescription records — the medicines people were dispensed — along with names, addresses, Medicare and healthcare identifier numbers.</p>
-    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span></div>
-    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
-    <p class="bout">MediSecure entered administration in June 2024</p>
-    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/medisecure-data-breach" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="tangerine telecom telecommunications">
-    <div class="brh">
-      <span class="bb bb-high">High</span>
-      <time>2024-02-18</time>
-    </div>
-    <h3>Tangerine Telecom</h3>
-    <p class="bmeta">Telecommunications &middot; 243,462 people</p>
-    <p class="bsum">Names, dates of birth, email addresses, phone numbers, addresses and password hashes from an internet provider.</p>
-    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Passwords</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
-    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
-    
-    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Tangerine" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="dymocks retail">
-    <div class="brh">
-      <span class="bb bb-high">High</span>
-      <time>2023-06-20</time>
-    </div>
-    <h3>Dymocks</h3>
-    <p class="bmeta">Retail &middot; 836,120 people</p>
-    <p class="bsum">Booklover loyalty records: names, dates of birth, email addresses, phone numbers, postal addresses and gender.</p>
-    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span><span class="bcl">Gender</span></div>
-    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
-    
-    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Dymocks" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="latitude financial finance">
-    <div class="brh">
-      <span class="bb bb-severe">Severe</span>
-      <time>2023-03-16</time>
-    </div>
-    <h3>Latitude Financial</h3>
-    <p class="bmeta">Finance &middot; 7.9 million people</p>
-    <p class="bsum">Around 7.9 million Australian and New Zealand driver licence numbers, plus roughly 53,000 passport numbers and a smaller set of financial statements.</p>
-    <div class="bcls"><span class="bcl">Identity documents</span><span class="bcl">Bank or card details</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
-    <p class="bwhy"><b>Why severe:</b> A passport, licence or Medicare number cannot be quietly changed. Replacing one costs money and weeks, and the old number stays useful to whoever holds it.</p>
-    <p class="bout">OAIC and New Zealand Privacy Commissioner joint investigation</p>
-    <p class="bsrc"><a href="https://www.latitudefinancial.com.au/latitude-cyber-incident/" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="medibank private health insurance">
-    <div class="brh">
-      <span class="bb bb-severe">Severe</span>
-      <time>2022-10-13</time>
-    </div>
-    <h3>Medibank Private</h3>
-    <p class="bmeta">Health insurance &middot; 9.7 million people</p>
-    <p class="bsum">Customer names, dates of birth, Medicare numbers and health claims data — including the procedures people had claimed for — were taken and later published.</p>
-    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
-    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
-    <p class="bout">OAIC alleges Medibank seriously interfered with the privacy of 9.7 million Australians; civil penalty proceedings on foot</p>
-    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/oaic-takes-civil-penalty-action-against-medibank" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="optus telecommunications">
-    <div class="brh">
-      <span class="bb bb-severe">Severe</span>
-      <time>2022-09-22</time>
-    </div>
-    <h3>Optus</h3>
-    <p class="bmeta">Telecommunications &middot; 9.8 million people</p>
-    <p class="bsum">Names, dates of birth, phone numbers, email and home addresses taken from current and former customers. For about 2.1 million people the records included passport, driver licence or Medicare numbers.</p>
-    <div class="bcls"><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
-    <p class="bwhy"><b>Why severe:</b> A passport, licence or Medicare number cannot be quietly changed. Replacing one costs money and weeks, and the old number stays useful to whoever holds it.</p>
-    <p class="bout">OAIC civil penalty proceedings on foot in the Federal Court</p>
-    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/oaic-takes-civil-penalty-action-against-optus" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="amart furniture retail">
-    <div class="brh">
-      <span class="bb bb-high">High</span>
-      <time>2022-05-16</time>
-    </div>
-    <h3>Amart Furniture</h3>
-    <p class="bmeta">Retail &middot; 108,940 people</p>
-    <p class="bsum">Names, email addresses, phone numbers and password hashes.</p>
-    <div class="bcls"><span class="bcl">Passwords</span><span class="bcl">Phone number</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
-    <p class="bwhy"><b>Why high:</b> Changeable this afternoon — but only on the accounts you remember reusing it on.</p>
-    
-    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/AmartFurniture" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="australian clinical labs (medlab pathology) health">
-    <div class="brh">
-      <span class="bb bb-severe">Severe</span>
-      <time>2022-02-25</time>
-    </div>
-    <h3>Australian Clinical Labs (Medlab Pathology)</h3>
-    <p class="bmeta">Health &middot; 223,000 people</p>
-    <p class="bsum">Pathology records including medical and health information, Medicare numbers and some credit card details, published on the dark web.</p>
-    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Bank or card details</span><span class="bcl">Date of birth</span><span class="bcl">Home address</span><span class="bcl">Name</span></div>
-    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
-    <p class="bout">Federal Court ordered a $5.8 million civil penalty on 8 October 2025 — the first civil penalty ever imposed under the Privacy Act</p>
-    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/australian-clinical-labs-ordered-to-pay-penalties-in-relation-to-medlab-pathology-data-breach-in-first-for-privacy-act" rel="noopener">Source</a></p>
-  </article>
-  <article class="brc" data-org="canva technology">
-    <div class="brh">
-      <span class="bb bb-high">High</span>
-      <time>2019-05-24</time>
-    </div>
-    <h3>Canva</h3>
-    <p class="bmeta">Technology &middot; 137 million people</p>
-    <p class="bsum">Usernames, email addresses, cities of residence and password hashes for 137 million accounts.</p>
-    <div class="bcls"><span class="bcl">Passwords</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
-    <p class="bwhy"><b>Why high:</b> Changeable this afternoon — but only on the accounts you remember reusing it on.</p>
-    
-    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Canva" rel="noopener">Source</a></p>
-  </article></div>
-
-  <p class="bfoot">There is no official list of Australian data breaches. The OAIC runs the Notifiable Data Breaches scheme and publishes the totals &mdash; <a href="https://www.oaic.gov.au/news/blog/latest-notifiable-data-breach-statistics-for-january-to-june-2025" rel="noopener">532 notifications in January to June 2025</a>, 58% of them criminal attacks &mdash; but never names the organisation. So this list is compiled from public disclosures and each entry carries its source. A name missing from it means nobody here has recorded it, not that the organisation was never breached.</p>
-</details>
-
-<details class="more">
-  <summary>Why your bank&rsquo;s own number can show on a scam call</summary>
-  <div class="explain">
-    <p>The number your phone displays is supplied by whoever placed the call, and it can be set to anything. Seeing your bank&rsquo;s real number does not mean your bank is calling.</p>
-    <p>There is a useful tell. Numbers starting <b>13, 1300 and 1800</b> are inbound service lines &mdash; under the Australian numbering plan they cannot make outgoing calls at all. So if one of those shows as your caller, the caller ID has definitely been forged.</p>
-    <p>Some organisations go further, and where they do it is written in a red panel under that organisation above. A few publish specific numbers they will never ring you from &mdash; those are listed there to be recognised, not to be rung. And some publish that <em>none</em> of their calls display a number at all, which settles it for every number they have: a caller ID naming them is forged whatever it shows, including their own real numbers.</p>
-    <p>The reverse is also true: those same numbers are perfectly safe for <em>you</em> to ring. The direction is what matters.</p>
-  </div>
-</details>
-
-
-<details class="more">
-  <summary>Government agencies <span class="cnt">2</span></summary>
+</section>
+<section class="view" id="v-government" aria-labelledby="h-government">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-government" tabindex="-1">Government agencies <span class="cnt">2</span></h2>
   <p class="lede">Agencies impersonated often enough to be worth checking. Read the note under each one: some publish a policy about how they call you, which is stronger evidence than any list of numbers. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
   
   <section class="org" id="australian-taxation-office">
@@ -1331,9 +1165,10 @@ footer p+p{margin-top:.5rem}
     
     
   </section>
-</details>
-<details class="more">
-  <summary>Phone and internet providers <span class="cnt">3</span></summary>
+</section>
+<section class="view" id="v-telco" aria-labelledby="h-telco">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-telco" tabindex="-1">Phone and internet providers <span class="cnt">3</span></h2>
   <p class="lede">Your telco is who to tell if your number has been ported away from you without your knowledge, which is how a scammer gets past a code sent by text. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
   
   <section class="org" id="telstra">
@@ -1416,9 +1251,10 @@ footer p+p{margin-top:.5rem}
     
     
   </section>
-</details>
-<details class="more">
-  <summary>Energy retailers <span class="cnt">3</span></summary>
+</section>
+<section class="view" id="v-utility" aria-labelledby="h-utility">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-utility" tabindex="-1">Energy retailers <span class="cnt">3</span></h2>
   <p class="lede">Billing and disconnection threats are a common approach. Your retailer’s own number is on your bill as well as here. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
   
   <section class="org" id="energyaustralia">
@@ -1481,9 +1317,10 @@ footer p+p{margin-top:.5rem}
     
     
   </section>
-</details>
-<details class="more">
-  <summary>Post and delivery <span class="cnt">1</span></summary>
+</section>
+<section class="view" id="v-delivery" aria-labelledby="h-delivery">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-delivery" tabindex="-1">Post and delivery <span class="cnt">1</span></h2>
   <p class="lede">A missed-delivery message asking for a small fee is one of the most reported scams in Australia. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
   
   <section class="org" id="australia-post">
@@ -1516,9 +1353,10 @@ footer p+p{margin-top:.5rem}
     
     
   </section>
-</details>
-<details class="more">
-  <summary>Support services <span class="cnt">1</span></summary>
+</section>
+<section class="view" id="v-support-service" aria-labelledby="h-support-service">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-support-service" tabindex="-1">Support services <span class="cnt">1</span></h2>
   <p class="lede">For help after the fact — recovering identity documents, and working out what to do next. This is not a complete list &mdash; these organisations publish other legitimate numbers too, so a number missing from here is not evidence of a scam.</p>
   
   <section class="org" id="idcare">
@@ -1536,9 +1374,250 @@ footer p+p{margin-top:.5rem}
     
     
   </section>
-</details>
+</section>
+<section class="view" id="v-report" aria-labelledby="h-report">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-report" tabindex="-1">Who to tell</h2>
+  <p class="lede">A few minutes, and it is what the national scam figures are built from. Worth doing even if you lost nothing.</p>
+  <div class="report">
+    
+    <div class="rep">
+      <div><h3>Your bank</h3></div>
+      <p>Stop transactions and freeze accounts. Do this first if money has moved.</p>
+    </div>
+    <div class="rep">
+      <div><h3>Scamwatch (ACCC)</h3><a class="ph" href="https://portal.scamwatch.gov.au/" rel="noopener">Online form</a></div>
+      <p>The national scam report register. Report every scam here, even if you lost nothing — it is what the statistics are built from.</p>
+    </div>
+    <div class="rep">
+      <div><h3>IDCARE</h3><a class="ph" href="tel:+611800595160">1800 595 160</a><a class="ph" href="https://www.idcare.org/" rel="noopener">Phone or web</a></div>
+      <p>Free case support if your identity or personal details have been misused.</p>
+    </div>
+    <div class="rep">
+      <div><h3>ReportCyber</h3><a class="ph" href="https://www.cyber.gov.au/report-and-recover/report" rel="noopener">Online form</a></div>
+      <p>Cybercrime report that goes to police — use when money was stolen, information taken, or you are being extorted.</p>
+    </div>
+    <div class="rep">
+      <div><h3>Police</h3><a class="ph" href="tel:000">000</a></div>
+      <p>Immediate danger or a threat to your safety.</p>
+    </div>
+    <div class="rep">
+      <div><h3>AFCA</h3><a class="ph" href="https://www.afca.org.au/" rel="noopener">Online or phone</a></div>
+      <p>Free external dispute resolution if your bank will not reimburse you and internal complaints have failed.</p>
+    </div>
+  </div>
+</section>
+<section class="view" id="v-breaches" aria-labelledby="h-breaches">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-breaches" tabindex="-1">Where your details may already be <span class="cnt">14</span></h2>
+  
+  <p class="lede">If a stranger rang knowing your name and your bank, they may not have guessed. 14 recorded breaches, most recent first.</p>
 
+  <div class="bnote">
+    <p><b>We do not check your email address here, and it is worth saying why.</b> Every service that will tell you whether an address appears in a breach takes that address in plain text and keeps it. This page promises that nothing you type into it leaves your phone, and that promise is worth more than this feature. So the list below is the other way round: recognise the organisations you had an account with. That requires typing nothing about yourself.</p>
+    <p>If you do want an address checked, <a href="https://haveibeenpwned.com" rel="noopener">Have I Been Pwned</a> is the one to use &mdash; run by a security researcher, free, and it will not sell you anything. You will be handing it your email address, which is the trade.</p>
+  </div>
 
+  <label class="bfl" for="bfilter">Find an organisation</label>
+  <input id="bfilter" type="search" autocomplete="off" placeholder="Type a name &mdash; Optus, Medibank, a sector&hellip;">
+  <p class="tiny" id="bcount" aria-live="polite"></p>
+
+  <div class="brl">
+  <article class="brc" data-org="qantas airline">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2025-07-02</time>
+    </div>
+    <h3>Qantas</h3>
+    <p class="bmeta">Airline &middot; 5.7 million people</p>
+    <p class="bsum">A third-party call centre platform was reached by social engineering. Names, email addresses, phone numbers, dates of birth and frequent flyer numbers. Qantas stated no credit card details, financial information or passport details were held in that system.</p>
+    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
+    <p class="bout">Reported to the OAIC and the Australian Cyber Security Centre <a href="https://www.qantas.com/au/en/support/cyber-incident.html" rel="noopener">Outcome source</a></p>
+    <p class="bsrc"><a href="https://www.qantas.com/au/en/support/cyber-incident.html" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="genea health">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2025-02-19</time>
+    </div>
+    <h3>Genea</h3>
+    <p class="bmeta">Health &middot; number not disclosed</p>
+    <p class="bsum">A fertility clinic. Medicare numbers, private health insurance details, medical history and fertility treatment records were exfiltrated and later published.</p>
+    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span></div>
+    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
+    <p class="bout">Reported to the OAIC; Supreme Court of NSW injunction restraining dissemination of the data <a href="https://www.genea.com.au/cyber-incident" rel="noopener">Outcome source</a></p>
+    <p class="bsrc"><a href="https://www.genea.com.au/cyber-incident" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="finsure finance">
+    <div class="brh">
+      <span class="bb bb-moderate">Moderate</span>
+      <time>2024-10-15</time>
+    </div>
+    <h3>Finsure</h3>
+    <p class="bmeta">Finance &middot; 296,124 people</p>
+    <p class="bsum">A mortgage aggregator. Names, email addresses, phone numbers and physical addresses.</p>
+    <div class="bcls"><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why moderate:</b> This is the list the scam calls are dialled from. Changing it means telling everyone you know.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Finsure" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="digidirect retail">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2024-09-29</time>
+    </div>
+    <h3>digiDirect</h3>
+    <p class="bmeta">Retail &middot; 304,337 people</p>
+    <p class="bsum">Names, dates of birth, email addresses, phone numbers and addresses from an online camera retailer.</p>
+    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/digiDirect" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="ticketek ticketing">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2024-05-31</time>
+    </div>
+    <h3>Ticketek</h3>
+    <p class="bmeta">Ticketing &middot; 18 million people</p>
+    <p class="bsum">Names, dates of birth and email addresses held in a cloud platform run by a third-party supplier. Ticketek stated no card or account details were involved.</p>
+    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Name</span><span class="bcl">Email address</span><span class="bcl">Gender</span></div>
+    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Ticketek" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="medisecure health">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2024-05-16</time>
+    </div>
+    <h3>MediSecure</h3>
+    <p class="bmeta">Health &middot; 13 million people</p>
+    <p class="bsum">Ransomware attack on an electronic prescription provider. Prescription records — the medicines people were dispensed — along with names, addresses, Medicare and healthcare identifier numbers.</p>
+    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span></div>
+    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
+    <p class="bout">MediSecure entered administration in June 2024 <a href="https://www.oaic.gov.au/news/media-centre/medisecure-data-breach" rel="noopener">Outcome source</a></p>
+    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/medisecure-data-breach" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="tangerine telecom telecommunications">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2024-02-18</time>
+    </div>
+    <h3>Tangerine Telecom</h3>
+    <p class="bmeta">Telecommunications &middot; 243,462 people</p>
+    <p class="bsum">Names, dates of birth, email addresses, phone numbers, addresses and password hashes from an internet provider.</p>
+    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Passwords</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Tangerine" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="dymocks retail">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2023-06-20</time>
+    </div>
+    <h3>Dymocks</h3>
+    <p class="bmeta">Retail &middot; 836,120 people</p>
+    <p class="bsum">Booklover loyalty records: names, dates of birth, email addresses, phone numbers, postal addresses and gender.</p>
+    <div class="bcls"><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span><span class="bcl">Gender</span></div>
+    <p class="bwhy"><b>Why high:</b> Unchangeable, and one of the three things almost every identity check asks for.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Dymocks" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="latitude financial finance">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2023-03-16</time>
+    </div>
+    <h3>Latitude Financial</h3>
+    <p class="bmeta">Finance &middot; 7.9 million people</p>
+    <p class="bsum">Around 7.9 million Australian and New Zealand driver licence numbers, plus roughly 53,000 passport numbers and a smaller set of financial statements.</p>
+    <div class="bcls"><span class="bcl">Identity documents</span><span class="bcl">Bank or card details</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why severe:</b> A passport, licence or Medicare number cannot be quietly changed. Replacing one costs money and weeks, and the old number stays useful to whoever holds it.</p>
+    <p class="bout">OAIC and New Zealand Privacy Commissioner joint investigation <a href="https://www.oaic.gov.au/news/media-centre/oaic-and-new-zealand-privacy-commissioner-open-joint-investigation-into-latitude-financial-services" rel="noopener">Outcome source</a></p>
+    <p class="bsrc"><a href="https://www.latitudefinancial.com.au/latitude-cyber-incident/" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="medibank private health insurance">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2022-10-13</time>
+    </div>
+    <h3>Medibank Private</h3>
+    <p class="bmeta">Health insurance &middot; 9.7 million people</p>
+    <p class="bsum">Customer names, dates of birth, Medicare numbers and health claims data — including the procedures people had claimed for — were taken and later published.</p>
+    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
+    <p class="bout">OAIC alleges Medibank seriously interfered with the privacy of 9.7 million Australians; civil penalty proceedings on foot <a href="https://www.oaic.gov.au/news/media-centre/oaic-takes-civil-penalty-action-against-medibank" rel="noopener">Outcome source</a></p>
+    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/oaic-takes-civil-penalty-action-against-medibank" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="optus telecommunications">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2022-09-22</time>
+    </div>
+    <h3>Optus</h3>
+    <p class="bmeta">Telecommunications &middot; 9.8 million people</p>
+    <p class="bsum">Names, dates of birth, phone numbers, email and home addresses taken from current and former customers. For about 2.1 million people the records included passport, driver licence or Medicare numbers.</p>
+    <div class="bcls"><span class="bcl">Identity documents</span><span class="bcl">Date of birth</span><span class="bcl">Phone number</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why severe:</b> A passport, licence or Medicare number cannot be quietly changed. Replacing one costs money and weeks, and the old number stays useful to whoever holds it.</p>
+    <p class="bout">OAIC civil penalty proceedings on foot in the Federal Court <a href="https://www.oaic.gov.au/news/media-centre/oaic-takes-civil-penalty-action-against-optus" rel="noopener">Outcome source</a></p>
+    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/oaic-takes-civil-penalty-action-against-optus" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="amart furniture retail">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2022-05-16</time>
+    </div>
+    <h3>Amart Furniture</h3>
+    <p class="bmeta">Retail &middot; 108,940 people</p>
+    <p class="bsum">Names, email addresses, phone numbers and password hashes.</p>
+    <div class="bcls"><span class="bcl">Passwords</span><span class="bcl">Phone number</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why high:</b> Changeable this afternoon — but only on the accounts you remember reusing it on.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/AmartFurniture" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="australian clinical labs (medlab pathology) health">
+    <div class="brh">
+      <span class="bb bb-severe">Severe</span>
+      <time>2022-02-25</time>
+    </div>
+    <h3>Australian Clinical Labs (Medlab Pathology)</h3>
+    <p class="bmeta">Health &middot; 223,000 people</p>
+    <p class="bsum">Pathology records including medical and health information, Medicare numbers and some credit card details, published on the dark web.</p>
+    <div class="bcls"><span class="bcl">Health records</span><span class="bcl">Identity documents</span><span class="bcl">Bank or card details</span><span class="bcl">Date of birth</span><span class="bcl">Home address</span><span class="bcl">Name</span></div>
+    <p class="bwhy"><b>Why severe:</b> Sensitive information under the Privacy Act, and permanent. There is no version of your medical history you can reissue.</p>
+    <p class="bout">Federal Court ordered a $5.8 million civil penalty on 8 October 2025 — the first civil penalty ever imposed under the Privacy Act <a href="https://www.oaic.gov.au/news/media-centre/australian-clinical-labs-ordered-to-pay-penalties-in-relation-to-medlab-pathology-data-breach-in-first-for-privacy-act" rel="noopener">Outcome source</a></p>
+    <p class="bsrc"><a href="https://www.oaic.gov.au/news/media-centre/australian-clinical-labs-ordered-to-pay-penalties-in-relation-to-medlab-pathology-data-breach-in-first-for-privacy-act" rel="noopener">Source</a></p>
+  </article>
+  <article class="brc" data-org="canva technology">
+    <div class="brh">
+      <span class="bb bb-high">High</span>
+      <time>2019-05-24</time>
+    </div>
+    <h3>Canva</h3>
+    <p class="bmeta">Technology &middot; 137 million people</p>
+    <p class="bsum">Usernames, email addresses, cities of residence and password hashes for 137 million accounts.</p>
+    <div class="bcls"><span class="bcl">Passwords</span><span class="bcl">Home address</span><span class="bcl">Name</span><span class="bcl">Email address</span></div>
+    <p class="bwhy"><b>Why high:</b> Changeable this afternoon — but only on the accounts you remember reusing it on.</p>
+    
+    <p class="bsrc"><a href="https://haveibeenpwned.com/Breach/Canva" rel="noopener">Source</a></p>
+  </article></div>
+
+  <p class="bfoot">There is no official list of Australian data breaches. The OAIC runs the Notifiable Data Breaches scheme and publishes the totals &mdash; <a href="https://www.oaic.gov.au/news/blog/latest-notifiable-data-breach-statistics-for-january-to-june-2025" rel="noopener">532 notifications in January to June 2025</a>, 58% of them criminal attacks &mdash; but never names the organisation. So this list is compiled from public disclosures and each entry carries its source. A name missing from it means nobody here has recorded it, not that the organisation was never breached.</p>
+</section>
+<section class="view" id="v-spoofing" aria-labelledby="h-spoofing">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-spoofing" tabindex="-1">Why a real number can show on a scam call</h2>
+  <div class="explain">
+    <p>The number your phone displays is supplied by whoever placed the call, and it can be set to anything. Seeing your bank&rsquo;s real number does not mean your bank is calling.</p>
+    <p>There is a useful tell. Numbers starting <b>13, 1300 and 1800</b> are inbound service lines &mdash; under the Australian numbering plan they cannot make outgoing calls at all. So if one of those shows as your caller, the caller ID has definitely been forged.</p>
+    <p>Some organisations go further, and where they do it is written in a red panel under that organisation in the lists above. A few publish specific numbers they will never ring you from &mdash; those are listed there to be recognised, not to be rung. And some publish that <em>none</em> of their calls display a number at all, which settles it for every number they have: a caller ID naming them is forged whatever it shows, including their own real numbers.</p>
+    <p>The reverse is also true: those same numbers are perfectly safe for <em>you</em> to ring. The direction is what matters.</p>
+  </div>
+</section>
 </main>
 
 <footer><div class="wrap">
