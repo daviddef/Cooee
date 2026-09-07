@@ -31,6 +31,10 @@ $('#lf').addEventListener('submit', (e) => {
     claimed: $('#lclaimed').value,
     org: $('#lorg').value.trim(),
     code: $('#lcode').checked,
-    sms: $('#lsms').checked ? { sender: q } : undefined,
+    // Pasting a message means it is a message, so the box need not also be
+    // ticked — and the text decides whether there is a link.
+    sms: ($('#lsms').checked || $('#ltext').value.trim())
+      ? { sender: q, text: $('#ltext').value.trim() || undefined }
+      : undefined,
   }))
 })

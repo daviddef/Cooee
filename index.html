@@ -63,6 +63,8 @@ tr:last-child td{border-bottom:none}
 .look .more{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;font-size:.85rem;color:var(--ink-3)}
 .look .more select,.look .more input[type=text]{flex:0 1 auto;font-family:var(--fb);font-size:.85rem;padding:.4rem .5rem;width:auto}
 .look .more label{display:flex;align-items:center;gap:.35rem}
+.look label.msg{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-3)}
+.look textarea{width:100%;margin-top:.4rem;font-family:var(--fb);font-size:.92rem;line-height:1.5;padding:.6rem .7rem;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink);resize:vertical}
 .verdict{margin-top:1.2rem;border-top:1px solid var(--line);padding-top:1.2rem}
 .verdict .band{display:inline-block;font-family:var(--fm);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:.22em .6em;border-radius:2px}
 .b-confirmed,.b-severe{background:var(--stop-wash);color:var(--stop)}
@@ -124,6 +126,8 @@ footer p + p{margin-top:.6rem}
       <label><input type="checkbox" id="lcode"> It had a code I didn&rsquo;t ask for</label>
     </div>
   </form>
+  <label class="msg" for="ltext">Paste the message, if you have it &mdash; it is read on this page and never sent anywhere.</label>
+  <textarea id="ltext" rows="3" placeholder="Paste the text message here"></textarea>
   <div id="lout" aria-live="polite"></div>
 </section>
   <div class="urgent"><p><b>If someone just called claiming to be your bank, hang up.</b> Then ring the number on the back of your card, or the number below. Never call back on a number the caller gave you, and never read out a code that arrives by text.</p></div>
