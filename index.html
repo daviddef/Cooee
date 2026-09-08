@@ -5,6 +5,12 @@
 <title>Is this number a scam? | Cooee</title>
 <meta name="description" content="Check an Australian phone number or text sender against the numbering plan and published registers. Plus the real fraud-reporting numbers for Australian banks, each cited to the bank's own page.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='114' fill='%230B1416'/%3E%3Cpath d='M206 115 A 178 178 0 0 0 206 397' fill='none' stroke='%234ECDD4' stroke-width='50' stroke-linecap='round'/%3E%3Ccircle cx='338' cy='256' r='47' fill='%234ECDD4'/%3E%3C/svg%3E">
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#0A4F55">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cooee">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -251,6 +257,8 @@ tr:last-child td{border-bottom:none}
    format nobody speaks, and a sentence. A wire has a masthead, a pulse, a
    headline you can read at arm's length, and a byline. Same facts, same
    dating, said the way news is said. */
+.offline{background:var(--warn-wash);border:1px solid var(--warn);color:var(--ink);border-radius:8px;padding:.75rem .9rem;margin-top:1.2rem;font-size:.9rem;line-height:1.5}
+.offline b{font-family:var(--fm);font-size:.9em}
 .ticker{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0 0 .55rem;margin-top:1.2rem;overflow:hidden}
 .asked .ticker{display:none}
 .twire{display:flex;align-items:center;gap:.5rem;font-family:var(--fd);font-weight:700;font-size:.92rem;letter-spacing:.01em;color:var(--on-deep);background:var(--deep);padding:.5rem .95rem}
@@ -400,6 +408,7 @@ footer p+p{margin-top:.5rem}
 </nav>
 
 <main class="wrap">
+<p class="offline" id="loffline" hidden>You are offline. This is the copy your phone saved on <b>2026-09-08</b> &mdash; the checks all still work, but if an organisation has changed a number since then, this will not know.</p>
 
 <div class="ticker" id="lticker" aria-label="Recent scam alerts and data breaches">
   <div class="twire"><span class="tpulse" aria-hidden="true"></span>The Cooee wire<span class="tcount">10 stories</span></div>

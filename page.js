@@ -618,3 +618,36 @@ $('#lf').addEventListener('submit', (e) => {
     }
   }, 5000)
 })()
+
+/* ---------------------------------------------------------------------------
+ * The offline copy, and saying so.
+ *
+ * Registering the worker is three lines. The part worth writing down is the
+ * banner: a cached page looks exactly like a live one, and this page's value
+ * is that its numbers were checked against organisations' own pages. Somebody
+ * reading a three-week-old copy in a black spot should be told, because the
+ * one thing that could have changed underneath them is the number they are
+ * about to ring.
+ *
+ * `navigator.onLine` is famously optimistic — it reports a connection that may
+ * go nowhere — so it is used only in the direction it is reliable: false
+ * really does mean no network. True is not treated as proof of anything.
+ * ------------------------------------------------------------------------- */
+;(function offline() {
+  if ('serviceWorker' in navigator) {
+    // After load: the worker is for the next visit, and registering during
+    // load competes with fetching the thing the reader is waiting for.
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () {
+        // No worker means no offline copy, which is a smaller product rather
+        // than a broken one. Nothing here depends on it.
+      })
+    })
+  }
+  const note = document.getElementById('loffline')
+  if (!note) return
+  const paint = function () { note.hidden = navigator.onLine !== false }
+  window.addEventListener('online', paint)
+  window.addEventListener('offline', paint)
+  paint()
+})()

@@ -1,0 +1,30 @@
+{
+  "name": "Cooee — is this a scam?",
+  "short_name": "Cooee",
+  "description": "Check an Australian phone number, text message or link. Everything runs on your phone; nothing you type is sent anywhere.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A4F55",
+  "theme_color": "#0A4F55",
+  "lang": "en-AU",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
