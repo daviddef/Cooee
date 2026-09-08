@@ -587,7 +587,11 @@ $('#lf').addEventListener('submit', (e) => {
   if (still && still.matches) return
 
   const rows = Array.prototype.slice.call(el.querySelectorAll('.trow')).map(function (row) {
-    return { items: Array.prototype.slice.call(row.querySelectorAll('.titem')), at: 0 }
+    return {
+      items: Array.prototype.slice.call(row.querySelectorAll('.titem')),
+      dots: Array.prototype.slice.call(row.querySelectorAll('.tdots i')),
+      at: 0,
+    }
   }).filter(function (r) { return r.items.length > 1 })
   if (!rows.length) return
 
@@ -605,8 +609,12 @@ $('#lf').addEventListener('submit', (e) => {
     if (held || document.hidden) return
     for (const r of rows) {
       r.items[r.at].classList.remove('on')
+      if (r.dots[r.at]) r.dots[r.at].classList.remove('on')
       r.at = (r.at + 1) % r.items.length
       r.items[r.at].classList.add('on')
+      // The dots say how many there are and where you are in them, which is
+      // the thing a rotating panel otherwise hides.
+      if (r.dots[r.at]) r.dots[r.at].classList.add('on')
     }
   }, 5000)
 })()
