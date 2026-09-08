@@ -158,6 +158,11 @@ main{padding:0 0 3rem}
 .pill{font-family:var(--fm);font-size:.7rem;letter-spacing:.02em;padding:.34em .7em;border-radius:999px;white-space:nowrap;font-weight:500}
 .pill.risk{background:var(--stop-wash);color:var(--stop)}
 .pill.trust{background:var(--go-wash);color:var(--go)}
+.tools{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem}
+.tools button{margin-top:0}
+.share{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--fb);font-size:.9rem;font-weight:600;padding:.5rem .85rem;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer}
+.share::before{content:"↗";font-size:1em}
+.share:hover{border-color:var(--accent);color:var(--accent)}
 .speak{display:inline-flex;align-items:center;gap:.45rem;margin-top:.9rem;font-family:var(--fb);font-size:.9rem;font-weight:600;padding:.5rem .85rem;border-radius:999px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer}
 .speak::before{content:"🔊";font-size:.95em}
 .speak:hover{border-color:var(--accent);color:var(--accent)}
@@ -289,8 +294,10 @@ tr:last-child td{border-bottom:none}
 .alsum{font-size:.9rem;color:var(--ink-2);margin-top:.45rem}
 /* THE WIRE. It read like a filing cabinet: a monospace label, a date in the
    format nobody speaks, and a sentence. A wire has a masthead, a pulse, a
-   headline you can read at arm's length, and a byline. Same facts, same
-   dating, said the way news is said. */
+   headline you can read at arm's length, and a byline. Same facts, said the
+   way news is said. "Same dating" is what this note used to claim and it was
+   not true of the change it described: the date left the screen entirely and
+   only elapsed time remained. Both are in the byline now. */
 .offline{background:var(--warn-wash);border:1px solid var(--warn);color:var(--ink);border-radius:8px;padding:.75rem .9rem;margin-top:1.2rem;font-size:.9rem;line-height:1.5}
 .offline b{font-family:var(--fm);font-size:.9em}
 .ticker{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0 0 .55rem;margin-top:1.2rem;overflow:hidden}
@@ -316,6 +323,38 @@ tr:last-child td{border-bottom:none}
 .tdots i.on{background:var(--flare)}
 .tfoot{font-size:.75rem;color:var(--ink-3);padding:.6rem .95rem 0;border-top:1px solid var(--line-2);line-height:1.5}
 @media(min-width:560px){.trow{grid-template-columns:1fr;padding:.9rem 1.1rem .8rem}}
+.cardpicks{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:.4rem;margin-top:1rem}
+.cardpick{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .7rem;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;font-size:.9rem}
+.cardpick:hover{border-color:var(--accent)}
+.cardbox{margin-top:.2rem;width:1.05rem;height:1.05rem;accent-color:var(--accent);flex:none}
+.cardpick b{display:block;color:var(--ink);font-weight:600}
+.cardpick i{display:block;font-style:normal;font-family:var(--fm);font-size:.76rem;color:var(--ink-3)}
+.printcard{margin-top:1rem;font-family:var(--fd);font-weight:700;font-size:1.05rem;padding:.7rem 1.4rem;border:0;border-radius:8px;background:var(--bright);color:#04292C;cursor:pointer;box-shadow:0 3px 0 0 #0E9AA3}
+.printcard:active{transform:translateY(3px);box-shadow:0 0 0 0 #0E9AA3}
+/* THE CARD ITSELF, at the size it prints: 85mm across, the width of a bank
+   card, so it goes behind one in the wallet where it will be found. */
+.wallet{margin-top:1.3rem}
+.wcard{width:85mm;max-width:100%;border:1px dashed var(--ink-3);border-radius:3mm;padding:5mm;background:var(--surface);color:var(--ink)}
+.whead{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;border-bottom:1px solid var(--line);padding-bottom:2mm}
+.whead b{font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--deep)}
+.whead span{font-size:.62rem;color:var(--ink-3);font-family:var(--fm)}
+.wrule{font-size:.72rem;line-height:1.4;margin-top:2.5mm;color:var(--ink-2)}
+.wrule b{color:var(--ink)}
+.wlist{list-style:none;padding:0;margin:2.5mm 0 0;display:grid;gap:1.2mm}
+.wlist li{display:flex;justify-content:space-between;gap:.6rem;font-size:.74rem;border-bottom:1px dotted var(--line);padding-bottom:1mm}
+.wlist li b{font-weight:600;color:var(--ink)}
+.wlist li span{font-family:var(--fm);white-space:nowrap;color:var(--ink)}
+.wempty{color:var(--ink-3);justify-content:flex-start!important;border-bottom:none!important}
+.wfoot{font-size:.6rem;color:var(--ink-3);margin-top:2.5mm;line-height:1.4}
+@media print{
+  /* Only the card. A printer is not a browser and nobody wants nine pages. */
+  body>*{display:none!important}
+  main,main .wrap,#v-card{display:block!important}
+  #v-card>*{display:none!important}
+  #v-card .wallet{display:block!important}
+  .wcard{border-style:solid;border-color:#999;box-shadow:none}
+  @page{margin:12mm}
+}
 .todo{display:grid;gap:.6rem;margin-top:.9rem}
 .td{display:grid;grid-template-columns:auto 1fr;gap:.85rem;align-items:baseline;background:var(--surface-2);border-radius:8px;padding:.85rem 1rem}
 .td .tw{font-family:var(--fm);font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
@@ -431,6 +470,7 @@ footer p+p{margin-top:.5rem}
       <li><a href="#report">Who to tell</a></li>
       <li><a href="#alarms">Recent alarms<span class="cnt">10</span></a></li>
       <li><a href="#breaches">Where your details may already be<span class="cnt">14</span></a></li>
+      <li><a href="#card">A card for your wallet</a></li>
       <li><a href="#stolen">My details were taken</a></li>
     </ul>
     <p class="mg">How this works</p>
@@ -442,33 +482,33 @@ footer p+p{margin-top:.5rem}
 </nav>
 
 <main class="wrap">
-<p class="offline" id="loffline" hidden>You are offline. This is the copy your phone saved on <b>2026-09-08</b> &mdash; the checks all still work, but if an organisation has changed a number since then, this will not know.</p>
+<p class="offline" id="loffline" hidden>Cooee could not reach the network, so this is the copy your phone saved on <b>2026-09-08</b> &mdash; the checks all still work, but if an organisation has changed a number since then, this will not know.</p>
 
-<div class="ticker" id="lticker" aria-label="Recent scam alerts and data breaches">
-  <div class="twire"><span class="tpulse" aria-hidden="true"></span>The Cooee wire<span class="tcount">10 stories</span></div>
+<div class="ticker" id="lticker" role="group" aria-label="Recent scam alerts and data breaches">
+  <div class="twire"><span class="tpulse" aria-hidden="true"></span>The Cooee wire <span class="tcount">10 stories</span></div>
   
   <div class="trow" data-kind="alerts">
     <span class="tlab tlab-alerts">Doing the rounds</span>
     <div class="titems">
       <a class="titem on" href="https://www.scamwatch.gov.au/about-us/news-and-alerts/nasc-contacts-australians-following-international-cryptocurrency-scam-investigation" rel="noopener">
         <span class="thead">National Anti-Scam Centre contacts more than 10…</span>
-        <span class="tby">Scamwatch &middot; <time datetime="2026-08-17">3 weeks ago</time></span>
+        <span class="tby">Scamwatch &middot; <time datetime="2026-08-17">3 weeks ago (17 Aug 26)</time></span>
       </a>
       <a class="titem" href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-fake-purchase-callback-scams" rel="noopener">
         <span class="thead">Fake purchase callback scams</span>
-        <span class="tby">Scamwatch &middot; <time datetime="2026-07-14">8 weeks ago</time></span>
+        <span class="tby">Scamwatch &middot; <time datetime="2026-07-14">8 weeks ago (14 Jul 26)</time></span>
       </a>
       <a class="titem" href="https://www.scamwatch.gov.au/about-us/news-and-alerts/australian-taxation-office-ato-and-mygov-impersonation-scams" rel="noopener">
         <span class="thead">Australian Taxation Office (ATO) and ‘myGov’ impersonation…</span>
-        <span class="tby">Scamwatch &middot; <time datetime="2026-06-26">2 months ago</time></span>
+        <span class="tby">Scamwatch &middot; <time datetime="2026-06-26">2 months ago (26 Jun 26)</time></span>
       </a>
       <a class="titem" href="https://www.scamwatch.gov.au/about-us/news-and-alerts/national-anti-scam-centre-contacted-victims-following-successful-money-laundering-prosecution" rel="noopener">
         <span class="thead">National Anti-Scam Centre contacted victims…</span>
-        <span class="tby">Scamwatch &middot; <time datetime="2026-06-22">3 months ago</time></span>
+        <span class="tby">Scamwatch &middot; <time datetime="2026-06-22">3 months ago (22 Jun 26)</time></span>
       </a>
       <a class="titem" href="https://www.scamwatch.gov.au/about-us/news-and-alerts/scam-alert-food-delivery-scams" rel="noopener">
         <span class="thead">Food delivery scams</span>
-        <span class="tby">Scamwatch &middot; <time datetime="2026-06-12">3 months ago</time></span>
+        <span class="tby">Scamwatch &middot; <time datetime="2026-06-12">3 months ago (12 Jun 26)</time></span>
       </a>
     </div>
     <div class="tdots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
@@ -478,29 +518,29 @@ footer p+p{margin-top:.5rem}
     <span class="tlab tlab-breaches">Out in the wild</span>
     <div class="titems">
       <a class="titem on" href="#breaches">
-        <span class="thead">Qantas — 5.7m people, date of birth and phone number</span>
-        <span class="tby">High exposure &middot; <time datetime="2025-07-02">about a year ago</time></span>
+        <span class="thead">Qantas — 5.7m people, dates of birth, phone numbers and 2 more</span>
+        <span class="tby">High exposure &middot; <time datetime="2025-07-02">about a year ago (2 Jul 25)</time></span>
       </a>
       <a class="titem" href="#breaches">
-        <span class="thead">Genea — number undisclosed, health records and identity documents</span>
-        <span class="tby">Severe exposure &middot; <time datetime="2025-02-19">2 years ago</time></span>
+        <span class="thead">Genea — number undisclosed, health records, identity document numbers and 4 more</span>
+        <span class="tby">Severe exposure &middot; <time datetime="2025-02-19">about a year ago (19 Feb 25)</time></span>
       </a>
       <a class="titem" href="#breaches">
-        <span class="thead">Finsure — 296k people, phone number and home address</span>
-        <span class="tby">Moderate exposure &middot; <time datetime="2024-10-15">2 years ago</time></span>
+        <span class="thead">Finsure — 296k people, phone numbers, home addresses and 2 more</span>
+        <span class="tby">Moderate exposure &middot; <time datetime="2024-10-15">about a year ago (15 Oct 24)</time></span>
       </a>
       <a class="titem" href="#breaches">
-        <span class="thead">digiDirect — 304k people, date of birth and phone number</span>
-        <span class="tby">High exposure &middot; <time datetime="2024-09-29">2 years ago</time></span>
+        <span class="thead">digiDirect — 304k people, dates of birth, phone numbers and 3 more</span>
+        <span class="tby">High exposure &middot; <time datetime="2024-09-29">about a year ago (29 Sep 24)</time></span>
       </a>
       <a class="titem" href="#breaches">
-        <span class="thead">Ticketek — 18m people, date of birth and name</span>
-        <span class="tby">High exposure &middot; <time datetime="2024-05-31">2 years ago</time></span>
+        <span class="thead">Ticketek — 18m people, dates of birth, names and 2 more</span>
+        <span class="tby">High exposure &middot; <time datetime="2024-05-31">2 years ago (31 May 24)</time></span>
       </a>
     </div>
     <div class="tdots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
   </div>
-  <p class="tfoot">Alerts from Scamwatch, read yesterday. Breaches from published disclosures. Dated, because neither is live. <a href="#alarms">All alerts</a> &middot; <a href="#breaches">all breaches</a></p>
+  <p class="tfoot">Alerts from Scamwatch, read <time datetime="2026-09-07">yesterday (7 Sep 26)</time>. Breaches from published disclosures. Dated, because neither is live. <a href="#alarms">All alerts</a> &middot; <a href="#breaches">all breaches</a></p>
 </div>
 <div id="lout" aria-live="polite"></div>
 
@@ -3169,6 +3209,347 @@ footer p+p{margin-top:.5rem}
   </article></div>
 
   <p class="bfoot">There is no official list of Australian data breaches. The OAIC runs the Notifiable Data Breaches scheme and publishes the totals &mdash; <a href="https://www.oaic.gov.au/news/blog/latest-notifiable-data-breach-statistics-for-january-to-june-2025" rel="noopener">532 notifications in January to June 2025</a>, 58% of them criminal attacks &mdash; but never names the organisation. So this list is compiled from public disclosures and each entry carries its source. A name missing from it means nobody here has recorded it, not that the organisation was never breached.</p>
+</section>
+<section class="view" id="v-card" aria-labelledby="h-card">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-card" tabindex="-1">A card for your wallet</h2>
+  
+  <p class="lede">Tick the ones you actually use, print it, and cut along the line. It fits behind a bank card. Everything on it is a number the organisation publishes itself &mdash; nothing here is a number anybody has told you to ring.</p>
+  <div class="cardpicks">
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="ActewAGL" data-sector="utility">
+    <span><b>ActewAGL</b><i>13 14 93 &middot; Energy consultant, 8am–6pm Mon–Fri</i><i>(02) 5110 2511 &middot; From overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="AGL" data-sector="utility">
+    <span><b>AGL</b><i>131 245 &middot; Call us — general, life support and emergencies</i><i>1300 307 245 &middot; Interpreter services</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Alinta Energy" data-sector="utility">
+    <span><b>Alinta Energy</b><i>1300 170 941 &middot; Residential</i><i>13 39 08 &middot; Business</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="AMP Bank" data-sector="bank">
+    <span><b>AMP Bank</b><i>13 30 30 &middot; Banking and home loans, general enquiries</i><i>1800 950 105 &middot; AMP Bank GO, locked out, 24/7</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="ANZ" data-sector="bank">
+    <span><b>ANZ</b><i>13 22 73 &middot; Cards — fraud reporting</i><i>13 33 50 &middot; Internet and business banking — fraud</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Australia Post" data-sector="delivery">
+    <span><b>Australia Post</b><i>13 76 78 &middot; General enquiries, in Australia</i><i>13 11 18 &middot; Business</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Australian Military Bank" data-sector="bank">
+    <span><b>Australian Military Bank</b><i>1300 705 750 &middot; Fraud team — a bureau shared by many mutual banks</i><i>1300 13 23 28 &middot; General enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Australian Retirement Trust" data-sector="super">
+    <span><b>Australian Retirement Trust</b><i>13 11 84 &middot; Members</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Australian Taxation Office" data-sector="government">
+    <span><b>Australian Taxation Office</b><i>1800 008 540 &middot; Verify or report an ATO scam</i><i>13 28 65 &middot; Individuals self-help service, 24/7</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Australian Unity" data-sector="insurance">
+    <span><b>Australian Unity</b><i>13 29 39 &middot; Health insurance and general enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="AustralianSuper" data-sector="super">
+    <span><b>AustralianSuper</b><i>1300 300 273 &middot; Members</i><i>(03) 8617 9767 &middot; From overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Aware Super" data-sector="super">
+    <span><b>Aware Super</b><i>1300 650 873 &middot; Members</i><i>(03) 9131 6373 &middot; From overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Bank Australia" data-sector="bank">
+    <span><b>Bank Australia</b><i>1300 705 750 &middot; Fraud Bureau Service</i><i>(02) 8299 9534 &middot; Fraud Bureau Service from overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Bank First" data-sector="bank">
+    <span><b>Bank First</b><i>1300 654 822 &middot; General, lost or stolen cards, and scam reports</i><i>(03) 9834 8560 &middot; From overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Bank of Melbourne" data-sector="bank">
+    <span><b>Bank of Melbourne</b><i>13 22 66 &middot; Personal banking, and complaints</i><i>13 82 66 &middot; Business banking and online helpdesk</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Bank of Queensland" data-sector="bank">
+    <span><b>Bank of Queensland</b><i>1300 55 72 72 &middot; General banking, fraud and scam reports, lost or stolen cards</i><i>1300 737 766 &middot; myBOQ app support</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Bank of us" data-sector="bank">
+    <span><b>Bank of us</b><i>1300 306 716 &middot; Fraud and scams, business hours</i><i>1800 653 326 &middot; Lost, stolen or misused cards, any time</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="BankSA" data-sector="bank">
+    <span><b>BankSA</b><i>13 13 76 &middot; Personal banking, and complaints</i><i>1800 804 411 &middot; Business banking</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="BankVic" data-sector="bank">
+    <span><b>BankVic</b><i>13 63 73 &middot; General enquiries and fraud</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Bankwest" data-sector="bank">
+    <span><b>Bankwest</b><i>13 17 19 &middot; General enquiries, and interpreter and relay services</i><i>1300 769 173 &middot; Financial hardship</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Bendigo Bank" data-sector="bank">
+    <span><b>Bendigo Bank</b><i>1800 035 383 &middot; Lost or stolen cards, 24/7</i><i>1300 236 344 &middot; General enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Beyond Bank" data-sector="bank">
+    <span><b>Beyond Bank</b><i>1300 705 750 &middot; Card Monitoring Team, 24/7</i><i>13 25 85 &middot; Member Service Centre</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Bupa" data-sector="insurance">
+    <span><b>Bupa</b><i>134 135 &middot; Sales, service and international visitors</i><i>+61 3 9487 6400 &middot; From outside Australia</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="CareSuper" data-sector="super">
+    <span><b>CareSuper</b><i>1800 005 166 &middot; Members</i><i>(03) 7042 2723 &middot; International</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Cbus" data-sector="super">
+    <span><b>Cbus</b><i>1300 361 784 &middot; Members</i><i>(02) 8571 6550 &middot; Overseas callers</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Colonial First State" data-sector="super">
+    <span><b>Colonial First State</b><i>13 13 36 &middot; FirstChoice members and general</i><i>(02) 9197 3050 &middot; From overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Commonwealth Bank" data-sector="bank">
+    <span><b>Commonwealth Bank</b><i>13 2221 &middot; General enquiries and scam reporting</i><i>13 1998 &middot; CommBiz business (option 4 for fraud)</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="CommSec" data-sector="bank">
+    <span><b>CommSec</b><i>13 15 19 &middot; CommSec, general</i><i>(02) 8645 2001 &middot; CommSec, from overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Community First Bank" data-sector="bank">
+    <span><b>Community First Bank</b><i>1300 705 750 &middot; Vigil fraud monitoring</i><i>1300 13 22 77 &middot; Member service</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Defence Bank" data-sector="bank">
+    <span><b>Defence Bank</b><i>1800 033 139 &middot; Contact centre</i><i>(03) 8624 5888 &middot; From overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Defence Health" data-sector="insurance">
+    <span><b>Defence Health</b><i>1800 335 425 &middot; Talk to us</i><i>+613 8679 1000 &middot; From outside Australia</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="E-Toll" data-sector="government">
+    <span><b>E-Toll</b><i>13 18 65 &middot; E-Toll account enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="EastLink" data-sector="toll">
+    <span><b>EastLink</b><i>(03) 9955 1400 &middot; Customer service, Mon–Fri 7am–6pm</i><i>(03) 9955 1550 &middot; Report a road hazard — road safety only, not accounts</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="EnergyAustralia" data-sector="utility">
+    <span><b>EnergyAustralia</b><i>133 466 &middot; General enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Ergon Energy" data-sector="utility">
+    <span><b>Ergon Energy</b><i>13 10 46 &middot; Residential enquiries</i><i>1300 135 210 &middot; Business enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="GMHBA" data-sector="insurance">
+    <span><b>GMHBA</b><i>1300 446 422 &middot; Customer service</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Great Southern Bank" data-sector="bank">
+    <span><b>Great Southern Bank</b><i>1300 705 750 &middot; Report unauthorised transactions, 24/7</i><i>133 282 &middot; General enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Greater Bank" data-sector="bank">
+    <span><b>Greater Bank</b><i>13 13 86 &middot; General enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="HBF" data-sector="insurance">
+    <span><b>HBF</b><i>08 9265 8777 &middot; Payment Integrity team — fraud</i><i>133 423 &middot; Members and general enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="HCF" data-sector="insurance">
+    <span><b>HCF</b><i>1800 727 721 &middot; Report fraud</i><i>13 13 34 &middot; General enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Heritage Bank" data-sector="bank">
+    <span><b>Heritage Bank</b><i>13 14 22 &middot; Contact us, 24/7</i><i>1800 222 030 &middot; Financial hardship</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Hostplus" data-sector="super">
+    <span><b>Hostplus</b><i>1300 467 875 &middot; Super</i><i>1300 348 546 &middot; Pension</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="HSBC Australia" data-sector="bank">
+    <span><b>HSBC Australia</b><i>1300 308 008 &middot; Personal banking, wealth and home loans, 24/7</i><i>132 152 &middot; Credit cards, 24/7</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Hume Bank" data-sector="bank">
+    <span><b>Hume Bank</b><i>1300 705 750 &middot; Fraud, 24/7 — a bureau shared by many mutual banks</i><i>1300 004 863 &middot; General, and one of the numbers Hume says it calls from</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="IDCARE" data-sector="support-service">
+    <span><b>IDCARE</b><i>1800 595 160 &middot; National support line</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="IMB Bank" data-sector="bank">
+    <span><b>IMB Bank</b><i>133 462 &middot; Support, in Australia</i><i>1800 252 730 &middot; After-hours support</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="ING" data-sector="bank">
+    <span><b>ING</b><i>1800 052 743 &middot; Scams and fraud, 24/7</i><i>133 464 &middot; General enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Linkt" data-sector="toll">
+    <span><b>Linkt</b><i>13 33 31 &middot; Customer care, 7am–7pm Mon–Fri</i><i>02 9692 3076 &middot; Published as a number Linkt may call you from</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Macquarie Bank" data-sector="bank">
+    <span><b>Macquarie Bank</b><i>(02) 8550 5666 &middot; General support and fraud reporting, 24/7</i><i>1800 789 789 &middot; Private banking, new clients</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Medibank" data-sector="insurance">
+    <span><b>Medibank</b><i>132 331 &middot; General enquiries</i><i>1300 505 876 &middot; Member support, and the hardship line</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Momentum Energy" data-sector="utility">
+    <span><b>Momentum Energy</b><i>1300 662 778 &middot; Existing customers</i><i>1800 794 824 &middot; New customers</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="MyState Bank" data-sector="bank">
+    <span><b>MyState Bank</b><i>1300 705 750 &middot; Fraud, 24/7</i><i>1800 648 027 &middot; Lost or stolen Visa Debit</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="NAB" data-sector="bank">
+    <span><b>NAB</b><i>13 22 65 &middot; Personal — fraud and scams, press 2</i><i>13 10 12 &middot; Business — fraud and scams</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Newcastle Permanent" data-sector="bank">
+    <span><b>Newcastle Permanent</b><i>13 19 87 &middot; General, and lost or stolen cards</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="nib" data-sector="insurance">
+    <span><b>nib</b><i>1300 017 157 &middot; nib Investigations team</i><i>13 16 42 &middot; Customer service, in Australia</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Optus" data-sector="telco">
+    <span><b>Optus</b><i>133 937 &middot; Customer service</i><i>1800 508 000 &middot; Sales</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Origin Energy" data-sector="utility">
+    <span><b>Origin Energy</b><i>13 24 61 &middot; Customer service, 8am–6pm Mon–Fri</i><i>1300 137 427 &middot; Interpreter, for any Origin enquiry</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="P&amp;N Bank" data-sector="bank">
+    <span><b>P&amp;N Bank</b><i>1300 705 750 &middot; Card fraud, after hours</i><i>1800 648 027 &middot; Lost or stolen cards, after hours</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="People First Bank" data-sector="bank">
+    <span><b>People First Bank</b><i>1300 705 750 &middot; Card fraud, 24/7</i><i>13 11 82 &middot; Customer Hub, 24/7</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Qudos Bank" data-sector="bank">
+    <span><b>Qudos Bank</b><i>1800 621 199 &middot; Lost or stolen cards, 24 hours</i><i>1300 747 747 &middot; General, and suspected fraud</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="RACQ Bank" data-sector="bank">
+    <span><b>RACQ Bank</b><i>1300 705 750 &middot; Fraudulent card transactions (Cuscal)</i><i>13 1905 &middot; General banking</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Red Energy" data-sector="utility">
+    <span><b>Red Energy</b><i>131 806 &middot; General enquiries</i><i>(03) 7046 4100 &middot; From overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Regional Australia Bank" data-sector="bank">
+    <span><b>Regional Australia Bank</b><i>1300 705 750 &middot; Fraud</i><i>1800 648 027 &middot; Lost or stolen cards, 24/7</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Rest" data-sector="super">
+    <span><b>Rest</b><i>1300 300 778 &middot; Members</i><i>(02) 8349 4684 &middot; International callers</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Service NSW" data-sector="government">
+    <span><b>Service NSW</b><i>13 77 88 &middot; Main line, Mon–Fri 7am–7pm</i><i>(02) 8894 1555 &middot; From overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Services Australia" data-sector="government">
+    <span><b>Services Australia</b><i>1800 076 072 &middot; Centrelink debt recovery line</i><i>1800 171 846 &middot; Income Compliance line</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Simply Energy" data-sector="utility">
+    <span><b>Simply Energy</b><i>13 88 08 &middot; Existing customers, 8am–7pm Mon–Fri</i><i>1800 009 141 &middot; New customers</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="St.George Bank" data-sector="bank">
+    <span><b>St.George Bank</b><i>13 33 30 &middot; Personal banking, and complaints</i><i>13 38 00 &middot; Business banking</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Summerland Bank" data-sector="bank">
+    <span><b>Summerland Bank</b><i>0467 953 309 &middot; Fraud hotline, weekends and public holidays 8am–6pm</i><i>1300 728 728 &middot; General, and business-hours fraud</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Suncorp Bank" data-sector="bank">
+    <span><b>Suncorp Bank</b><i>13 11 75 &middot; General enquiries, and security, scams and fraud (24 hours)</i><i>1800 775 020 &middot; Lost or stolen cards, 24 hours</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Teachers Health" data-sector="insurance">
+    <span><b>Teachers Health</b><i>02 8346 2207 &middot; Fraud hotline</i><i>1300 727 538 &middot; Members</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Teachers Mutual Bank" data-sector="bank">
+    <span><b>Teachers Mutual Bank</b><i>1300 705 750 &middot; Fraud Bureau Service, outside business hours</i><i>13 12 21 &middot; General enquiries</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Telstra" data-sector="telco">
+    <span><b>Telstra</b><i>13 22 00 &middot; General customer service</i><i>1800 241 600 &middot; Free interpreting service</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="TPG" data-sector="telco">
+    <span><b>TPG</b><i>13 14 23 &middot; General enquiries</i><i>1300 993 011 &middot; Accounts and billing</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Transport and Main Roads" data-sector="government">
+    <span><b>Transport and Main Roads</b><i>13 23 80 &middot; Registration, licensing and general enquiries</i><i>(07) 3554 4180 &middot; International callers</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Transport for NSW" data-sector="government">
+    <span><b>Transport for NSW</b><i>131 500 &middot; General feedback and public transport</i><i>13 22 13 &middot; Driving and boating</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Ubank" data-sector="bank">
+    <span><b>Ubank</b><i>13 30 80 &middot; General, and lost or stolen cards, 24/7</i><i>(02) 9070 0202 &middot; From overseas</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Unity Bank" data-sector="bank">
+    <span><b>Unity Bank</b><i>1300 364 400 &middot; Fraud and scams, business hours</i><i>1300 705 750 &middot; Fraud and scams, outside business hours</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Up" data-sector="bank">
+    <span><b>Up</b><i>1300 002 258 &middot; Support</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="VicRoads" data-sector="government">
+    <span><b>VicRoads</b><i>13 11 71 &middot; Licensing and registration</i><i>(03) 7073 9600 &middot; From outside Australia</i></span>
+  </label>
+  <label class="cardpick">
+    <input type="checkbox" class="cardbox" value="Westpac" data-sector="bank">
+    <span><b>Westpac</b><i>1300 364 294 &middot; Fraud and unusual activity</i><i>(02) 9155 7777 &middot; Fraud reporting from overseas</i></span>
+  </label></div>
+  <button type="button" class="printcard" id="lprint">Print the card</button>
+
+  <div class="wallet" id="lwallet" aria-label="Your card, as it will print">
+    <div class="wcard">
+      <div class="whead"><b>Cooee</b><span>Real numbers, checked 2026-09-08</span></div>
+      <p class="wrule">If someone rings about your money: <b>hang up and ring the number below yourself.</b> Never a number they gave you.</p>
+      <ul class="wlist" id="lwlist"><li class="wempty">Tick some organisations above and they will appear here.</li></ul>
+      <p class="wfoot">IDCARE 1800 595 160 &mdash; free help if your details were taken. Numbers change: check daviddef.github.io/Cooee</p>
+    </div>
+  </div>
 </section>
 <section class="view" id="v-stolen" aria-labelledby="h-stolen">
   <a class="back" href="#">&larr; Back to the check</a>

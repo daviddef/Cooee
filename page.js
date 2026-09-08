@@ -35,8 +35,55 @@ const evRow = (s) => {
   const cite = s.source.url
     ? `<a href="${esc(s.source.url)}" target="_blank" rel="noopener">${esc(s.source.name)}<span class="sr-only">, opens in a new tab</span></a>`
     : esc(s.source.name)
-  return `<p class="ev"><b>${s.direction === 'risk' ? 'Concern' : 'In its favour'}</b> &mdash; ${esc(s.summary)}` +
+  /**
+   * `.evs` AROUND THE SENTENCE, so a channel that is not a screen can take the
+   * finding without the citation attached to it.
+   *
+   * The citation is the whole point of this row on a screen — it is what makes
+   * a claim checkable without trusting us — and read aloud it is noise: a
+   * source name, a kind and an age, after every sentence. The sentence is the
+   * finding; `.prov` is already a named element for the other half, and this
+   * gives the first half a name too rather than leaving a reader-of-the-DOM to
+   * subtract one from the other.
+   */
+  return `<p class="ev"><b>${s.direction === 'risk' ? 'Concern' : 'In its favour'}</b> &mdash; <span class="evs">${esc(s.summary)}</span>` +
     `<span class="prov">${cite} &middot; ${esc(s.source.kind)} &middot; ${age}</span></p>`
+}
+
+/**
+ * An answer has arrived: put it in the page, and take the reader to it.
+ *
+ * ONE PLACE, BECAUSE THERE ARE TWO RENDERERS AND ONLY THE NEWER ONE EVER DID
+ * THIS. `renderEmail` was written months after `render` and closed with a
+ * `scrollIntoView`; `render` — the phone number, which is the whole product —
+ * had nothing, so on a 390x800 phone somebody pasted a text, pressed the
+ * button, and stayed at the top of the page with the answer 1187 pixels below
+ * the fold and nothing on screen having changed. Found by driving the built
+ * page in Chromium; invisible in every test, because a test reads the markup
+ * and the markup was perfect.
+ *
+ * The other surface does not have this bug and does not do this either: the
+ * interactive page focuses the result region, which announces it and scrolls
+ * in one move. That is the better answer and it is not this one, because
+ * `#lout` here is an `aria-live` region — moving focus into one is how you get
+ * a result read twice. Making that right is a change to how this page speaks,
+ * which is item 30 rather than a line in a scroll fix.
+ */
+/**
+ * Everything that happens when an answer appears, in one place.
+ *
+ * The assessment comes in beside the markup so the share button can be handed
+ * the FIELDS rather than left to read the rendered card — reading the card
+ * would pick up whatever is on it, and what is on it is the message they
+ * pasted. Doing it here rather than at each call site also means a third
+ * renderer cannot forget.
+ */
+function showAnswer(html, a) {
+  const out = $('#lout')
+  if (!out) return
+  out.innerHTML = html
+  if (a && window.__cooeeShare) window.__cooeeShare(a)
+  out.scrollIntoView({ block: 'nearest' })
 }
 
 function render(a) {
@@ -113,7 +160,17 @@ function render(a) {
   // "Not allocated" pill, so the fifth surface took a plan fact and showed it
   // exclusively in the risk channel. The pill is gone (see `tagsFor`); the fact
   // belongs here, where a reader can see it without being accused by it.
-  const plan = a.number?.planLabel ? `<p class="rplan">${esc(a.number.planLabel)}</p>` : ''
+  //
+  // AND THE FIX WAS ONE FIELD WIDE WHEN THE LINE IS FOUR. The paragraph above
+  // is about `planLabel` and names the neutral meta line the other two surfaces
+  // render — and this surface still did not have that line, it had one part of
+  // it. The country is the part that mattered: `From New Zealand` reached this
+  // reader as a red pill and a risk finding and through nothing else, which is
+  // word for word the fault recorded above, on the neighbouring field, fixed
+  // eight lines from here and never asked of it. `numberMeta` is the whole line,
+  // decided in the core, and the country arrives in it as "New Zealand" rather
+  // than as `NZ`.
+  const plan = a.number?.meta?.length ? `<p class="rplan">${esc(a.number.meta.join(' · '))}</p>` : ''
   /**
    * THE VERDICT IN THE WORDS SOMEBODY FRIGHTENED CAN USE, which this surface
    * had never been told the core computes.
@@ -139,14 +196,14 @@ function render(a) {
    * the benign direction of that error.
    */
   const plain = a.plain ? `<p class="rplain">${esc(a.plain)}</p>` : ''
-  $('#lout').innerHTML = `<div class="verdict">
+  showAnswer(`<div class="verdict">
     <span class="band b-${esc(a.band)}">${esc(a.bandLabel)}</span>
     ${ctx}
     ${plan}
     <h3>${esc(a.headline)}</h3>
     ${plain}
     ${pills ? `<div class="pills">${pills}</div>` : ''}
-    <button type="button" class="speak" id="lspeak" hidden>Read this out</button>
+    <div class="tools"><button type="button" class="speak" id="lspeak" hidden>Read this out</button><button type="button" class="share" id="lshare" hidden>Send to someone</button></div>
     ${acts ? `<span class="lab">Who to ring</span><div class="acts">${acts}</div>` : ''}
     ${sendTo ? `<span class="lab">Where to send it</span><div class="acts">${sendTo}</div>` : ''}
     ${own ? `<div class="acts">${own}</div>` : ''}
@@ -160,7 +217,7 @@ function render(a) {
     ${overflow(a.caveats.slice(CAVEATS_SHOWN),
       (n) => `${n} more thing${n === 1 ? '' : 's'} this does not tell you`,
       (rest) => `<ul>${rest.map(c => `<li>${esc(c)}</li>`).join('')}</ul>`)}
-  </div>`
+  </div>`, a)
 }
 
 /**
@@ -355,6 +412,18 @@ function renderEmail(r) {
     ? `<a class="act own" href="${esc(r.alertsPage.url)}" rel="noopener"><b>${esc(r.alertsPage.organisation)}&rsquo;s own scam page</b><span>What they are warning about right now</span></a>`
     : ''
   /**
+   * WHAT TO DO, WHICH THIS CARD HAD NO LINE FOR — the same block the number
+   * card renders, in the same position and under the same heading, because two
+   * cards putting one thing in two places is the second copy of a decision this
+   * page keeps shipping defects from.
+   *
+   * The core composes it (`emailGuidance`); this renders it whole. Not folded,
+   * for `render`'s reason directly above: item 12 bought this position for the
+   * part a frightened person can act on, and an instruction behind a click is
+   * an instruction not followed.
+   */
+  const g = (r.guidance ?? []).map(x => `<li>${esc(x)}</li>`).join('')
+  /**
    * COUNT THE RISKS, NOT THE FINDINGS. A genuine email from a declared domain
    * raises one finding and it is reassurance — and the first version headed
    * that "one thing stood out in this email", which reads as a warning about a
@@ -367,19 +436,19 @@ function renderEmail(r) {
     : trusts
       ? 'Nothing stood out, and what we could check came back in its favour.'
       : 'Nothing in the visible text stood out.'
-  $('#lout').innerHTML = `<div class="verdict">
+  showAnswer(`<div class="verdict">
     <span class="band b-insufficient-evidence">no score for an email</span>
     <h3>${headline}</h3>
     <p class="fine">There is no score here on purpose. Cooee scores phone numbers, using the numbering plan and what has been reported about them; an email address has neither, so a number would be invented.</p>
     ${pills ? `<div class="pills">${pills}</div>` : ''}
-    <button type="button" class="speak" id="lspeak" hidden>Read this out</button>
+    <div class="tools"><button type="button" class="speak" id="lspeak" hidden>Read this out</button><button type="button" class="share" id="lshare" hidden>Send to someone</button></div>
     ${acts ? `<span class="lab">Who to ring</span><div class="acts">${acts}</div>` : ''}
     ${sendTo ? `<span class="lab">Where to send it</span><div class="acts">${sendTo}</div>` : ''}
     ${own ? `<div class="acts">${own}</div>` : ''}
+    ${g ? `<span class="lab">What to do</span><ul class="guide">${g}</ul>` : ''}
     ${ev ? `<span class="lab">What we found</span>${ev}` : ''}
     ${(r.caveats ?? []).map(c => `<p class="fine">${esc(c)}</p>`).join('')}
-  </div>`
-  $('#lout').scrollIntoView({ block: 'nearest' })
+  </div>`, r)
 }
 
 $('#lf').addEventListener('submit', (e) => {
@@ -404,9 +473,23 @@ $('#lf').addEventListener('submit', (e) => {
     return
   }
   if (!q) return
-  // Asking a question means leaving the list you were reading. Otherwise the
-  // answer renders above an open library section and the page shows both.
-  if (location.hash && location.hash !== '#') location.hash = ''
+  /**
+   * Asking a question means leaving the LIST you were reading. Otherwise the
+   * answer renders above an open library section and the page shows both.
+   *
+   * ASK THE ROUTER WHETHER THIS HASH IS A LIST, rather than treating every hash
+   * as one. It was written when the only hashes were library views, and the
+   * four front doors are hashes too — `#stolen` and `#protect` are views and
+   * should still be left, but `#text` and `#email` are not, and clearing one
+   * of those put the headline, the wire and the four doors back ABOVE the
+   * answer, milliseconds after the scroll that had just brought it into view.
+   * Measured on a 390x800 phone: the reader ended up looking at the front page
+   * with their answer fifty pixels below the fold. The router already decides
+   * this and records it on the body, so there is nothing here to re-derive —
+   * the alternative is a list of door names, which is the copy that goes stale
+   * the day a fifth door is added.
+   */
+  if (document.body.classList.contains('viewing')) location.hash = ''
   rememberRecent(q)
   paintRecent()
   render(check(q, {
@@ -664,7 +747,25 @@ $('#lf').addEventListener('submit', (e) => {
   }
   const note = document.getElementById('loffline')
   if (!note) return
-  const paint = function () { note.hidden = navigator.onLine !== false }
+  /**
+   * `onLine` MAY RAISE THIS AND MAY NEVER LOWER IT.
+   *
+   * It was `note.hidden = navigator.onLine !== false`, run once at start and on
+   * every connectivity event — which reads as the careful use of `onLine` the
+   * comment above describes, and is not. `onLine` answers whether there is a
+   * network. The banner's question is whether this page came from the cache,
+   * and only the worker knows that: it marks the document `data-cached` when it
+   * falls back, which is the case `onLine` cannot see, because a fetch that
+   * times out on one bar happens with `onLine` perfectly true.
+   *
+   * So the worker's mark wins outright. Coming back online does not make a
+   * saved copy fresh — the page in front of the reader is still the one their
+   * phone kept, and hiding the banner the moment a bar reappears would take the
+   * warning away without changing a single number on the screen. A reload
+   * fetches the live page and the mark is simply not there.
+   */
+  const fromCache = function () { return note.hasAttribute('data-cached') }
+  const paint = function () { note.hidden = !fromCache() && navigator.onLine !== false }
   window.addEventListener('online', paint)
   window.addEventListener('offline', paint)
   paint()
@@ -701,9 +802,40 @@ $('#lf').addEventListener('submit', (e) => {
     if (!out) return ''
     const bits = []
     const band = out.querySelector('.band')
+    const ctx = out.querySelector('.rctx')
     const head = out.querySelector('h3')
     const plain = out.querySelector('.rplain')
     if (band) bits.push(band.textContent.trim() + '.')
+    /**
+     * WHICH QUESTION THIS ANSWERED, AND IT WAS THE ONE LINE THIS SURFACE LEFT
+     * OUT.
+     *
+     * `.rctx` was added to the card because this page passes no context and
+     * every result is therefore read as a call the number made to you — the
+     * reading that produces the strongest claim in the product. The comment
+     * beside it says why in as many words: a reader who was HANDED this number
+     * to ring got that verdict with nothing on the screen saying what had been
+     * assumed, and *saying so is the half that is ours*.
+     *
+     * Read aloud, the half that is ours went missing and the conviction stayed.
+     * Driven in Chromium: the card shows *Caller ID forged* / *read as a call
+     * you received* / *This caller ID is forged. That is a fact about the
+     * number, not an estimate*, and the spoken answer was the first and third
+     * with the second silently gone. On the surface built for somebody who
+     * CANNOT READ THE SCREEN — and for the relative listening across the room
+     * on speaker, who cannot see it at all — that is the qualification removed
+     * from precisely the reader who has nothing else to read it in.
+     *
+     * Spoken in its screen order, in the core's own words. A second wording
+     * composed here is how six defects shipped on this page.
+     */
+    if (ctx) {
+      // Lifted for the sentence it now starts, exactly as `messageSignals` lifts
+      // an organisation name: `contextLabel` is worded to sit under the band as
+      // a caption and is stored that way, and here it opens.
+      const c = ctx.textContent.trim()
+      bits.push(c.charAt(0).toUpperCase() + c.slice(1) + '.')
+    }
     if (head) bits.push(head.textContent.trim())
     if (plain) bits.push(plain.textContent.trim())
     /**
@@ -732,6 +864,87 @@ $('#lf').addEventListener('submit', (e) => {
       const left = steps.length - said.length
       bits.push('What to do. ' + said.join(' ') +
         (left ? ` There ${left === 1 ? 'is one more step' : `are ${left} more steps`} on the screen.` : ''))
+    }
+    /**
+     * WHAT THE CARD FOUND, ON A CARD WHERE NOTHING ELSE IS CARRYING THE ANSWER.
+     *
+     * THE EMAIL CARD SPOKE TWO FRAGMENTS AND STOPPED. Driven in Chromium
+     * against the built bundle, a spoofed NAB address and its message: the
+     * screen showed three findings, three fraud numbers and the caveat, and the
+     * whole spoken answer was *"no score for an email. 3 things stood out in
+     * this email."* — the alarm, and not one word of what stood out, who to
+     * ring, or what the check could not see. On the reassuring result it is
+     * worse and it runs the other way: *"Nothing stood out, and what we could
+     * check came back in its favour."*, full stop, with `EMAIL_CAVEAT` — *a
+     * clean result here means nothing in the visible text stood out, not that
+     * the email is genuine* — the qualifier that keeps that sentence honest,
+     * silently dropped. A spoken all-clear, to the one reader who has nothing
+     * else to read it in.
+     *
+     * THE SELECTORS WERE WRITTEN FOR THE OTHER CARD. `.rctx`, `.rplain` and
+     * `ul.guide` are the number card's shape; an email answer has none of the
+     * three by design, because it carries no band and no score, so it fell
+     * through this function and out the far side with the band chip and the
+     * headline. That is this file's recorded lesson about a second renderer
+     * arriving — except the second renderer here is not the one that is wrong,
+     * the READING is, and it certified itself by finding everything it knew to
+     * look for.
+     *
+     * SO THE GATE IS THE CARD'S CONTENT, NOT ITS NAME. A card that states a
+     * verdict in a sentence has already said what it found and the findings
+     * underneath run past a minute and a half — that is the number card, and
+     * its answer is unchanged. A card without one has nothing else, so its
+     * findings ARE its answer and its notes are the only thing qualifying
+     * them. A third renderer without one is covered without being named, which
+     * is the point: the renderer that had this bug predates any list that could
+     * have named it.
+     *
+     * AND THE GATE READ `!plain && !steps.length` UNTIL THE EMAIL CARD GAINED
+     * STEPS, WHICH WOULD HAVE SILENTLY PUT THIS DEFECT BACK. The second half
+     * was written when guidance and a plain verdict arrived together on the one
+     * card that had either, so it looked like the same question asked twice.
+     * It is not: guidance says what to DO and the property here is whether the
+     * card has said what it FOUND. The day this answer was given instructions —
+     * which it had none of, and that was the defect above it in this file — a
+     * card whose findings are its whole answer would have stopped speaking them
+     * because it had learned to say "report it to Scamwatch".
+     *
+     * The recorded shape, and it is worth naming: a rule can be right while its
+     * MECHANISM is wider than it, and it turns into a defect the day something
+     * else moves into the space the mechanism reached. `plain` alone is the
+     * property — a verdict stated in a sentence — and it is what the paragraph
+     * above was always describing.
+     */
+    if (!plain) {
+      /**
+       * `.evs`, not `.ev`: the row's text content carries the citation, and a
+       * source name, a kind and "observed 3 days ago" after every sentence is
+       * the noise that made reading the whole card useless in the first place.
+       * The direction word opens it — *Concern*, *In its favour* — because a
+       * finding without it is the eightieth bug on this same card, where
+       * reassurance and warning arrived as the same grey paragraph.
+       */
+      const found = [...out.querySelectorAll('.ev')].map((p) => {
+        const dir = p.querySelector('b')
+        const s = p.querySelector('.evs')
+        return (dir ? dir.textContent.trim() + '. ' : '') + (s ? s.textContent.trim() : '')
+      }).filter((t) => t.trim())
+      const SPOKEN_FINDINGS = 2
+      if (found.length) {
+        const said = found.slice(0, SPOKEN_FINDINGS)
+        const left = found.length - said.length
+        bits.push('What we found. ' + said.join(' ') +
+          (left ? ` There ${left === 1 ? 'is one more finding' : `are ${left} more findings`} on the screen.` : ''))
+      }
+      /**
+       * And the notes, which on this card are the only qualification there is.
+       * Not capped: there is one, it is `EMAIL_CAVEAT`, and it is the sentence
+       * that stops "nothing stood out" being heard as "this is genuine".
+       */
+      for (const f of [...out.querySelectorAll('.fine')]) {
+        const t = f.textContent.trim()
+        if (t) bits.push(t)
+      }
     }
     return bits.join(' ')
   }
@@ -771,4 +984,171 @@ $('#lf').addEventListener('submit', (e) => {
       if (b) b.hidden = false
     }).observe(out, { childList: true })
   }
+})()
+
+/* ---------------------------------------------------------------------------
+ * Send the answer to someone.
+ *
+ * The person doing the checking is frequently not the person being scammed.
+ * Right now an adult child who works out that the call is fake has to retype
+ * the answer into a text message, which is friction at the exact moment it
+ * matters. It is also the only growth loop in the plan that is not advertising.
+ *
+ * WHAT IT MAY CARRY IS A CLOSED LIST, AND THAT IS ENFORCED HERE RATHER THAN
+ * REMEMBERED. The verdict, the number that was checked, and the organisation's
+ * own published number to ring. Never the pasted message: a scam text contains
+ * the reader's name, an account fragment, a family circumstance, a delivery
+ * address — and this page's promise is that what they type does not leave the
+ * device. A share sheet is leaving the device. `shareable()` therefore builds
+ * its text from named fields and cannot reach the message at all, and a test
+ * feeds it a card built from a message full of personal detail and asserts
+ * that none of it comes out.
+ * ------------------------------------------------------------------------- */
+function shareable(a) {
+  const lines = []
+  /**
+   * The number as the reader typed it, not as E.164.
+   *
+   * "+61412345678" is not a thing anybody reads back to a parent without
+   * transposing a digit, and this text exists to be read aloud down a phone.
+   * `input` is what they saw on their own screen; the canonical form is a
+   * fallback for the rare case it is missing.
+   */
+  const shown = a.number && (a.number.input || a.number.e164)
+  lines.push('Cooee checked this' + (shown ? ': ' + shown : '') + '.')
+  if (a.headline) lines.push(a.headline)
+  if (a.plain && a.plain !== a.headline) lines.push(a.plain)
+  const ring = (a.actions || [])[0]
+  if (ring) lines.push(`Their real number is ${ring.display} (${ring.organisation}, ${ring.label}) — look it up rather than using one you were given.`)
+  lines.push('Checked at ' + location.origin + location.pathname)
+  return lines.join('\n\n')
+}
+
+;(function shareAnswer() {
+  let last = null
+  // The renderer hands the assessment over here rather than the share code
+  // reading the DOM back: reading the card would pick up whatever is on it,
+  // and what is on it includes the message they pasted.
+  window.__cooeeShare = function (a) { last = a }
+
+  document.addEventListener('click', async (e) => {
+    const b = e.target.closest && e.target.closest('#lshare')
+    if (!b || !last) return
+    const text = shareable(last)
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Cooee — is this a scam?', text })
+        return
+      }
+      await navigator.clipboard.writeText(text)
+      b.textContent = 'Copied — paste it to them'
+      setTimeout(() => { b.textContent = 'Send to someone' }, 2600)
+    } catch {
+      // A cancelled share sheet throws, and so does a clipboard the browser
+      // will not give us. Neither is an error worth showing somebody.
+    }
+  })
+
+  const out = $('#lout')
+  if (!out) return
+  new MutationObserver(() => {
+    const b = $('#lshare')
+    if (b && last) b.hidden = false
+  }).observe(out, { childList: true })
+})()
+
+/* ---------------------------------------------------------------------------
+ * A message shared in from somewhere else.
+ *
+ * On Android the manifest registers Cooee as a share target, so long-pressing
+ * a scam text and hitting Share drops it here as a query string. That removes
+ * the single biggest drop-off there is: pasting. Several of the people this is
+ * built for cannot reliably select text on a phone at all.
+ *
+ * THE SHARED TEXT IS PUT IN THE BOX AND THE URL IS THEN CLEANED. Leaving a
+ * scam message sitting in the address bar means it lands in history, in the
+ * tab title, and in whatever the browser syncs — none of which is on the
+ * device only, which is what this page promises. `replaceState` puts the
+ * address back to the plain page before anything else happens.
+ *
+ * Nothing is submitted automatically. The reader may want to name the
+ * organisation first, and a page that answers before being asked has decided
+ * something on their behalf.
+ * ------------------------------------------------------------------------- */
+;(function sharedIn() {
+  const q = new URLSearchParams(location.search)
+  const shared = [q.get('title'), q.get('text'), q.get('url')].filter(Boolean).join(' ').trim()
+  if (!shared) return
+
+  const clean = location.pathname + (location.hash || '')
+  history.replaceState(null, '', clean)
+
+  const box = $('#ltext')
+  const opts = document.querySelector('details.opts')
+  if (!box) return
+  box.value = shared
+  if (opts) opts.open = true
+  const sms = $('#lsms')
+  if (sms) sms.checked = true
+  // The question is now "who did it say it was from?", so put them there.
+  const org = $('#lorg')
+  if (org) org.focus()
+})()
+
+/* ---------------------------------------------------------------------------
+ * The wallet card.
+ *
+ * Tick the organisations you use; the card fills in and prints at 85mm, the
+ * width of a bank card, so it sits behind one where it will actually be found.
+ *
+ * The numbers come from the page rather than from a second copy of the
+ * registry: each checkbox already carries the organisation, and the numbers
+ * beside it are the ones `publishedForDialling` allowed onto this page. A card
+ * is a worse place than a screen to print a number an organisation has
+ * disowned, because nobody can withdraw a piece of card from a wallet.
+ *
+ * The choice is remembered on the device, because somebody who prints this in
+ * March and reprints it in September should not have to remember which four
+ * they picked.
+ * ------------------------------------------------------------------------- */
+;(function walletCard() {
+  const list = $('#lwlist')
+  const picks = [...document.querySelectorAll('.cardbox')]
+  if (!list || !picks.length) return
+  const KEY = 'cooee:card'
+
+  const numbersFor = (box) => {
+    const lines = [...box.closest('.cardpick').querySelectorAll('i')].map((i) => i.textContent)
+    return lines.map((line) => {
+      const [num, ...rest] = line.split('·')
+      return { num: num.trim(), what: rest.join('·').trim() }
+    })
+  }
+
+  const paint = () => {
+    const chosen = picks.filter((b) => b.checked)
+    if (!chosen.length) {
+      list.innerHTML = '<li class="wempty">Tick some organisations above and they will appear here.</li>'
+      return
+    }
+    list.innerHTML = chosen.flatMap((b) => numbersFor(b).slice(0, 1).map((n) =>
+      `<li><b>${esc(b.value)}</b><span>${esc(n.num)}</span></li>`)).join('')
+  }
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || '[]')
+    for (const b of picks) if (saved.includes(b.value)) b.checked = true
+  } catch { /* a fresh device, a private window, or storage refused */ }
+
+  for (const b of picks) {
+    b.addEventListener('change', () => {
+      paint()
+      try {
+        localStorage.setItem(KEY, JSON.stringify(picks.filter((x) => x.checked).map((x) => x.value)))
+      } catch { /* not worth an error to the reader */ }
+    })
+  }
+  const print = $('#lprint')
+  if (print) print.addEventListener('click', () => window.print())
+  paint()
 })()
