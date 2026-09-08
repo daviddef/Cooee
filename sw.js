@@ -18,7 +18,7 @@
  * `CACHE` carries a build stamp, so a new build creates a new cache and the old
  * one is deleted on activate. Nothing is served from a version nobody shipped.
  */
-const CACHE = 'cooee-43eda4797726'
+const CACHE = 'cooee-ba2a0c4dad3f'
 const SHELL = [
   './',
   './index.html',

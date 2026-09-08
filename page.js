@@ -146,10 +146,11 @@ function render(a) {
     <h3>${esc(a.headline)}</h3>
     ${plain}
     ${pills ? `<div class="pills">${pills}</div>` : ''}
+    <button type="button" class="speak" id="lspeak" hidden>Read this out</button>
     ${acts ? `<span class="lab">Who to ring</span><div class="acts">${acts}</div>` : ''}
     ${sendTo ? `<span class="lab">Where to send it</span><div class="acts">${sendTo}</div>` : ''}
     ${own ? `<div class="acts">${own}</div>` : ''}
-    ${g ? `<span class="lab">What to do</span><ul>${g}</ul>` : ''}
+    ${g ? `<span class="lab">What to do</span><ul class="guide">${g}</ul>` : ''}
     ${ev ? `<span class="lab">Why</span>${ev}` : ''}
     ${overflow(a.signals.slice(SIGNALS_SHOWN),
       (n) => `${n} more finding${n === 1 ? '' : 's'}`,
@@ -328,8 +329,24 @@ paintRecent()
 function renderEmail(r) {
   const pills = (r.tags ?? []).map(t =>
     `<span class="pill ${esc(t.tone)}">${esc(t.label)}</span>`).join('')
-  const ev = (r.signals ?? []).slice(0, SIGNALS_SHOWN).map(s =>
-    `<p class="ev">${esc(s.summary)}</p>`).join('')
+  /**
+   * `evRow`, THE SAME ROW THE CARD ABOVE USES, and this had its own.
+   *
+   * The private one printed the sentence and nothing else, which lost both
+   * halves of what `evRow` exists for. The citation is the loud half: this
+   * card's strongest findings are quotations from a named organisation's own
+   * published page — *ANZ publishes that in a genuine message it will never…*
+   * — and a stranger was asked to take them on our word, on the one surface
+   * whose generator opens by saying every line carries the URL it came from.
+   *
+   * The direction is the quiet half and it is the one that misleads. Both
+   * domain findings are one sentence about a sender address, and *the address
+   * ends in a domain NAB publishes as its own* and *it came from a domain that
+   * is not one we hold for them* rendered as identical grey paragraphs. The
+   * pills carry tone and the findings did not, so reassurance and warning sat
+   * in the same column in the same colour.
+   */
+  const ev = (r.signals ?? []).slice(0, SIGNALS_SHOWN).map(evRow).join('')
   const acts = (r.actions ?? []).map(x =>
     `<a class="act" href="tel:${esc(x.e164)}"><b>${esc(x.display)}</b><span>${esc(x.organisation)} — ${esc(x.label)}</span></a>`).join('')
   const sendTo = (r.reportTo ?? []).map(x =>
@@ -355,6 +372,7 @@ function renderEmail(r) {
     <h3>${headline}</h3>
     <p class="fine">There is no score here on purpose. Cooee scores phone numbers, using the numbering plan and what has been reported about them; an email address has neither, so a number would be invented.</p>
     ${pills ? `<div class="pills">${pills}</div>` : ''}
+    <button type="button" class="speak" id="lspeak" hidden>Read this out</button>
     ${acts ? `<span class="lab">Who to ring</span><div class="acts">${acts}</div>` : ''}
     ${sendTo ? `<span class="lab">Where to send it</span><div class="acts">${sendTo}</div>` : ''}
     ${own ? `<div class="acts">${own}</div>` : ''}
@@ -650,4 +668,107 @@ $('#lf').addEventListener('submit', (e) => {
   window.addEventListener('online', paint)
   window.addEventListener('offline', paint)
   paint()
+})()
+
+/* ---------------------------------------------------------------------------
+ * Read the answer out.
+ *
+ * The people losing the most money to scams are the oldest, and they are the
+ * ones squinting at a phone held at arm's length while somebody talks at them
+ * down the line. Speech synthesis is in every browser, costs nothing, and
+ * sends nothing anywhere — it is the largest accessibility win available here
+ * for the least code.
+ *
+ * IT READS THE ANSWER AND WHAT TO DO, NOT THE EVIDENCE. Spoken aloud, the
+ * findings run to a minute and a half, and a minute and a half is longer than
+ * anybody stays on a page while a scammer is waiting. The verdict, the plain
+ * sentence, and the steps: that is the part somebody needs in their ear.
+ *
+ * A second use, and possibly the better one — it lets somebody hold the phone
+ * up to a relative on speaker and say "listen to this". That is a conversation
+ * this page could not previously start.
+ * ------------------------------------------------------------------------- */
+;(function speakAnswer() {
+  const synth = window.speechSynthesis
+  // Rendered hidden and unhidden here, so a browser without speech never shows
+  // a button that does nothing.
+  if (!synth || typeof SpeechSynthesisUtterance === 'undefined') return
+
+  let speaking = false
+
+  const textOf = () => {
+    const out = $('#lout')
+    if (!out) return ''
+    const bits = []
+    const band = out.querySelector('.band')
+    const head = out.querySelector('h3')
+    const plain = out.querySelector('.rplain')
+    if (band) bits.push(band.textContent.trim() + '.')
+    if (head) bits.push(head.textContent.trim())
+    if (plain) bits.push(plain.textContent.trim())
+    /**
+     * THE GUIDANCE LIST, BY NAME. Reading every list on the card swept up the
+     * caveats as well and turned a thirteen-second answer into three minutes —
+     * longer than anybody stands on a page with a scammer waiting, which is
+     * the same as not reading it at all. The guidance carries a class for that
+     * reason; a selector that matches "any list" matches whatever gets added
+     * next, too.
+     */
+    const steps = [...out.querySelectorAll('ul.guide li')].map((li) => li.textContent.trim())
+    /**
+     * THE FIRST THREE, AND HOW MANY REMAIN.
+     *
+     * All of them ran to ninety seconds, and on the worst cases past two
+     * minutes. Nobody stands still for two minutes of audio with a scammer on
+     * the other line — an answer that long is the same as no answer. The
+     * guidance is already ordered by urgency, so the top of it is the part
+     * that matters in the moment, and the rest is on the screen where it can
+     * be read at leisure. Saying how many were left out is the difference
+     * between summarising and quietly truncating.
+     */
+    const SPOKEN_STEPS = 3
+    if (steps.length) {
+      const said = steps.slice(0, SPOKEN_STEPS)
+      const left = steps.length - said.length
+      bits.push('What to do. ' + said.join(' ') +
+        (left ? ` There ${left === 1 ? 'is one more step' : `are ${left} more steps`} on the screen.` : ''))
+    }
+    return bits.join(' ')
+  }
+
+  const stop = () => {
+    synth.cancel()
+    speaking = false
+    const b = $('#lspeak')
+    if (b) b.textContent = 'Read this out'
+  }
+
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest && e.target.closest('#lspeak')
+    if (!b) return
+    if (speaking) { stop(); return }
+    const text = textOf()
+    if (!text) return
+    const say = new SpeechSynthesisUtterance(text)
+    say.lang = 'en-AU'
+    // Slower than default. This is being read to somebody who is frightened,
+    // and possibly to somebody across the room on speaker.
+    say.rate = 0.92
+    say.onend = stop
+    say.onerror = stop
+    synth.cancel()
+    synth.speak(say)
+    speaking = true
+    b.textContent = 'Stop reading'
+  })
+
+  // A new answer must never be read over the top of the last one.
+  const out = $('#lout')
+  if (out) {
+    new MutationObserver(() => {
+      stop()
+      const b = $('#lspeak')
+      if (b) b.hidden = false
+    }).observe(out, { childList: true })
+  }
 })()
