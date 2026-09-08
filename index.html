@@ -55,22 +55,40 @@ header{background:var(--deep);color:var(--on-deep);padding:1.6rem 0 2.2rem}
 .brand span{font-family:var(--fd);font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
 header h1{font-size:clamp(2.6rem,9vw,4.4rem);font-weight:700;margin:.7rem 0 0;color:#fff}
 header .say{margin-top:.5rem;font-size:1.02rem;color:#BFE7E9;max-width:34ch}
-.doors{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1.15rem}
-.door{display:flex;flex-direction:column;gap:.15rem;padding:.85rem .9rem;border-radius:10px;border:1px solid #2B6B70;background:#08444A;text-decoration:none;transition:border-color .12s ease,background .12s ease}
-.door:hover,.door:focus-visible{border-color:var(--bright);background:#0A5057}
-.door b{font-family:var(--fd);font-size:1.05rem;font-weight:700;color:#fff;line-height:1.15}
-.door span{font-size:.82rem;color:#9FD2D5;line-height:1.3}
-.door[aria-current=true]{border-color:var(--bright);background:#0A5057}
+/* FOUR DOORS, NOT FOUR FORM FIELDS. They were identical outlined boxes, which
+   reads as a list of options to work through rather than four different things
+   the site does. Each keeps its own colour down the left edge, the label leads
+   at a size you can hit without aiming, and the arrow says it goes somewhere. */
+.doors{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:1.15rem}
+.door{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:.1rem .7rem;padding:.9rem 1rem .9rem 1.15rem;border-radius:12px;border:1px solid #2B6B70;background:#08444A;text-decoration:none;overflow:hidden;transition:transform .13s ease,background .13s ease,border-color .13s ease}
+.door::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--edge,var(--bright))}
+.door:nth-child(1){--edge:#5FE3EC}
+.door:nth-child(2){--edge:#FFB86B}
+.door:nth-child(3){--edge:#FF8A7D}
+.door:nth-child(4){--edge:#8CE0A8}
+.door b{grid-column:1;font-family:var(--fd);font-size:1.08rem;font-weight:700;color:#fff;line-height:1.15}
+.door span{grid-column:1;font-size:.82rem;color:#9FD2D5;line-height:1.3}
+.door::after{content:"→";grid-column:2;grid-row:1 / span 2;font-size:1.15rem;color:var(--edge,var(--bright));transition:transform .13s ease}
+.door:hover,.door:focus-visible{background:#0A5057;border-color:var(--edge,var(--bright))}
+.door:hover::after{transform:translateX(3px)}
+.door:active{transform:scale(.985)}
+.door[aria-current=true]{border-color:var(--edge,var(--bright));background:#0A5057}
+@media (prefers-reduced-motion:reduce){.door,.door::after{transition:none}}
 @media(max-width:520px){.doors{grid-template-columns:1fr}}
 /* Once a door is chosen the doors shrink out of the way — the question has
    been asked and the answer is what matters. */
 .asked .doors{display:none}
 .asked header h1,.asked header .say{display:none}
 .ask{display:flex;gap:.5rem;margin-top:1.1rem;flex-wrap:wrap}
-.ask input{flex:1 1 14rem;min-width:0;font-family:var(--fm);font-size:1.25rem;padding:.85rem .9rem;border:2px solid transparent;border-radius:6px;background:#fff;color:#12100E}
+.ask input{flex:1 1 14rem;min-width:0;font-family:var(--fm);font-size:1.25rem;padding:.85rem .9rem;border:2px solid transparent;border-radius:8px;background:#fff;color:#12100E}
+.ask input:focus{outline:none;border-color:var(--flare)}
 .ask input::placeholder{color:#8B8377}
-.ask button{font-family:var(--fd);font-weight:700;font-size:1.25rem;letter-spacing:-.01em;padding:.85rem 1.6rem;border:0;border-radius:6px;background:var(--bright);color:#04292C;cursor:pointer}
-.ask button:hover{filter:brightness(1.07)}
+.ask button{font-family:var(--fd);font-weight:700;font-size:1.25rem;letter-spacing:-.01em;padding:.85rem 1.7rem;border:0;border-radius:8px;background:var(--bright);color:#04292C;cursor:pointer;box-shadow:0 3px 0 0 #0E9AA3;transition:transform .1s ease,box-shadow .1s ease,filter .12s ease}
+.ask button:hover{filter:brightness(1.06)}
+/* It depresses. A button that moves under the thumb is the cheapest way to
+   make a page feel answerable rather than submitted-to. */
+.ask button:active{transform:translateY(3px);box-shadow:0 0 0 0 #0E9AA3}
+@media (prefers-reduced-motion:reduce){.ask button{transition:none}}
 .tiny{margin-top:.55rem;font-size:.82rem;color:#9FD2D5}
 details.opts{flex:1 1 100%;margin-top:.35rem}
 details.opts summary{cursor:pointer;font-size:.86rem;color:#BFE7E9;list-style:none}
@@ -108,8 +126,21 @@ details.opts[open] summary::before{content:"– "}
 /* the answer */
 main{padding:0 0 3rem}
 #lout:empty{display:none}
-.verdict{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1.3rem;margin-top:-1.1rem;box-shadow:0 8px 26px -18px rgba(0,0,0,.5)}
-.band{display:inline-block;font-family:var(--fm);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:.3em .65em;border-radius:4px;font-weight:500}
+/* THE ANSWER, which is the entire point of the page and was styled like a
+   paragraph in a box. It now carries a band-coloured edge along the top, so
+   the verdict registers before a word of it is read. */
+.verdict{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.3rem 1.3rem;margin-top:-1.1rem;box-shadow:0 12px 34px -20px rgba(0,0,0,.45);overflow:hidden}
+.verdict::before{content:"";position:absolute;inset:0 0 auto;height:5px;background:var(--edge,var(--ink-3))}
+.verdict:has(.b-confirmed),.verdict:has(.b-severe){--edge:var(--stop)}
+.verdict:has(.b-high),.verdict:has(.b-elevated){--edge:var(--flare)}
+.verdict:has(.b-low){--edge:var(--go)}
+.band{display:inline-block;font-family:var(--fm);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:.32em .7em;border-radius:999px;font-weight:600}
+@media (prefers-reduced-motion:no-preference){
+  /* From a visible resting state, never from nothing: an answer that has not
+     finished animating is an answer somebody is waiting on. */
+  .verdict{animation:land .28s ease-out}
+  @keyframes land{from{transform:translateY(6px);opacity:.55}to{transform:none;opacity:1}}
+}
 .b-confirmed,.b-severe{background:var(--stop-wash);color:var(--stop)}
 .b-high,.b-elevated{background:var(--warn-wash);color:var(--warn)}
 .b-low{background:var(--go-wash);color:var(--go)}
