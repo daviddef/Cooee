@@ -77,6 +77,12 @@ function render(a) {
   // has that question — the core decides whether there is one.
   const sendTo = (a.reportTo ?? []).map(x =>
     `<a class="act send" href="mailto:${esc(x.address)}"><b>${esc(x.address)}</b><span>${esc(x.organisation)} — forward the message here</span></a>`).join('')
+  // What the organisation itself is warning about right now. A link, not a
+  // paraphrase — these pages carry no date, and an undated warning restated in
+  // our words would be worse than the page it came from.
+  const own = a.alertsPage
+    ? `<a class="act own" href="${esc(a.alertsPage.url)}" rel="noopener"><b>${esc(a.alertsPage.organisation)}&rsquo;s own scam page</b><span>What they are warning about right now</span></a>`
+    : ''
   // Decided in the core and rendered here. Composing these labels in the page
   // would be the band-chip mistake a third time.
   const pills = (a.tags ?? []).map(t =>
@@ -142,6 +148,7 @@ function render(a) {
     ${pills ? `<div class="pills">${pills}</div>` : ''}
     ${acts ? `<span class="lab">Who to ring</span><div class="acts">${acts}</div>` : ''}
     ${sendTo ? `<span class="lab">Where to send it</span><div class="acts">${sendTo}</div>` : ''}
+    ${own ? `<div class="acts">${own}</div>` : ''}
     ${g ? `<span class="lab">What to do</span><ul>${g}</ul>` : ''}
     ${ev ? `<span class="lab">Why</span>${ev}` : ''}
     ${overflow(a.signals.slice(SIGNALS_SHOWN),
