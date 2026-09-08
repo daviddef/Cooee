@@ -28,6 +28,11 @@
   --stop:#F08A7D;--stop-wash:#2E1815;--go:#68CE97;--go-wash:#12291E;--warn:#E0B368;--warn-wash:#2B2213;
 }}
 *{box-sizing:border-box}
+/* The hidden attribute is a display:none of the weakest kind, and .f sets
+   display:grid, which beats it. The email address field stayed on screen in
+   text mode because of that. (No backticks in here: this stylesheet lives
+   inside a template literal and one would end it.) */
+[hidden]{display:none!important}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--fb);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 .wrap{max-width:760px;margin:0 auto;padding:0 1.3rem}
 h1,h2,h3{font-family:var(--fd);margin:0;line-height:1.05;text-wrap:balance;letter-spacing:-.02em}
@@ -42,6 +47,17 @@ header{background:var(--deep);color:var(--on-deep);padding:1.6rem 0 2.2rem}
 .brand span{font-family:var(--fd);font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
 header h1{font-size:clamp(2.6rem,9vw,4.4rem);font-weight:700;margin:.7rem 0 0;color:#fff}
 header .say{margin-top:.5rem;font-size:1.02rem;color:#BFE7E9;max-width:34ch}
+.doors{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1.15rem}
+.door{display:flex;flex-direction:column;gap:.15rem;padding:.85rem .9rem;border-radius:10px;border:1px solid #2B6B70;background:#08444A;text-decoration:none;transition:border-color .12s ease,background .12s ease}
+.door:hover,.door:focus-visible{border-color:var(--bright);background:#0A5057}
+.door b{font-family:var(--fd);font-size:1.05rem;font-weight:700;color:#fff;line-height:1.15}
+.door span{font-size:.82rem;color:#9FD2D5;line-height:1.3}
+.door[aria-current=true]{border-color:var(--bright);background:#0A5057}
+@media(max-width:520px){.doors{grid-template-columns:1fr}}
+/* Once a door is chosen the doors shrink out of the way — the question has
+   been asked and the answer is what matters. */
+.asked .doors{display:none}
+.asked header h1,.asked header .say{display:none}
 .ask{display:flex;gap:.5rem;margin-top:1.1rem;flex-wrap:wrap}
 .ask input{flex:1 1 14rem;min-width:0;font-family:var(--fm);font-size:1.25rem;padding:.85rem .9rem;border:2px solid transparent;border-radius:6px;background:#fff;color:#12100E}
 .ask input::placeholder{color:#8B8377}
@@ -229,6 +245,12 @@ tr:last-child td{border-bottom:none}
 .alr h3{font-size:1.02rem;font-weight:600;line-height:1.3}
 .alr h3 a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--bright)}
 .alsum{font-size:.9rem;color:var(--ink-2);margin-top:.45rem}
+.todo{display:grid;gap:.6rem;margin-top:.9rem}
+.td{display:grid;grid-template-columns:auto 1fr;gap:.85rem;align-items:baseline;background:var(--surface-2);border-radius:8px;padding:.85rem 1rem}
+.td .tw{font-family:var(--fm);font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.td p{font-size:.93rem;color:var(--ink-2)}
+.td b{color:var(--ink)}
+@media(max-width:520px){.td{grid-template-columns:1fr;gap:.15rem}}
 .bfoot{font-size:.82rem;color:var(--ink-3);margin-top:1rem;line-height:1.55}
 .report{margin-top:.6rem}
 .rep{padding:.75rem 0;border-bottom:1px solid var(--line-2);display:grid;grid-template-columns:10rem 1fr;gap:.8rem}
@@ -266,7 +288,13 @@ footer p+p{margin-top:.5rem}
     </button>
   </div>
   <h1>Who&rsquo;s this?</h1>
-  <p class="say">Give a number or a sender a cooee. We&rsquo;ll tell you what&rsquo;s known about it &mdash; and what isn&rsquo;t.</p>
+  <p class="say">Tell us what happened. We&rsquo;ll tell you what&rsquo;s known &mdash; and what isn&rsquo;t.</p>
+  <div class="doors" id="ldoors">
+    <a class="door" href="#text"><b>I got a text</b><span>Is it really from them?</span></a>
+    <a class="door" href="#email"><b>I got an email</b><span>Should I reply to it?</span></a>
+    <a class="door" href="#stolen"><b>My details were taken</b><span>Who do I tell, and when?</span></a>
+    <a class="door" href="#protect"><b>I want to be safer</b><span>What actually works?</span></a>
+  </div>
   <form id="lf" class="ask">
     <input type="text" id="lq" placeholder="1800 123 456 &middot; NAB &middot; Unverified" autocomplete="off" aria-label="Number or sender name">
     <button type="submit">Cooee</button>
@@ -291,6 +319,9 @@ footer p+p{margin-top:.5rem}
             <input type="text" id="lorg" placeholder="start typing&hellip;" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="lacs">
             <ul id="lacs" class="acs" role="listbox" hidden></ul>
           </span>
+        </label>
+        <label class="f" id="lfromwrap" hidden><span>Sent from what address?</span>
+          <input type="text" id="lfrom" placeholder="e.g. alerts@nab.com.au" autocomplete="off" inputmode="email">
         </label>
         <div class="chips-row">
           <label class="tog"><input type="checkbox" id="lsms"><span>It was a text</span></label>
@@ -327,9 +358,11 @@ footer p+p{margin-top:.5rem}
       <li><a href="#report">Who to tell</a></li>
       <li><a href="#alarms">Recent alarms<span class="cnt">10</span></a></li>
       <li><a href="#breaches">Where your details may already be<span class="cnt">14</span></a></li>
+      <li><a href="#stolen">My details were taken</a></li>
     </ul>
     <p class="mg">How this works</p>
     <ul class="ml">
+      <li><a href="#protect">Making yourself harder to scam</a></li>
       <li><a href="#spoofing">Why a real number can show on a scam call</a></li>
     </ul>
   </div>
@@ -1867,6 +1900,36 @@ footer p+p{margin-top:.5rem}
   </article></div>
 
   <p class="bfoot">There is no official list of Australian data breaches. The OAIC runs the Notifiable Data Breaches scheme and publishes the totals &mdash; <a href="https://www.oaic.gov.au/news/blog/latest-notifiable-data-breach-statistics-for-january-to-june-2025" rel="noopener">532 notifications in January to June 2025</a>, 58% of them criminal attacks &mdash; but never names the organisation. So this list is compiled from public disclosures and each entry carries its source. A name missing from it means nobody here has recorded it, not that the organisation was never breached.</p>
+</section>
+<section class="view" id="v-stolen" aria-labelledby="h-stolen">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-stolen" tabindex="-1">My details were taken</h2>
+  <p class="lede">In order. The first two are the ones that stop money moving; the rest can wait until tomorrow if it is late.</p>
+  <div class="todo">
+    <div class="td"><span class="tw">First</span><p><b>Ring your bank on the number from your own card</b> &mdash; not one from the message. A payment can sometimes be stopped while it is still moving, and that chance falls away by the hour. Every bank&rsquo;s fraud line is under Lists.</p></div>
+    <div class="td"><span class="tw">First</span><p><b>If identity documents were involved, ring IDCARE on 1800 595 160.</b> Free, national, and they write you a response plan. This is the highest-value call there is and almost nobody knows it exists.</p></div>
+    <div class="td"><span class="tw">Today</span><p><b>Put a ban on your credit file.</b> Free, and you must do it separately with each of Equifax, Experian and illion. It stops credit being taken out in your name, which is the loss that actually costs money.</p></div>
+    <div class="td"><span class="tw">Today</span><p><b>Change the password on any account named in the message</b>, and turn on two-step verification &mdash; using the provider&rsquo;s own app or website, never a link from the message.</p></div>
+    <div class="td"><span class="tw">This week</span><p><b>Report it.</b> ReportCyber for anything you lost money to, Scamwatch for the pattern. It takes a few minutes and it is what the national figures are built from. Both are under &ldquo;Who to tell&rdquo;.</p></div>
+    <div class="td"><span class="tw">This week</span><p><b>Forward the message to the organisation itself.</b> Sixteen of the ones we hold publish an address for exactly this &mdash; hoax@cba.com.au, phish@nab.com.au, scams@auspost.com.au and the rest. Name the organisation in a check above and the address appears.</p></div>
+    <div class="td"><span class="tw">Expect it</span><p><b>The calls will come.</b> A leaked phone number paired with a name and a provider is the input a convincing scam call needs. It is why a stranger can know things about you they should not. &ldquo;Where your details may already be&rdquo; lists what has leaked and when.</p></div>
+  </div>
+  <p class="bfoot">On what you can get back: a company that leaks your data can be fined up to $50 million, and that money goes to the Commonwealth rather than to you. Individuals who complain to the Information Commissioner have recently been awarded roughly $1,500&ndash;$3,000 for distress, after complaining to the company first and waiting a year or more. There is no right to sue under the Privacy Act. That is the honest position, not a discouragement &mdash; complaining is still what makes the penalties happen.</p>
+</section>
+<section class="view" id="v-protect" aria-labelledby="h-protect">
+  <a class="back" href="#">&larr; Back to the check</a>
+  <h2 id="h-protect" tabindex="-1">Making yourself harder to scam</h2>
+  <p class="lede">Ranked by how much they actually change, not by how often they are repeated. Nothing here is a product we are paid to name &mdash; we do not recommend antivirus, because on a current phone it is close to the least useful thing on this list.</p>
+  <div class="todo">
+    <div class="td"><span class="tw">Biggest</span><p><b>Turn on two-step verification everywhere that offers it</b>, starting with your email. Your email is the master key: whoever holds it can reset everything else. Use an app or a passkey rather than SMS codes where you can &mdash; a code by text can be intercepted by someone who ports your number away.</p></div>
+    <div class="td"><span class="tw">Biggest</span><p><b>Never act on a number, link or address that arrived in the message itself.</b> This single habit defeats almost every scam on this site, because every one of them depends on you using the contact details they supplied. Look the number up yourself, or open the app.</p></div>
+    <div class="td"><span class="tw">Big</span><p><b>Put a ban on your credit file before anything happens.</b> Free, renewable, and it blocks the most expensive kind of identity fraud outright. Equifax, Experian and illion, separately.</p></div>
+    <div class="td"><span class="tw">Big</span><p><b>Use a password manager and stop reusing passwords.</b> Reuse is why one breached shop becomes a drained account. &ldquo;Where your details may already be&rdquo; shows which leaks included passwords.</p></div>
+    <div class="td"><span class="tw">Worth it</span><p><b>Keep your phone&rsquo;s updates on automatic.</b> On both iPhone and Android this closes the holes that malicious links rely on, and it is the reason antivirus matters far less on a phone than it did on a PC.</p></div>
+    <div class="td"><span class="tw">Worth it</span><p><b>Ask your telco for a port-out lock or extra account security.</b> Taking over your mobile number is how somebody gets past a code sent by text. Telco numbers are under Lists.</p></div>
+    <div class="td"><span class="tw">Worth it</span><p><b>Tell one other person how you will contact them about money.</b> Scams that work on families work by isolating one person. A rule agreed in advance &mdash; &ldquo;I will never ask you for money by text&rdquo; &mdash; costs nothing.</p></div>
+  </div>
+  <p class="bfoot">The Australian Signals Directorate publishes free step-by-step guides for securing phones, accounts and email at <a href="https://www.cyber.gov.au/protect-yourself" rel="noopener">cyber.gov.au/protect-yourself</a>. They are the national authority on this and they are not selling anything. If someone has already been targeted, IDCARE on 1800 595 160 is free and will write you a plan.</p>
 </section>
 <section class="view" id="v-spoofing" aria-labelledby="h-spoofing">
   <a class="back" href="#">&larr; Back to the check</a>

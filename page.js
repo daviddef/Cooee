@@ -5,7 +5,7 @@
  * generator is itself a template literal, so every ${} and backtick in it had to
  * survive two levels of escaping. Two attempts got that wrong before this.
  */
-import { check, organisationNames } from './cooee.js'
+import { check, checkEmail, organisationNames } from './cooee.js'
 const $ = (s) => document.querySelector(s)
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))
 
@@ -317,6 +317,53 @@ $('#lrecent')?.addEventListener('click', (e) => {
 })
 paintRecent()
 
+/**
+ * An email result: findings, actions, and what this cannot see.
+ *
+ * No band chip and no score, and the absence is stated rather than left as a
+ * gap — "nothing stood out" is a different claim from "this is safe", and an
+ * email check that borrowed the phone number model's confidence would be
+ * asserting precision it does not have.
+ */
+function renderEmail(r) {
+  const pills = (r.tags ?? []).map(t =>
+    `<span class="pill ${esc(t.tone)}">${esc(t.label)}</span>`).join('')
+  const ev = (r.signals ?? []).slice(0, SIGNALS_SHOWN).map(s =>
+    `<p class="ev">${esc(s.summary)}</p>`).join('')
+  const acts = (r.actions ?? []).map(x =>
+    `<a class="act" href="tel:${esc(x.e164)}"><b>${esc(x.display)}</b><span>${esc(x.organisation)} — ${esc(x.label)}</span></a>`).join('')
+  const sendTo = (r.reportTo ?? []).map(x =>
+    `<a class="act send" href="mailto:${esc(x.address)}"><b>${esc(x.address)}</b><span>Forward the email here</span></a>`).join('')
+  const own = r.alertsPage
+    ? `<a class="act own" href="${esc(r.alertsPage.url)}" rel="noopener"><b>${esc(r.alertsPage.organisation)}&rsquo;s own scam page</b><span>What they are warning about right now</span></a>`
+    : ''
+  /**
+   * COUNT THE RISKS, NOT THE FINDINGS. A genuine email from a declared domain
+   * raises one finding and it is reassurance — and the first version headed
+   * that "one thing stood out in this email", which reads as a warning about a
+   * message we had just confirmed came from the right place.
+   */
+  const risks = (r.signals ?? []).filter(s => s.direction === 'risk').length
+  const trusts = (r.signals ?? []).length - risks
+  const headline = risks
+    ? (risks === 1 ? 'One thing stood out in this email.' : risks + ' things stood out in this email.')
+    : trusts
+      ? 'Nothing stood out, and what we could check came back in its favour.'
+      : 'Nothing in the visible text stood out.'
+  $('#lout').innerHTML = `<div class="verdict">
+    <span class="band b-insufficient-evidence">no score for an email</span>
+    <h3>${headline}</h3>
+    <p class="fine">There is no score here on purpose. Cooee scores phone numbers, using the numbering plan and what has been reported about them; an email address has neither, so a number would be invented.</p>
+    ${pills ? `<div class="pills">${pills}</div>` : ''}
+    ${acts ? `<span class="lab">Who to ring</span><div class="acts">${acts}</div>` : ''}
+    ${sendTo ? `<span class="lab">Where to send it</span><div class="acts">${sendTo}</div>` : ''}
+    ${own ? `<div class="acts">${own}</div>` : ''}
+    ${ev ? `<span class="lab">What we found</span>${ev}` : ''}
+    ${(r.caveats ?? []).map(c => `<p class="fine">${esc(c)}</p>`).join('')}
+  </div>`
+  $('#lout').scrollIntoView({ block: 'nearest' })
+}
+
 $('#lf').addEventListener('submit', (e) => {
   e.preventDefault()
   // The mark is a call going out and an answer coming back, so it answers when
@@ -324,7 +371,20 @@ $('#lf').addEventListener('submit', (e) => {
   document.body.classList.remove('listening')
   void document.body.offsetWidth
   document.body.classList.add('listening')
+  const emailMode = location.hash === '#email'
   const q = $('#lq').value.trim()
+  /**
+   * An email has no phone number, so the number box is not the gate for it.
+   * The gate is having something to read: the message, or an address.
+   */
+  if (emailMode) {
+    const body = $('#ltext').value.trim()
+    const from = $('#lfrom') ? $('#lfrom').value.trim() : ''
+    if (!body && !from) return
+    renderEmail(checkEmail({ text: body || undefined, from: from || undefined,
+                             claimedOrgName: $('#lorg').value.trim() || undefined }))
+    return
+  }
   if (!q) return
   // Asking a question means leaving the list you were reading. Otherwise the
   // answer renders above an open library section and the page shows both.
@@ -449,4 +509,60 @@ $('#lf').addEventListener('submit', (e) => {
   })
   window.addEventListener('hashchange', route)
   route()
+})()
+
+/* ---------------------------------------------------------------------------
+ * The four front doors.
+ *
+ * The page answers one question well and people arrive with four. Two of them
+ * are checks and route into the form with it already set up; two are not
+ * checks at all and are views, so they reuse the library router rather than
+ * inventing a second one.
+ *
+ * The doors are ordinary links to hashes. That means they work before this
+ * script runs, they can be sent to somebody, and the back button leaves a door
+ * rather than the site — the same three reasons the library is routed on the
+ * hash.
+ * ------------------------------------------------------------------------- */
+;(function frontDoors() {
+  const doors = document.getElementById('ldoors')
+  const form = document.getElementById('lf')
+  if (!doors || !form) return
+  const opts = document.querySelector('details.opts')
+  const q = document.getElementById('lq')
+  const sms = document.getElementById('lsms')
+  const text = document.getElementById('ltext')
+  const fromWrap = document.getElementById('lfromwrap')
+  const from = document.getElementById('lfrom')
+
+  function setDoor(which) {
+    const asked = which === 'text' || which === 'email'
+    document.body.classList.toggle('asked', asked)
+    for (const a of doors.querySelectorAll('.door')) {
+      a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + which))
+    }
+    if (!asked) {
+      if (fromWrap) fromWrap.hidden = true
+      return
+    }
+    if (opts) opts.open = true
+    // An email has an address and no phone number; a text has both and the
+    // number is what the rest of the product is about.
+    if (fromWrap) fromWrap.hidden = which !== 'email'
+    if (which === 'text') {
+      if (sms) sms.checked = true
+      if (q) { q.placeholder = 'Who did it show as? e.g. NAB, Unverified, 0412…'; q.focus() }
+      if (text) text.placeholder = 'Paste the text here — it is read on this page and never sent anywhere'
+    } else {
+      if (sms) sms.checked = false
+      if (q) q.placeholder = 'Leave blank for an email, or type the sender name'
+      if (text) text.placeholder = 'Paste the email here — it is read on this page and never sent anywhere'
+      if (from) from.focus()
+    }
+  }
+
+  window.addEventListener('hashchange', function () {
+    setDoor((location.hash || '').replace(/^#/, ''))
+  })
+  setDoor((location.hash || '').replace(/^#/, ''))
 })()
