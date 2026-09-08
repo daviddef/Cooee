@@ -566,3 +566,47 @@ $('#lf').addEventListener('submit', (e) => {
   })
   setDoor((location.hash || '').replace(/^#/, ''))
 })()
+
+/* ---------------------------------------------------------------------------
+ * The ticker, which is not a marquee.
+ *
+ * People arrive here frightened and a good many of them are old. Text that
+ * slides past is hard to read for exactly the people this page is for, so
+ * nothing moves: every item is in the HTML at load, the first of each row shows
+ * at rest, and this swaps which one is visible every few seconds.
+ *
+ * It stops on hover and on keyboard focus, because reading a line that changes
+ * under you is the whole complaint about tickers. It never starts at all under
+ * prefers-reduced-motion, and without this script the page is two dated lines,
+ * which is most of the value.
+ * ------------------------------------------------------------------------- */
+;(function ticker() {
+  const el = document.getElementById('lticker')
+  if (!el) return
+  const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)')
+  if (still && still.matches) return
+
+  const rows = Array.prototype.slice.call(el.querySelectorAll('.trow')).map(function (row) {
+    return { items: Array.prototype.slice.call(row.querySelectorAll('.titem')), at: 0 }
+  }).filter(function (r) { return r.items.length > 1 })
+  if (!rows.length) return
+
+  let held = false
+  const hold = function () { held = true }
+  const release = function () { held = false }
+  el.addEventListener('mouseenter', hold)
+  el.addEventListener('mouseleave', release)
+  el.addEventListener('focusin', hold)
+  el.addEventListener('focusout', release)
+
+  setInterval(function () {
+    // Not while somebody is reading it, and not while the tab is in the
+    // background — advancing unseen only means they come back to item four.
+    if (held || document.hidden) return
+    for (const r of rows) {
+      r.items[r.at].classList.remove('on')
+      r.at = (r.at + 1) % r.items.length
+      r.items[r.at].classList.add('on')
+    }
+  }, 5000)
+})()
